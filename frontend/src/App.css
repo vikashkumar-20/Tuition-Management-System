@@ -1,0 +1,101 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Home page wrapper */
+.home-page {
+
+  font-family: 'Times New Roman', Times, serif;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Hero section */
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color:#5b7aad;
+  color: #171616;
+  text-align: center;
+  border-radius: 20px;  
+  min-height: 60vh;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.hero-section h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.068);
+  color: #130d0d;
+  padding: 12px 24px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+/* Demo button */
+.demo-btn {
+  background-color: #facc15;
+  color: black;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.demo-btn:hover {
+  background-color: #eab308;
+  transform: translateY(-2px);
+}
+
+.demo-btn:active {
+  transform: translateY(0);
+}
+
+/* Sections */
+.main-content-section,
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding: 40px 0;
+}
+
+/* Section headings (optional if you add them inside the sections) */
+section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Loading screen */
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #fff;
+}

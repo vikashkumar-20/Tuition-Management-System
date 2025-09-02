@@ -1,0 +1,190 @@
+/* ===========================
+   Study Material Section
+=========================== */
+.study-material-section {
+    background-color: #cbc1c1;
+    color: white;
+    padding: 70px 20px;
+    text-align: center;
+    margin: 100px 0;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.study-material-section h3 {
+    font-size: 1.8rem;
+    color: rgb(16, 16, 16);
+}
+
+#study-material-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #333;
+    display: inline-block;
+    padding-bottom: 10px;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+
+}
+
+/* ===========================
+   Grid Layout
+=========================== */
+.study-material-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ===========================
+   Flip Card
+=========================== */
+.flip-card {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    perspective: 1000px;
+    width: 90%;
+    max-width: 270px;
+    height: 320px;
+    position: relative;
+    overflow: hidden;
+}
+
+.flip-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+    padding: 20px;
+}
+
+/* Front Side */
+.flip-card-front {
+    background: #1a1575;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Back Side */
+.flip-card-back {
+    background: #444;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.flip-card-back h2 {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 5px;
+}
+
+.flip-card-back p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #f1f1f1;
+    margin: 5px 0;
+}
+
+/* ===========================
+   Button
+=========================== */
+.open-material-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.open-material-button:hover {
+    background-color: #218838;
+}
+
+/* ===========================
+   Responsive Design
+=========================== */
+@media (max-width: 768px) {
+    .study-material-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #study-material-heading {
+        font-size: 2rem;
+    }
+
+    .flip-card {
+        max-width: 360px;
+        height: 400px;
+    }
+
+    .flip-card-front img {
+        height: 140px;
+    }
+
+    .flip-card-back h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flip-card {
+        max-width: 260px;
+        height: 350px;
+    }
+
+    .flip-card-front img {
+        height: 120px;
+    }
+
+    .flip-card-back h2 {
+        font-size: 1.2rem;
+    }
+}

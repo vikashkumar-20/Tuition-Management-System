@@ -1,0 +1,138 @@
+/* DeleteResult.css */
+
+/* Main Container */
+#delete-result {
+    padding: 30px;
+    background-color: #ffffff;
+  }
+  
+  /* Heading */
+  .delete-result-heading {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* No Data Text */
+  .delete-result-no-data {
+    text-align: center;
+    font-size: 20px;
+    color: #777;
+  }
+  
+  /* Grid Layout */
+  .delete-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  /* Card Style */
+  .delete-result-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: 0.3s;
+  }
+  
+  .delete-result-card:hover {
+    box-shadow: 0 2px 8px rgba(46, 32, 32, 0.1);
+  }
+  
+  /* Image */
+  .delete-result-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  /* Result Info */
+  .delete-result-info p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  /* Delete Button */
+  .delete-result-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .delete-result-btn:hover {
+    background-color: darkred;
+  }
+  
+  /* Loading Container */
+  #delete-result-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+  }
+  
+  .delete-result-loading-text {
+    font-size: 24px;
+    color: #555;
+  }
+  
+  
+  /* ------------------- Responsive Design ------------------- */
+  
+  @media (max-width: 1024px) {
+    .delete-result-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    #delete-result {
+      padding: 20px;
+    }
+  
+    .delete-result-heading {
+      font-size: 24px;
+    }
+  
+    .delete-result-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .delete-result-image {
+      height: 180px;
+    }
+  
+    .delete-result-btn {
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .delete-result-heading {
+      font-size: 20px;
+    }
+  
+    .delete-result-image {
+      height: 160px;
+    }
+  
+    .delete-result-info p {
+      font-size: 14px;
+    }
+  
+    .delete-result-btn {
+      font-size: 13px;
+      padding: 7px;
+    }
+  }
+  

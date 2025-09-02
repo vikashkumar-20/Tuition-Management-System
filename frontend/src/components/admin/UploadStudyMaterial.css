@@ -1,0 +1,19 @@
+.upload-study-material h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.upload-study-material form input,
+.upload-study-material form select {
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.upload-study-material button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+}

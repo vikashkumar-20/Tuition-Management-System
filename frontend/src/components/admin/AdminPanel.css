@@ -1,0 +1,103 @@
+/* AdminPanel.css */
+
+#admin-panel {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-panel-heading {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.admin-panel-form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-panel-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: #34495e;
+}
+
+.admin-panel-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.admin-panel-select:focus {
+  border-color: #3498db;
+}
+
+.admin-panel-content {
+  margin-top: 30px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Responsive Design ---------------- */
+
+@media (max-width: 768px) {
+  #admin-panel {
+    margin: 30px 15px;
+    padding: 20px;
+  }
+
+  .admin-panel-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .admin-panel-label {
+    font-size: 15px;
+  }
+
+  .admin-panel-select {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .admin-panel-content {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #admin-panel {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .admin-panel-heading {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .admin-panel-label {
+    font-size: 14px;
+  }
+
+  .admin-panel-select {
+    padding: 7px;
+    font-size: 13px;
+  }
+}

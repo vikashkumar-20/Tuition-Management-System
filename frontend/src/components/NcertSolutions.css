@@ -1,0 +1,133 @@
+/* Container */
+.solutions-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* Title */
+.solutions-title {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Error & Warning */
+.error-message,
+.login-error,
+.solutions-warning {
+  color: #e74c3c;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+/* Class Buttons */
+.solutions-class-buttons,
+.solutions-subject-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.solutions-class-button,
+.solutions-subject-button {
+  background-color: #f1f1f1;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.solutions-class-button:hover,
+.solutions-subject-button:hover {
+  background-color: #dce1e3;
+}
+
+.solutions-class-button.active,
+.solutions-subject-button.active {
+  background: #ff6f61;
+  color: #fff;
+  border-color: #3498db;
+}
+
+/* Year Grid */
+.solutions-year-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+/* Year Card */
+.solutions-year-card {
+  max-width: 1000px;
+  width: 300px;
+  height: 180px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.solutions-year-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* PDF Icon */
+.solutions-pdf-icon {
+  font-size: 2.5rem;
+  color: #d32f2f;
+  margin-top: 8px;
+}
+
+/* Year Title */
+.solutions-year-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* Loading & No Data */
+#loading-message,
+#no-data-message {
+  font-size: 1.1rem;
+  margin: 30px 0;
+  color: #555;
+}
+
+/* Back Button */
+.solutions-back-button {
+  margin-top: 2rem;
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background-color 0.3s ease;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.solutions-back-button:hover {
+  background-color: #ff6f61;
+}

@@ -1,0 +1,48 @@
+.download-btn {
+    padding: 10px 20px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 8px;
+    margin-bottom: 5px;
+  }
+  
+  .download-btn:hover {
+    background-color: #004c99;
+  }
+  
+  .download-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    color: #666;
+  }
+  
+  /* Success message (when button changes to Downloaded) */
+  .download-btn.success {
+    background-color: #28a745;
+  }
+  
+  /* Error and info messages */
+  .download-error,
+  .download-info,
+  .download-limit {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  
+  .download-error {
+    color: #d9534f;
+  }
+  
+  .download-info {
+    color: #5bc0de;
+  }
+  
+  .download-limit {
+    color: #f0ad4e;
+  }
+  

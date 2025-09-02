@@ -1,0 +1,101 @@
+/* Container */
+#signup-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 60px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Heading */
+#signup-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 26px;
+}
+
+/* Form */
+#signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input fields */
+.signup-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.signup-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+/* Error styling */
+#signup-error {
+  background-color: #ffe6e6;
+  color: #e74c3c;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* OTP Buttons and Submit */
+.signup-button {
+  padding: 12px;
+  margin-bottom: 14px;
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: red;
+}
+
+/* Link Text */
+#signup-login-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+#signup-login-link {
+  color: #3498db;
+  text-decoration: none;
+}
+
+#signup-login-link:hover {
+  text-decoration: underline;
+}
+
+/* Optional Close Icon (if you use it later) */
+.signup-close-icon {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #2980b9;
+  transition: color 0.3s ease;
+}
+
+.signup-close-icon:hover {
+  color: red;
+}

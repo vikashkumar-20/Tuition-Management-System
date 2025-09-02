@@ -1,0 +1,240 @@
+
+
+/* Navbar Styles */
+.main-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #001f3f, #003366);
+  padding: 15px 30px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: white;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+  transition: background 0.4s ease-in-out, box-shadow 0.3s ease;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-navbar:hover {
+  background: linear-gradient(135deg, #003366, #001f3f);
+  box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Brand Logo & Name */
+
+.brand-logo h2 {
+  font-family:cursive;
+  display: inline;
+  font-size: 24px;
+  color: white;
+  margin-left: 8px;
+  font-weight: 700;
+  padding: 5px;
+  letter-spacing: 2px; /* Add spacing for an elegant touch */
+}
+
+.brand-name {
+  text-decoration: none;
+}
+
+.brand-tagline {
+  font-family:cursive;
+  display: inline;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fcd34d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-style: italic;
+  margin-top: 6px;
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-links a,
+.nav-links button {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 10px 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background: #00b3b3;
+  color: white;
+  border-radius: 6px;
+  transform: translateY(-2px);
+}
+
+.nav-links a::after,
+.nav-links button::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #00b3b3;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links button:hover::after {
+  width: 100%;
+}
+
+/* Mobile Menu Icon */
+.menu-icon {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+}
+
+.menu-icon:hover {
+  transform: rotate(180deg);
+}
+
+/* Mobile Menu (Responsive) */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    background: #003366;
+    color: white;
+    text-align: center;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px 0;
+    z-index: 999;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .nav-links.show {
+    display: flex;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .nav-links button {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+}
+
+/* Auth Buttons */
+.login-btn,
+.logout-btn {
+  background: #00b3b3;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: inherit;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 179, 179, 0.3);
+  margin-left: 10px;
+}
+
+.login-btn:hover,
+.logout-btn:hover {
+  background: white;
+  color: #00b3b3;
+  border-color: #00b3b3;
+  box-shadow: 0px 6px 12px rgba(0, 179, 179, 0.3);
+  transform: translateY(-2px);
+}
+
+.login-btn:active,
+.logout-btn:active {
+  transform: scale(0.98);
+}
+
+/* User Info Display */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #fcd34d;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.dropdown {
+  position: relative;
+}
+
+/* Style for the dropdown menu */
+.dropdown-menu {
+  background-color:  #ee8d84;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 160px; /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-radius: 10px
+}
+
+.dropdown-item {
+  padding: 10px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Optional: Add some padding around the dropdown */
+.nav-item {
+  margin: 0 10px;
+}
+
+

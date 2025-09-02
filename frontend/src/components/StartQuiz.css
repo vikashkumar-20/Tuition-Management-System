@@ -1,0 +1,131 @@
+
+/* Password Screen */
+#quiz-password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 1rem;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+#quiz-password-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.quiz-input {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.quiz-btn,
+#submit-quiz-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 12px;
+    background: #ff416c;
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0.5rem;
+}
+
+.quiz-btn:hover,
+#submit-quiz-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.3);
+}
+
+/* Quiz Container */
+#quiz-main {
+    width: 100%;
+    height: 100vh;;
+    padding: 2rem;
+    background: #fff;
+}
+
+#quiz-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+#quiz-timer {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #0072ff;
+}
+
+/* Question Box */
+.question-box {
+    margin: 2rem 0;
+    padding: 1rem;
+    border-radius: 15px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#question-text {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.quiz-option {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.quiz-option:hover {
+    background-color: #e0f0ff;
+}
+
+.quiz-option input {
+    margin-right: 10px;
+}
+
+/* Controls */
+#quiz-controls {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Submit Button */
+#submit-quiz-btn {
+    display: block;
+    margin: 2rem auto 0;
+    background: #00c853;
+    background: linear-gradient(to right, #00c853, #43e97b);
+}
+
+#submit-quiz-btn:hover {
+    box-shadow: 0 6px 20px rgba(0, 200, 83, 0.3);
+}
+
+/* Loading State */
+#quiz-loading {
+    color: white;
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 2rem;
+}

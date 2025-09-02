@@ -1,0 +1,93 @@
+.course-container {
+  background-color: #c1b69d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  padding: 40px 10px;
+  text-align: center;
+  margin: 100px auto;
+}
+
+.courses {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+  justify-content: space-between; /* Adjusts spacing between items */
+  gap: 20px; /* Adds consistent spacing between items */
+}
+
+.courses-section {
+  flex: 1; /* Ensures each section takes equal space */
+  min-width: 250px;
+  height: 350px; /* Prevents sections from becoming too narrow */ /* Soft green tint */
+  border-radius: 20px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+#courses-header {
+  color: #1b5e20;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid #388e3c;
+  display: inline-block;
+  padding-bottom: 10px;
+  letter-spacing: 3px;
+}
+
+
+.courses-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #388e3c;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  
+}
+
+.courses-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.courses-section li {
+  font-size: 1rem;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2d1d1;
+  color: #5c5656;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.courses-section li:last-child {
+  border-bottom: none;
+}
+
+.courses-section li:hover {
+  color: #37b93d;
+  padding-left: 5px;
+  background-color: rgba(66, 179, 69, 0.05);
+  border-radius: 5px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  #courses-header {
+    font-size: 2.2rem;
+  }
+
+  .courses-section {
+    padding: 25px 15px;
+  }
+
+  .courses-section h3 {
+    font-size: 1.5rem;
+  }
+}
