@@ -1,15 +1,14 @@
 // routes/resultRoute.js
-
-import express from 'express';
-import ResultModel from '../models/resultModel.js';
-import { upload } from '../middlewares/uploadFile.js';
+import express from "express";
+import ResultModel from "../models/resultModel.js";
+import { upload } from "../middlewares/uploadFile.js";
 
 const router = express.Router();
 
 /**
- * Upload result data to DB
+ * ================== 1. Upload Result Data ==================
  */
-router.post('/upload-result-data', async (req, res) => {
+router.post("/upload-result-data", async (req, res) => {
   try {
     const { name, rollNo, class: studentClass, subject, image } = req.body;
 
@@ -17,40 +16,41 @@ router.post('/upload-result-data', async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const newResult = new ResultModel({
+    const newResult = await new ResultModel({
       name,
       rollNo,
       class: studentClass,
       subject,
       image,
+    }).save();
+
+    res.status(201).json({
+      message: "Result uploaded successfully",
+      result: newResult,
     });
-
-    await newResult.save();
-
-    res.status(200).json({ message: "Result uploaded successfully" });
-
   } catch (error) {
-    console.error("Error uploading result data:", error);
+    console.error("❌ Error uploading result data:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 /**
- * Get all results
+ * ================== 2. Get All Results ==================
  */
-router.get('/all', async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
-    const results = await ResultModel.find();
+    const results = await ResultModel.find().sort({ createdAt: -1 });
     res.status(200).json(results);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error("❌ Error fetching results:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 /**
- * Delete result by ID
+ * ================== 3. Delete Result by ID ==================
  */
-router.delete('/delete/:id', async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -59,47 +59,65 @@ router.delete('/delete/:id', async (req, res) => {
       return res.status(404).json({ message: "Result not found" });
     }
 
-    await ResultModel.findByIdAndDelete(id);
+    await result.deleteOne();
     res.status(200).json({ message: "Result deleted successfully" });
-
   } catch (error) {
-    console.error("Error deleting result:", error);
+    console.error("❌ Error deleting result:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 /**
- * Upload single image to S3
+ * ================== 4. Upload Single Image (S3) ==================
  */
-router.post('/upload-result-image', (req, res) => {
-  upload.single('file')(req, res, (err) => {
+router.post("/upload-result-image", (req, res) => {
+  upload.single("file")(req, res, (err) => {
     if (err) {
-      return res.status(400).json({ message: "File Upload Failed", error: err.message });
+      console.error("❌ Single Upload Error:", err);
+      return res
+        .status(400)
+        .json({ message: "File Upload Failed", error: err.message });
     }
 
     try {
-      const fileUrl = req.file.location;
-      res.status(200).json({ fileUrl });
+      if (!req.file || !req.file.location) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      res.status(200).json({ fileUrl: req.file.location });
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error", error: error.message });
+      console.error("❌ Single Upload Processing Error:", error);
+      res
+        .status(500)
+        .json({ message: "Internal Server Error", error: error.message });
     }
   });
 });
 
 /**
- * Upload multiple images to S3
+ * ================== 5. Upload Multiple Images (S3) ==================
  */
-router.post('/upload-multiple', (req, res) => {
-  upload.array('files', 10)(req, res, (err) => {
+router.post("/upload-multiple", (req, res) => {
+  upload.array("files", 10)(req, res, (err) => {
     if (err) {
-      return res.status(400).json({ message: "Multiple File Upload Failed", error: err.message });
+      console.error("❌ Multiple Upload Error:", err);
+      return res
+        .status(400)
+        .json({ message: "Multiple File Upload Failed", error: err.message });
     }
 
     try {
-      const fileUrls = req.files.map(file => file.location);
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: "No files uploaded" });
+      }
+
+      const fileUrls = req.files.map((file) => file.location);
       res.status(200).json({ fileUrls });
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error", error: error.message });
+      console.error("❌ Multiple Upload Processing Error:", error);
+      res
+        .status(500)
+        .json({ message: "Internal Server Error", error: error.message });
     }
   });
 });

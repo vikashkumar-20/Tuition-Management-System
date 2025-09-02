@@ -1,148 +1,141 @@
 import express from "express";
 import StudyMaterial from "../models/StudyMaterial.js";
-import { upload } from "../middlewares/uploadFile.js";
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { s3 } from "../config/aws.js";
+import upload from "../middlewares/uploadFile.js";
 
 const router = express.Router();
 
-// Upload study material file to S3
-router.post("/upload/file", upload.single("file"), async (req, res) => {
+/**
+ * ================== 1. Get All Study Materials ==================
+ */
+router.get("/", async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
-    const fileUrl = req.file.location; // URL from S3
-    res.status(200).json({ fileUrl });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    res.status(500).json({ message: "Error uploading file", error: error.message });
-  }
-});
-
-// Save metadata to MongoDB
-router.post("/upload/metadata", async (req, res) => {
-  try {
-    const {
-      type,
-      className,
-      subject,
-      year,
-      category,
-      title,
-      s3Url,
-      uploadType,
-    } = req.body;
-
-    const newMaterial = new StudyMaterial({
-      type,
-      className,
-      subject,
-      year,
-      category,
-      files: [
-        {
-          title: title,
-          fileUrl: s3Url,
-          optionalUrl: uploadType === 'URL' ? s3Url : null,
-        },
-      ],
-    });
-
-    console.log("Saving new material:", newMaterial);
-    await newMaterial.save();
-
-    res.status(201).json({ message: "Study material saved successfully" });
-  } catch (error) {
-    console.error("Error saving study material:", error);
-    res.status(500).json({ message: "Error saving study material", error: error.message });
-  }
-});
-
-// Get study materials with optional filters
-router.get("/get", async (req, res) => {
-  try {
-    const filter = {};
-    if (req.query.type) filter.type = req.query.type;
-    if (req.query.category) filter.category = req.query.category;
-
-    const studyMaterials = await StudyMaterial.find(filter);
+    const studyMaterials = await StudyMaterial.find().sort({ createdAt: -1 });
     res.status(200).json(studyMaterials);
   } catch (error) {
-    console.error("Error fetching study material:", error);
-    res.status(500).json({ error: "Failed to fetch study material", error: error.message });
+    console.error("❌ Error fetching study materials:", error);
+    res.status(500).json({ error: "Failed to fetch study materials" });
   }
 });
 
-// Delete study material by ID
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
+/**
+ * ================== 2. Get Study Material by ID ==================
+ */
+router.get("/:id", async (req, res) => {
   try {
-    console.log("🔍 Deleting material with ID:", id);
-
-    const material = await StudyMaterial.findById(id);
-
-    if (!material) {
-      console.log("⚠️ Material not found in database");
-      return res.status(404).json({ error: "Material not found" });
+    const studyMaterial = await StudyMaterial.findById(req.params.id);
+    if (!studyMaterial) {
+      return res.status(404).json({ error: "Study material not found" });
     }
-
-    console.log("✅ Material found:", material);
-
-    // Properly await deleting all files from S3
-    if (material.files && material.files.length > 0) {
-      for (const file of material.files) {
-        if (file.fileUrl) {
-          const urlParts = file.fileUrl.split("/");
-          const key = urlParts.slice(3).join("/"); // safer to slice after domain to get key with folders if any
-
-          const deleteParams = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: key,
-          };
-
-          await s3.send(new DeleteObjectCommand(deleteParams));
-          console.log(`✅ S3 file deleted successfully: ${key}`);
-        }
-      }
-    }
-
-    // Delete document from MongoDB
-    await StudyMaterial.findByIdAndDelete(id);
-    console.log("✅ Material document deleted from MongoDB");
-
-    res.status(200).json({ message: "Material deleted successfully" });
+    res.status(200).json(studyMaterial);
   } catch (error) {
-    console.error("❌ Error deleting material:", error);
-    res.status(500).json({ error: "Server error while deleting material", error: error.message });
+    console.error("❌ Error fetching study material:", error);
+    res.status(500).json({ error: "Failed to fetch study material" });
   }
 });
 
-// Get study material by className and subject (changed route to avoid conflict)
-router.get("/by-class-subject/:className/:subject", async (req, res) => {
-  const { className, subject } = req.params;
-  console.log('Received className:', className, 'subject:', subject);
-
+/**
+ * ================== 3. Upload Study Material (metadata + file/url) ==================
+ */
+router.post("/", upload.single("file"), async (req, res) => {
   try {
-    const material = await StudyMaterial.findOne({
-      className: className,
-      subject: subject,
-    });
+    const {
+      className,
+      subject,
+      title,
+      type,
+      category,
+      year,
+      uploadType,
+      url,
+    } = req.body;
 
-    if (!material) {
-      return res.status(404).json({ error: 'Material not found' });
+    if (!title || !subject || !className) {
+      return res
+        .status(400)
+        .json({ error: "Title, subject, and className are required" });
     }
 
-    const fileUrl = material.files[0]?.fileUrl;
+    const fileUrl = req.file ? req.file.location : url;
+
     if (!fileUrl) {
-      return res.status(404).json({ error: 'File URL not found' });
+      return res.status(400).json({ error: "File or URL is required" });
     }
 
-    res.json({ fileUrl });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    const newMaterial = await new StudyMaterial({
+      className,
+      subject,
+      title,
+      type,
+      category,
+      year,
+      uploadType,
+      fileUrl,
+    }).save();
+
+    res.status(201).json(newMaterial);
+  } catch (error) {
+    console.error("❌ Error uploading study material:", error);
+    res.status(500).json({ error: "Failed to upload study material" });
+  }
+});
+
+/**
+ * ================== 4. Delete Study Material by ID ==================
+ */
+router.delete("/:id", async (req, res) => {
+  try {
+    const material = await StudyMaterial.findByIdAndDelete(req.params.id);
+    if (!material) {
+      return res.status(404).json({ error: "Study material not found" });
+    }
+    res.status(200).json({ message: "Study material deleted successfully" });
+  } catch (error) {
+    console.error("❌ Error deleting study material:", error);
+    res.status(500).json({ error: "Failed to delete study material" });
+  }
+});
+
+/**
+ * ================== 5. Upload File Only ==================
+ */
+router.post("/upload/file", (req, res) => {
+  upload.single("file")(req, res, (err) => {
+    if (err) {
+      console.error("❌ File upload error:", err);
+      return res
+        .status(400)
+        .json({ error: "File Upload Failed", details: err.message });
+    }
+
+    if (!req.file || !req.file.location) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    res.status(200).json({ fileUrl: req.file.location });
+  });
+});
+
+/**
+ * ================== 6. Fetch By Class & Subject ==================
+ */
+router.get("/by-class-subject/:className/:subject", async (req, res) => {
+  try {
+    const { className, subject } = req.params;
+    const studyMaterials = await StudyMaterial.find({
+      className,
+      subject,
+    }).sort({ createdAt: -1 });
+
+    if (studyMaterials.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No study materials found for given filters" });
+    }
+
+    res.status(200).json(studyMaterials);
+  } catch (error) {
+    console.error("❌ Error fetching by class & subject:", error);
+    res.status(500).json({ error: "Failed to fetch study materials" });
   }
 });
 
