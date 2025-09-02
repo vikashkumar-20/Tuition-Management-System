@@ -5,31 +5,43 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/connectDB.js";
 import studyMaterialRoutes from "./routes/studyMaterialRoutes.js";
-import resultRoute from "./routes/resultRoute.js"; // keep only this
+import resultRoute from "./routes/resultRoute.js";
 import otpRoutes from "./routes/otpRoutes.js";
 import quizRoutes from "./routes/quizRoutes.js";
 import downloadRoutes from "./routes/downloadRoute.js";
 import paymentRoutes from "./routes/paymentRoute.js";
 import demoBookingRoutes from "./routes/demoBooking.js";
 
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 dotenv.config();
-
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "https://yourfrontenddomain.com",
-  "https://yourbackenddomain.com",
-];
 
 const app = express();
 
-// ✅ CSP Middleware
+// ✅ Allowed origins (update with your real frontend domain from Vercel)
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://your-frontend.vercel.app", // replace with your actual Vercel domain
+  "https://tuition-management-system-rwxu.onrender.com",
+];
+
+// ✅ CORS setup
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ CSP Middleware (optional, keep if needed)
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
@@ -51,27 +63,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ CORS setup
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // ✅ API Routes
 app.use("/api/otp", otpRoutes);
 app.use("/api/study-material", studyMaterialRoutes);
-app.use("/api/result", resultRoute); // Only this one
+app.use("/api/result", resultRoute);
 app.use("/api/quiz", quizRoutes);
 app.use("/api/downloadCount", downloadRoutes);
 app.use("/api/payment", paymentRoutes);
@@ -86,13 +81,6 @@ app.post("/csp-violation-report-endpoint", express.json(), (req, res) => {
 // ✅ Database connection
 connectDB();
 
-// ✅ Serve frontend build
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-// ✅ SPA Fallback (fix for path-to-regexp issue)
-app.use((req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
-});
-
+// 🚀 Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
