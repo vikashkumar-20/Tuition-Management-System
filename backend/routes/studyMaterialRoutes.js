@@ -1,3 +1,4 @@
+// routes/studyMaterialRoutes.js
 import express from "express";
 import StudyMaterial from "../models/StudyMaterial.js";
 import upload from "../middlewares/uploadFile.js";
@@ -18,7 +19,29 @@ router.get("/", async (req, res) => {
 });
 
 /**
- * ================== 2. Get Study Material by ID ==================
+ * ================== 2. Get Study Material by Category ==================
+ * Example: /api/study-material/ncert-books
+ */
+router.get("/category/:type", async (req, res) => {
+  try {
+    const { type } = req.params;
+    const studyMaterials = await StudyMaterial.find({ type }).sort({
+      createdAt: -1,
+    });
+
+    if (!studyMaterials.length) {
+      return res.status(404).json({ message: "No study materials found" });
+    }
+
+    res.status(200).json(studyMaterials);
+  } catch (error) {
+    console.error("❌ Error fetching study materials by category:", error);
+    res.status(500).json({ error: "Failed to fetch study materials" });
+  }
+});
+
+/**
+ * ================== 3. Get Study Material by ID ==================
  */
 router.get("/:id", async (req, res) => {
   try {
@@ -34,7 +57,7 @@ router.get("/:id", async (req, res) => {
 });
 
 /**
- * ================== 3. Upload Study Material (metadata + file/url) ==================
+ * ================== 4. Upload Study Material ==================
  */
 router.post("/", upload.single("file"), async (req, res) => {
   try {
@@ -80,7 +103,7 @@ router.post("/", upload.single("file"), async (req, res) => {
 });
 
 /**
- * ================== 4. Delete Study Material by ID ==================
+ * ================== 5. Delete Study Material by ID ==================
  */
 router.delete("/:id", async (req, res) => {
   try {
@@ -96,7 +119,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 /**
- * ================== 5. Upload File Only ==================
+ * ================== 6. Upload File Only ==================
  */
 router.post("/upload/file", (req, res) => {
   upload.single("file")(req, res, (err) => {
@@ -116,7 +139,7 @@ router.post("/upload/file", (req, res) => {
 });
 
 /**
- * ================== 6. Fetch By Class & Subject ==================
+ * ================== 7. Fetch By Class & Subject ==================
  */
 router.get("/by-class-subject/:className/:subject", async (req, res) => {
   try {

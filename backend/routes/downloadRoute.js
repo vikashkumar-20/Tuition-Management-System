@@ -1,4 +1,3 @@
-// routes/downloadRoutes.js
 import express from "express";
 import mongoose from "mongoose";
 import DownloadBooks from "../models/DownloadBooks.js";
@@ -8,16 +7,15 @@ const router = express.Router();
 
 // ✅ Test route
 router.get("/", (req, res) => {
-  res.send("Download API is running...");
+  res.json({ success: true, message: "Download API is running..." });
 });
 
 // 📥 POST: Update download count
-// Endpoint: POST /api/downloadCount/update
 router.post("/update", async (req, res) => {
   const { userId, className, subject } = req.body;
 
   if (!userId || !className || !subject) {
-    return res.status(400).json({ message: "Missing required fields: userId, className, or subject." });
+    return res.status(400).json({ success: false, message: "Missing required fields: userId, className, or subject." });
   }
 
   try {
@@ -32,14 +30,10 @@ router.post("/update", async (req, res) => {
       const totalDownloads = record.downloads.reduce((sum, d) => sum + d.count, 0);
 
       if (totalDownloads >= 2) {
-        return res
-          .status(403)
-          .json({ error: "Download limit reached. You can't download more than 2 materials." });
+        return res.status(403).json({ success: false, message: "Download limit reached. You can't download more than 2 materials." });
       }
 
-      const existing = record.downloads.find(
-        (d) => d.className === className && d.subject === subject
-      );
+      const existing = record.downloads.find(d => d.className === className && d.subject === subject);
 
       if (existing) {
         existing.count += 1;
@@ -49,34 +43,33 @@ router.post("/update", async (req, res) => {
     }
 
     await record.save();
-    res.status(200).json({ message: "Download count updated successfully" });
+    res.status(200).json({ success: true, message: "Download count updated successfully" });
   } catch (err) {
     console.error("❌ Error updating download count:", err.message);
-    res.status(500).json({ message: "Error updating download count.", error: err.message });
+    res.status(500).json({ success: false, message: "Error updating download count.", error: err.message });
   }
 });
 
 // 📤 GET: Fetch the study material download URLs by ID
-// Endpoint: GET /api/downloadCount/download/:id
 router.get("/download/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ message: "Invalid material ID" });
+    return res.status(400).json({ success: false, message: "Invalid material ID" });
   }
 
   try {
     const material = await StudyMaterial.findById(id);
 
     if (!material) {
-      return res.status(404).json({ message: "Material not found" });
+      return res.status(404).json({ success: false, message: "Material not found" });
     }
 
-    const urls = material.files.map((file) => file.fileUrl);
-    res.status(200).json({ fileUrls: urls });
+    const urls = material.files?.map(file => file.fileUrl) || [];
+    res.status(200).json({ success: true, fileUrls: urls });
   } catch (error) {
     console.error("❌ Error fetching material:", error.message);
-    res.status(500).json({ error: "Failed to fetch material" });
+    res.status(500).json({ success: false, message: "Failed to fetch material", error: error.message });
   }
 });
 

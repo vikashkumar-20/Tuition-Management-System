@@ -16,14 +16,14 @@ router.post("/create", async (req, res) => {
       className: className || "General",
       subject: subject || "General",
       title: title || "Untitled Quiz",
-      password,
-      timer,
-      questions,
+      password: password || "",
+      timer: timer || 0,
+      questions: Array.isArray(questions) ? questions : [],
     });
 
     const savedQuiz = await quiz.save();
 
-    // Support entry for study material (Quiz link)
+    // Optional: Create support material link
     const supportEntry = new StudyMaterial({
       type: "support-material",
       category: "quiz",
@@ -42,7 +42,7 @@ router.post("/create", async (req, res) => {
     res.status(201).json({ quiz: savedQuiz, material: supportEntry });
   } catch (err) {
     console.error("❌ Quiz Create Error:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
 
@@ -50,10 +50,10 @@ router.post("/create", async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     const quizzes = await Quiz.find().sort({ createdAt: -1 });
-    res.json(quizzes);
-  } catch (error) {
-    console.error("❌ Fetch All Quizzes Error:", error);
-    res.status(500).json({ message: "Failed to load quizzes" });
+    res.status(200).json(quizzes);
+  } catch (err) {
+    console.error("❌ Fetch All Quizzes Error:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
 
@@ -63,47 +63,44 @@ router.get("/:quizId", async (req, res) => {
     const { quizId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(quizId)) {
-      return res.status(400).json({ message: "Invalid quiz ID" });
+      return res.status(400).json({ message: "Invalid Quiz ID" });
     }
 
     const quiz = await Quiz.findById(quizId);
-    if (!quiz) {
-      return res.status(404).json({ message: "Quiz not found" });
-    }
-
-    if (!quiz.questions || quiz.questions.length === 0) {
+    if (!quiz) return res.status(404).json({ message: "Quiz not found" });
+    if (!Array.isArray(quiz.questions) || quiz.questions.length === 0) {
       return res.status(404).json({ message: "This quiz has no questions" });
     }
 
-    res.json(quiz);
-  } catch (error) {
-    console.error("❌ Get Quiz Error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(200).json(quiz);
+  } catch (err) {
+    console.error("❌ Get Quiz Error:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
 
 // ================== 4. Submit Quiz ==================
 router.post("/submit", async (req, res) => {
-  const { quizId, userAnswers, userName = "Anonymous" } = req.body;
-
   try {
-    const quiz = await Quiz.findById(quizId);
-    if (!quiz) {
-      return res.status(404).json({ message: "Quiz not found" });
+    const { quizId, userAnswers, userName = "Anonymous" } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(quizId)) {
+      return res.status(400).json({ message: "Invalid Quiz ID" });
     }
+
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
     if (!Array.isArray(userAnswers) || userAnswers.length !== quiz.questions.length) {
       return res.status(400).json({ message: "Answers are incomplete or invalid" });
     }
 
+    // Calculate score
     let score = 0;
     quiz.questions.forEach((q, i) => {
-      if (userAnswers[i] && q.correctAnswer === userAnswers[i]) {
-        score++;
-      }
+      if (userAnswers[i] && q.correctAnswer === userAnswers[i]) score++;
     });
 
-    // Save submission
     const submission = await new Submission({
       quizId,
       userName,
@@ -111,7 +108,6 @@ router.post("/submit", async (req, res) => {
       score,
     }).save();
 
-    // Save leaderboard entry
     await new Leaderboard({
       quizId,
       userName,
@@ -119,10 +115,10 @@ router.post("/submit", async (req, res) => {
       submissionId: submission._id,
     }).save();
 
-    res.json({ message: "Quiz submitted successfully", score });
-  } catch (error) {
-    console.error("❌ Quiz Submit Error:", error);
-    res.status(500).json({ message: "Error submitting quiz", error });
+    res.status(200).json({ message: "Quiz submitted successfully", score });
+  } catch (err) {
+    console.error("❌ Quiz Submit Error:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
 
@@ -132,22 +128,20 @@ router.post("/validate-password", async (req, res) => {
     const { quizId, password } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(quizId)) {
-      return res.status(400).json({ message: "Invalid quiz ID" });
+      return res.status(400).json({ message: "Invalid Quiz ID" });
     }
 
     const quiz = await Quiz.findById(quizId);
-    if (!quiz) {
-      return res.status(404).json({ message: "Quiz not found" });
-    }
+    if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
     if (quiz.password === password) {
       return res.status(200).json({ message: "Password validated" });
     }
 
     res.status(401).json({ message: "Invalid password" });
-  } catch (error) {
-    console.error("❌ Password Validation Error:", error);
-    res.status(500).json({ message: "Server error" });
+  } catch (err) {
+    console.error("❌ Password Validation Error:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
 

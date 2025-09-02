@@ -19,12 +19,12 @@ router.post("/create-order", async (req, res) => {
   try {
     const { amount } = req.body;
 
-    if (!amount || isNaN(amount) || amount <= 0) {
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
       return res.status(400).json({ success: false, message: "Invalid amount" });
     }
 
     const options = {
-      amount: Math.round(amount * 100), // Convert to paise
+      amount: Math.round(Number(amount) * 100), // Convert INR to paise
       currency: "INR",
       receipt: `receipt_order_${Date.now()}`,
     };
@@ -33,60 +33,41 @@ router.post("/create-order", async (req, res) => {
 
     res.status(200).json({
       success: true,
-      orderId: order.id,
-      amount: order.amount,
-      currency: order.currency,
+      message: "Order created successfully",
+      data: {
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
+      },
     });
   } catch (error) {
     console.error("❌ Create Order Error:", error);
-    res.status(500).json({ success: false, message: "Server error while creating order" });
+    res.status(500).json({ success: false, message: "Server error while creating order", error: error.message });
   }
 });
 
 // ================== 2. Verify Payment & Save ==================
 router.post("/payment-success", async (req, res) => {
   try {
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      userId,
-      materialId,
-      type,
-      className,
-      subject,
-    } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId, materialId, type, className, subject } = req.body;
 
-    // 🔎 Validation
-    if (
-      !razorpay_order_id ||
-      !razorpay_payment_id ||
-      !razorpay_signature ||
-      !userId ||
-      !materialId ||
-      !type ||
-      !className ||
-      !subject
-    ) {
-      return res.status(400).json({ success: false, message: "Missing payment or material details" });
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !userId || !materialId || !type || !className || !subject) {
+      return res.status(400).json({ success: false, message: "Missing required payment or material details" });
     }
 
     if (className === "defaultClass" || subject === "defaultSubject") {
       return res.status(400).json({ success: false, message: "Invalid class or subject" });
     }
 
-    // 🔒 Signature Verification
+    // Signature verification
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body)
-      .digest("hex");
+    const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET).update(body).digest("hex");
 
     if (expectedSignature !== razorpay_signature) {
       return res.status(400).json({ success: false, message: "Invalid signature, payment verification failed" });
     }
 
-    // 💾 Save or Update Payment Record
+    // Save or update payment
     const paymentData = {
       razorpay_order_id,
       razorpay_payment_id,
@@ -108,10 +89,10 @@ router.post("/payment-success", async (req, res) => {
 
     console.log("✅ Payment verified & saved:", userPayment);
 
-    res.status(200).json({ success: true, message: "Payment verified and access granted" });
+    res.status(200).json({ success: true, message: "Payment verified and access granted", data: userPayment });
   } catch (error) {
     console.error("❌ Payment Success Error:", error);
-    res.status(500).json({ success: false, message: "Server error while verifying payment" });
+    res.status(500).json({ success: false, message: "Server error while verifying payment", error: error.message });
   }
 });
 
@@ -121,15 +102,15 @@ router.post("/check-purchase", async (req, res) => {
     const { userId, type, className, subject } = req.body;
 
     if (!userId || !type || !className || !subject) {
-      return res.status(400).json({ error: "Missing required fields" });
+      return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
     const purchase = await UserPayments.findOne({ userId, type, className, subject });
 
-    res.json({ purchased: !!(purchase && purchase.paymentStatus) });
+    res.status(200).json({ success: true, purchased: !!(purchase && purchase.paymentStatus) });
   } catch (error) {
     console.error("❌ Check Purchase Error:", error);
-    res.status(500).json({ error: "Server error while checking purchase" });
+    res.status(500).json({ success: false, message: "Server error while checking purchase", error: error.message });
   }
 });
 
