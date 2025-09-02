@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from "mongoose";
 import DownloadBooks from '../models/DownloadBooks.js';
 import StudyMaterial from '../models/StudyMaterial.js';
 
@@ -58,7 +59,7 @@ router.post('/update', async (req, res) => {
 // 📤 GET: Fetch the study material download URLs by ID
 router.get("/download/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "Invalid material ID" });
   }
