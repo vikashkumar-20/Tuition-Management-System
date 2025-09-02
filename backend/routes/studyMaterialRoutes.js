@@ -6,7 +6,7 @@ import { s3 } from "../config/aws.js";
 
 const router = express.Router();
 
-// Upload study material
+// Upload study material file to S3
 router.post("/upload/file", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
@@ -59,7 +59,6 @@ router.post("/upload/metadata", async (req, res) => {
   }
 });
 
-
 // Get study materials with optional filters
 router.get("/get", async (req, res) => {
   try {
@@ -75,7 +74,7 @@ router.get("/get", async (req, res) => {
   }
 });
 
-// Delete study material
+// Delete study material by ID
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -91,12 +90,12 @@ router.delete("/:id", async (req, res) => {
 
     console.log("✅ Material found:", material);
 
-    // Check if files exist in S3 and delete them
+    // Properly await deleting all files from S3
     if (material.files && material.files.length > 0) {
-      material.files.forEach(async (file) => {
+      for (const file of material.files) {
         if (file.fileUrl) {
           const urlParts = file.fileUrl.split("/");
-          const key = urlParts[urlParts.length - 1];
+          const key = urlParts.slice(3).join("/"); // safer to slice after domain to get key with folders if any
 
           const deleteParams = {
             Bucket: process.env.AWS_BUCKET_NAME,
@@ -104,12 +103,12 @@ router.delete("/:id", async (req, res) => {
           };
 
           await s3.send(new DeleteObjectCommand(deleteParams));
-          console.log("✅ S3 file deleted successfully");
+          console.log(`✅ S3 file deleted successfully: ${key}`);
         }
-      });
+      }
     }
 
-    // Delete from MongoDB
+    // Delete document from MongoDB
     await StudyMaterial.findByIdAndDelete(id);
     console.log("✅ Material document deleted from MongoDB");
 
@@ -120,14 +119,12 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-
-
-router.get("/:className/:subject", async (req, res) => {
+// Get study material by className and subject (changed route to avoid conflict)
+router.get("/by-class-subject/:className/:subject", async (req, res) => {
   const { className, subject } = req.params;
-  console.log('Received className:', className, 'subject:', subject); // Log the incoming parameters
+  console.log('Received className:', className, 'subject:', subject);
 
   try {
-    // Query the study materials collection with class and subject
     const material = await StudyMaterial.findOne({
       className: className,
       subject: subject,
@@ -148,7 +145,5 @@ router.get("/:className/:subject", async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-
-
 
 export default router;
