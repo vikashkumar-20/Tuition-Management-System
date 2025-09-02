@@ -64,6 +64,9 @@ app.use((req, res, next) => {
 });
 
 // ✅ API Routes
+app.get("/api", (req, res) => {
+  res.send("✅ Tuition Management System API is running...");
+});
 app.use("/api/otp", otpRoutes);
 app.use("/api/study-material", studyMaterialRoutes);
 app.use("/api/result", resultRoute);
