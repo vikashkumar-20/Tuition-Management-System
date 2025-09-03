@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // use API.js
 import "./ViewResults.css";
 
 const ViewResults = () => {
@@ -12,7 +12,7 @@ const ViewResults = () => {
 
   const fetchResults = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/result/all");
+      const res = await API.get("/result/all"); // <-- dynamic base URL from API.js
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);

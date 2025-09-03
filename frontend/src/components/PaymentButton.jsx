@@ -23,7 +23,7 @@ const PaymentButton = ({ userId, amount }) => {
 
     try {
       // Step 1: Create order from backend
-      const { data: order } = await axios.post('http://localhost:5000/create-order', {
+      const { data: order } = await API.post('/payment/create-order', {
         amount,
         userId,
       });
@@ -37,7 +37,7 @@ const PaymentButton = ({ userId, amount }) => {
         order_id: order.id,
         handler: async (response) => {
           // Step 2: Verify payment
-          await axios.post('http://localhost:5000/payment-success', {
+          await API.post('/payment/payment-success', {
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_order_id: response.razorpay_order_id,
             razorpay_signature: response.razorpay_signature,

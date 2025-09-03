@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./StudyMaterial.css";
+import API from "../api";
 
 const studyMaterials = [
   {
@@ -40,8 +41,16 @@ const studyMaterials = [
 const StudyMaterial = () => {
   const navigate = useNavigate();
 
-  const handleCardClick = (id) => {
-    navigate(`/study-material/${id}`);
+  const handleCardClick = async (id) => {
+    try {
+      // Fetch from backend using the card id as type
+      const res = await API.get(`/study-material/category/${id}`);
+
+      // Navigate to details page and pass materials data
+      navigate(`/study-material/${id}`, { state: { materials: res.data } });
+    } catch (err) {
+      console.error("❌ Failed to fetch study materials:", err);
+    }
   };
 
   return (
@@ -61,7 +70,7 @@ const StudyMaterial = () => {
                 <h4>{item.title}</h4>
               </div>
 
-              {/* Back Side (Only Text, No Image) */}
+              {/* Back Side */}
               <div className="flip-card-back">
                 <h2>{item.backTitle}</h2>
                 {item.backContent.map((text, i) => (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import API from "../api"; // <-- import API.js instead of axios
 
 const StudyMaterialType = () => {
   const { type } = useParams();
@@ -8,15 +8,18 @@ const StudyMaterialType = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/notes?type=${type}`)
-      .then((res) => {
+    const fetchNotes = async () => {
+      try {
+        const res = await API.get(`/notes?type=${type}`); // <-- uses VITE_API_BASE_URL
         setNotes(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching notes:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchNotes();
   }, [type]);
 
   if (loading) return <p>Loading...</p>;

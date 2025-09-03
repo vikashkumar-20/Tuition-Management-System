@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { saveUserToFirestore } from "../firestoreService";
 import { useNavigate, Link } from "react-router-dom";
-import './SignupPage.css'
+import API from "../api"; // make sure path is correct
+import './SignupPage.css';
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -33,12 +29,11 @@ const SignupPage = () => {
     if (!formData.email) return setError("Please enter your email.");
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/otp/send-otp", {
-        email: formData.email,
-      });
+      await API.post("/otp/send-otp", { email: formData.email });
       setOtpSent(true);
       alert("OTP sent to your email.");
-    } catch {
+    } catch (err) {
+      console.error(err);
       setError("Failed to send OTP.");
     } finally {
       setLoading(false);
@@ -48,7 +43,7 @@ const SignupPage = () => {
   const handleVerifyOtp = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/otp/verify-otp", {
+      const res = await API.post("/otp/verify-otp", {
         email: formData.email,
         otp: formData.otp,
       });
@@ -58,7 +53,8 @@ const SignupPage = () => {
       } else {
         setError("Invalid OTP.");
       }
-    } catch {
+    } catch (err) {
+      console.error(err);
       setError("Error verifying OTP.");
     } finally {
       setLoading(false);
@@ -77,11 +73,7 @@ const SignupPage = () => {
     try {
       setLoading(true);
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
       await saveUserToFirestore({
         uid: userCredential.user.uid,
@@ -92,6 +84,7 @@ const SignupPage = () => {
       alert("Registered successfully!");
       navigate("/login");
     } catch (err) {
+      console.error(err);
       setError(err.message || "Signup failed.");
     } finally {
       setLoading(false);
@@ -103,11 +96,7 @@ const SignupPage = () => {
       <h2 className="signup-heading" id="signup-heading">Sign Up</h2>
       {error && <p className="signup-error" id="signup-error">{error}</p>}
 
-      <form
-        className="signup-form"
-        id="signup-form"
-        onSubmit={handleSignup}
-      >
+      <form className="signup-form" id="signup-form" onSubmit={handleSignup}>
         <input
           className="signup-input"
           id="signup-name"

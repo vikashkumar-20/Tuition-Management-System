@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import API from '../API';
 import { useNavigate, useLocation } from "react-router-dom";
 import './NcertSolutions.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -37,14 +37,14 @@ const NcertSolutions = () => {
   // Load all NCERT Solutions on mount
   useEffect(() => {
     setLoading(true);
-    axios
-      .get("http://localhost:5000/api/study-material/get?type=ncert-solutions")
+    API.get("/study-material/get?type=ncert-solutions")
       .then((res) => setSolutions(res.data))
       .catch((error) => {
         setError("Failed to load NCERT Solutions");
         console.error("Error loading solutions data:", error);
       })
       .finally(() => setLoading(false));
+
   }, []);
 
   // Restore class/subject on return from payment
@@ -77,7 +77,7 @@ const NcertSolutions = () => {
       return null;
     }
     try {
-      const response = await axios.post('http://localhost:5000/api/payment/check-purchase', {
+      const response = await API.post('/payment/check-purchase', {
         userId: user.uid,
         materialId: materialId
       });

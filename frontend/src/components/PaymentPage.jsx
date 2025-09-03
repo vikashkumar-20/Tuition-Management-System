@@ -40,7 +40,7 @@ const PaymentPage = () => {
         return;
       }
   
-      const { data } = await axios.post('http://localhost:5000/api/payment/create-order', { amount: 1 });
+      const { data } = await API.post('/payment/create-order', { amount: 1 });
       const { amount, orderId, currency } = data;
   
       const generatedMaterialId = materialId || uuidv4();
@@ -82,11 +82,7 @@ const PaymentPage = () => {
           };
   
           try {
-            const successResponse = await axios.post(
-              'http://localhost:5000/api/payment/payment-success',
-              paymentDetails,
-              { headers: { 'Content-Type': 'application/json' } }
-            );
+           const successResponse = await API.post('/payment/payment-success', paymentDetails);
   
             if (successResponse.status === 200) {
               setPaymentSuccess(true);

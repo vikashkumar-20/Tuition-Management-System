@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import API from "../api";
 import './SupportMaterial.css';
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,7 +52,7 @@ const SupportMaterial = () => {
   const fetchMaterials = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/study-material/get?type=support-material");
+      const res = await API.get("/study-material/get?type=support-material"); // uses Render backend URL dynamically
       setMaterials(res.data || []);
     } catch (err) {
       setError(`Failed to load: ${err.message}`);
