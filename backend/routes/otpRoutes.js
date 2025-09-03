@@ -57,7 +57,7 @@ router.post("/verify-otp", (req, res) => {
     if (record.otp === otp) {
       if (Date.now() < record.expiresAt) {
         otpStore.delete(email); // OTP used
-        return res.json({ success: true, message: "OTP verified" });
+        return res.json({ verified: true, message: "OTP verified" });
       } else {
         return res.status(400).json({ success: false, message: "OTP has expired" });
       }

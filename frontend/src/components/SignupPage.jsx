@@ -48,11 +48,11 @@ const SignupPage = () => {
         email: formData.email,
         otp: formData.otp,
       });
-      if (res.data.verified) {
+      if (res.data.success) {
         setOtpVerified(true);
         alert("OTP verified!");
       } else {
-        setError("Invalid OTP.");
+        setError(res.data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
