@@ -1,7 +1,7 @@
 // routes/studyMaterialRoutes.js
 import express from "express";
 import StudyMaterial from "../models/StudyMaterial.js";
-import upload from "../middlewares/uploadFile.js";
+import { upload } from "../middlewares/uploadFile.js";
 
 const router = express.Router();
 
