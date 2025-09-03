@@ -3,6 +3,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import API from "../api"; // ✅ use centralized API instance
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [step, setStep] = useState("login");
@@ -122,10 +123,10 @@ const LoginPage = () => {
         {step === "login"
           ? "Login"
           : step === "forgot"
-          ? "Forgot Password"
-          : step === "reset"
-          ? "Reset Password"
-          : "Enter OTP"}
+            ? "Forgot Password"
+            : step === "reset"
+              ? "Reset Password"
+              : "Enter OTP"}
       </h2>
 
       {error && <p id="login-error" className="error-text">{error}</p>}
@@ -223,9 +224,9 @@ const LoginPage = () => {
 
       <p id="login-signup-text">
         Don’t have an account?{" "}
-        <a id="login-signup-link" href="/signup">
+        <Link id="login-signup-link" to="/signup">
           Sign up
-        </a>
+        </Link>
       </p>
     </div>
   );
