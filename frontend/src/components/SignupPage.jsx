@@ -4,7 +4,7 @@ import { saveUserToFirestore } from "../firestoreService";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api"; // make sure path is correct
 import './SignupPage.css';
-import { Link } from "react-router-dom";
+
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
