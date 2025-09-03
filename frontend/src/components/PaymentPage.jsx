@@ -4,6 +4,11 @@ import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
+// ✅ Create axios instance with baseURL from .env
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL + "/api",
+});
+
 const PaymentPage = () => {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,44 +19,48 @@ const PaymentPage = () => {
   const auth = getAuth();
   const user = auth.currentUser;
 
-  // Extract state from location or localStorage fallback
   const paymentData = {
     ...(location.state || {}),
-    ...(localStorage.getItem('paymentData') ? JSON.parse(localStorage.getItem('paymentData')) : {}),
+    ...(localStorage.getItem("paymentData")
+      ? JSON.parse(localStorage.getItem("paymentData"))
+      : {}),
   };
-  
-  const { materialId, type, pathname = '/', materialData = {} } = paymentData;
+
+  const { materialId, type, pathname = "/", materialData = {} } = paymentData;
   const { className, subject } = materialData;
 
   useEffect(() => {
     if (!user) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [user, navigate]);
 
   const handlePayment = async () => {
     setLoading(true);
     setErrorMessage("");
-  
+
     try {
       if (!className || !subject) {
-        setErrorMessage('Missing class or subject. Please try again from the material page.');
+        setErrorMessage(
+          "Missing class or subject. Please try again from the material page."
+        );
         setLoading(false);
         return;
       }
-  
-      const { data } = await API.post('/payment/create-order', { amount: 1 });
+
+      // ✅ Fixed API call
+      const { data } = await API.post("/payment/create-order", { amount: 1 });
       const { amount, orderId, currency } = data;
-  
+
       const generatedMaterialId = materialId || uuidv4();
       console.log("Generated Material ID:", generatedMaterialId);
-  
+
       if (!window.Razorpay) {
         setErrorMessage("Razorpay SDK not loaded. Please refresh and try again.");
         setLoading(false);
         return;
       }
-  
+
       const options = {
         key: "rzp_test_L14lNpKp0ynJuc", // Razorpay test key
         amount,
@@ -61,15 +70,25 @@ const PaymentPage = () => {
         description: "Download PDF Access",
         handler: async function (response) {
           setLoading(true);
-  
-          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
-  
-          if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
-            setErrorMessage('Incomplete payment details received. Please try again.');
+
+          const {
+            razorpay_payment_id,
+            razorpay_order_id,
+            razorpay_signature,
+          } = response;
+
+          if (
+            !razorpay_payment_id ||
+            !razorpay_order_id ||
+            !razorpay_signature
+          ) {
+            setErrorMessage(
+              "Incomplete payment details received. Please try again."
+            );
             setLoading(false);
             return;
           }
-  
+
           const paymentDetails = {
             razorpay_order_id,
             razorpay_payment_id,
@@ -80,10 +99,14 @@ const PaymentPage = () => {
             className,
             subject,
           };
-  
+
           try {
-           const successResponse = await API.post('/payment/payment-success', paymentDetails);
-  
+            // ✅ Fixed API call
+            const successResponse = await API.post(
+              "/payment/payment-success",
+              paymentDetails
+            );
+
             if (successResponse.status === 200) {
               setPaymentSuccess(true);
               navigate(pathname, {
@@ -102,48 +125,44 @@ const PaymentPage = () => {
                   resumeDownload: true,
                 },
               });
-              setErrorMessage('Payment verification failed. Please try again.');
+              setErrorMessage("Payment verification failed. Please try again.");
             }
-            
           } catch (error) {
             console.error("Payment success handler failed:", error);
-            setErrorMessage('An error occurred while verifying the payment. Please try again.');
+            setErrorMessage(
+              "An error occurred while verifying the payment. Please try again."
+            );
           } finally {
             setLoading(false);
           }
         },
         theme: { color: "#F37254" },
         prefill: {
-          name: user.displayName || '',
-          email: user.email || '',
-          contact: user.phoneNumber || '',
+          name: user.displayName || "",
+          email: user.email || "",
+          contact: user.phoneNumber || "",
         },
         onPaymentFailed: function (response) {
-          console.log('Payment failed:', response);
-          setErrorMessage('Payment failed. Please try again.');
-          setLoading(false); // Ensure loading is stopped
-  
-          // Reset Razorpay state and navigate back or reload
-          window.location.reload(); // Optionally reload the page
-          // Or navigate back
-          navigate(-1);  // Redirect user to the previous page
+          console.log("Payment failed:", response);
+          setErrorMessage("Payment failed. Please try again.");
+          setLoading(false);
+          window.location.reload();
         },
       };
-  
-      // Initialize Razorpay and open the payment popup
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
       console.error("Payment initiation error:", err);
-      setErrorMessage('An error occurred while initiating the payment. Please try again.');
+      setErrorMessage(
+        "An error occurred while initiating the payment. Please try again."
+      );
       setLoading(false);
     }
   };
-  
-        
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <h2>Payment Page</h2>
       <p>Please pay ₹1 to continue</p>
       <button onClick={handlePayment} disabled={loading}>
@@ -151,14 +170,13 @@ const PaymentPage = () => {
       </button>
 
       {paymentSuccess && (
-        <p style={{ color: 'green' }}>
+        <p style={{ color: "green" }}>
           ✅ Payment successful! Redirecting to your download...
         </p>
       )}
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
     </div>
   );
 };
 
 export default PaymentPage;
-

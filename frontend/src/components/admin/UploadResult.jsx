@@ -10,6 +10,9 @@ const UploadResult = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Use API base from environment
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const handleUpload = async () => {
     if (!name || !rollNo || !studentClass || !subject || !image) {
       alert("All fields are required");
@@ -22,10 +25,12 @@ const UploadResult = () => {
       const imageData = new FormData();
       imageData.append('image', image);
 
-      const res1 = await axios.post('http://localhost:5000/api/result/upload-result-image', imageData);
+      // ✅ Upload image
+      const res1 = await axios.post(`${API_BASE}/api/result/upload-result-image`, imageData);
       const imageUrl = res1.data.imageUrl;
 
-      await axios.post('http://localhost:5000/api/result/upload-result-data', {
+      // ✅ Save result data
+      await axios.post(`${API_BASE}/api/result/upload-result-data`, {
         name,
         rollNo,
         class: studentClass,
@@ -35,6 +40,7 @@ const UploadResult = () => {
 
       alert("Result Uploaded Successfully!");
 
+      // Reset fields
       setName('');
       setRollNo('');
       setStudentClass('');
@@ -42,7 +48,7 @@ const UploadResult = () => {
       setImage(null);
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert("Error Uploading Result");
     } finally {
       setLoading(false);

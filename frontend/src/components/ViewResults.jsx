@@ -12,7 +12,8 @@ const ViewResults = () => {
 
   const fetchResults = async () => {
     try {
-      const res = await API.get("/result/all"); // <-- dynamic base URL from API.js
+      // ✅ Added /api/
+      const res = await API.get("/api/result/all"); 
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);

@@ -53,7 +53,7 @@ const AuthForm = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const errors = {
       name: !formData.name,
       motherName: !formData.motherName,
@@ -63,45 +63,49 @@ const AuthForm = ({ onClose }) => {
       address: !formData.address,
     };
     setHasError(errors);
-  
+
     if (Object.values(errors).some((field) => field)) {
       setError("Please fill in all the fields before submitting.");
       return;
     }
-  
+
     const nameRegex = /^[A-Za-z\s]+$/;
     if (!nameRegex.test(formData.name)) {
       setError("Name should not contain numbers.");
       setHasError((prev) => ({ ...prev, name: true }));
       return;
     }
-  
+
     const mobileRegex = /^[0-9]{10}$/;
     if (!mobileRegex.test(formData.mobile)) {
       setError("Mobile number must be exactly 10 digits.");
       setHasError((prev) => ({ ...prev, mobile: true }));
       return;
     }
-  
+
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setError("Please enter a valid email address.");
       setHasError((prev) => ({ ...prev, email: true }));
       return;
     }
-  
+
+    // ✅ Send data to backend
     // ✅ Send data to backend
     try {
-      const response = await fetch("http://localhost:5000/api/demo-booking/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-  
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/demo-booking/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
       const data = await response.json();
-  
+
       if (response.ok) {
         alert(data.message || "Form submitted successfully!");
         handleClear();
@@ -114,8 +118,9 @@ const AuthForm = ({ onClose }) => {
       console.error("Submission error:", err);
       setError("Server error. Please try again later.");
     }
+
   };
-  
+
 
   return (
     <div className="auth-container">

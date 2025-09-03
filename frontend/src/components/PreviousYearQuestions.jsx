@@ -47,7 +47,7 @@ const PreviousYearQuestions = () => {
   // Fetch PYQ data
   useEffect(() => {
     setLoading(true);
-    API.get("/study-material/get?type=previous-year-questions")
+    API.get("/api/study-material/get?type=previous-year-questions")
       .then(res => setPyq(res.data))
       .catch(err => {
         console.error(err);
@@ -84,7 +84,7 @@ const PreviousYearQuestions = () => {
       return null;
     }
     try {
-      const response = await API.post('/payment/check-purchase', {
+      const response = await API.post('/api/payment/check-purchase', {
         userId: user.uid,
         materialId
       });

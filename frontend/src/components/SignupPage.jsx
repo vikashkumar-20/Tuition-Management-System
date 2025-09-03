@@ -29,7 +29,7 @@ const SignupPage = () => {
     if (!formData.email) return setError("Please enter your email.");
     try {
       setLoading(true);
-      await API.post("/otp/send-otp", { email: formData.email });
+      await API.post("/api/otp/send-otp", { email: formData.email });
       setOtpSent(true);
       alert("OTP sent to your email.");
     } catch (err) {
@@ -43,7 +43,7 @@ const SignupPage = () => {
   const handleVerifyOtp = async () => {
     try {
       setLoading(true);
-      const res = await API.post("/otp/verify-otp", {
+      const res = await API.post("/api/otp/verify-otp", {
         email: formData.email,
         otp: formData.otp,
       });

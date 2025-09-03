@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
+import API from "../api"; // ✅ use centralized API instance
 
 const LoginPage = () => {
   const [step, setStep] = useState("login");
@@ -35,7 +35,7 @@ const LoginPage = () => {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
 
-      await axios.post("http://localhost:5000/api/otp/send-otp", { email: formData.email });
+      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
       setStep("otp");
       setResendDisabled(true);
       setResendTimer(30);
@@ -53,7 +53,7 @@ const LoginPage = () => {
   const handleOtpVerify = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/otp/verify-otp", {
+      const res = await API.post("/api/otp/verify-otp", { // ✅ changed
         email: formData.email,
         otp: formData.otp,
       });
@@ -73,7 +73,7 @@ const LoginPage = () => {
   const handleForgotPassword = async () => {
     setLoading(true);
     try {
-      await axios.post("http://localhost:5000/api/otp/send-otp", { email: formData.email });
+      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
       setStep("reset");
       setResendDisabled(true);
       setResendTimer(30);
@@ -88,7 +88,7 @@ const LoginPage = () => {
   const handleResetPassword = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/otp/update-password", {
+      const res = await API.post("/api/otp/update-password", { // ✅ changed
         email: formData.email,
         otp: formData.otp,
         newPassword: formData.newPassword,
@@ -110,7 +110,7 @@ const LoginPage = () => {
     try {
       setResendDisabled(true);
       setResendTimer(30);
-      await axios.post("http://localhost:5000/api/otp/send-otp", { email: formData.email });
+      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
     } catch {
       setError("Failed to resend OTP.");
     }

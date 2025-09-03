@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ use centralized axios instance
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import './DownloadButton.css';
+import "./DownloadButton.css";
 
-const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, isYouTube, item, type }) => {
+const normalizeId = (str = "") => str.toLowerCase().replace(/\s+/g, "-");
+
+const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, item, type }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [globalDownloadCount, setGlobalDownloadCount] = useState(0);
@@ -31,28 +33,25 @@ const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, isYou
   }, []);
 
   const checkIfPurchased = async (uid) => {
-    const materialId = `${type}-${className}-${subject}-${item.title || item.year || "Untitled"}`;
-    console.log("Material ID:", materialId); // Log materialId to debug
-    
+    const materialId = `${type}-${normalizeId(className)}-${normalizeId(subject)}-${normalizeId(item.title || item.year || "Untitled")}`;
     try {
-      const res = await axios.post("http://localhost:5000/api/payment/check-purchase", {
+      const res = await API.post("/api/payment/check-purchase", {
         userId: uid,
         materialId,
         type,
         className,
-        subject
+        subject,
       });
       setPurchased(res.data.purchased);
     } catch (err) {
       console.error("Purchase check failed:", err);
     }
   };
-  
 
   const initiateDownload = (url) => {
     const link = document.createElement("a");
     link.href = url;
-    link.download = url.split("/").pop();
+    link.download = `${bookTitle || item.title || "file"}.pdf`; // ✅ user-friendly filename
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -81,7 +80,7 @@ const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, isYou
 
     if (globalDownloadCount >= 2) {
       const paymentState = {
-        materialId: `${type}-${className}-${subject}-${item.title || item.year || "Untitled"}`,
+        materialId: `${type}-${normalizeId(className)}-${normalizeId(subject)}-${normalizeId(item.title || item.year || "Untitled")}`,
         type,
         pathname: window.location.pathname,
         materialData: {
@@ -91,8 +90,8 @@ const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, isYou
           title: item.title || item.year || "Untitled",
           year: item.year?.toString() || "Unknown",
           uploadType: "PDF",
-          s3Url: fileUrl
-        }
+          s3Url: fileUrl,
+        },
       };
 
       localStorage.setItem("paymentData", JSON.stringify(paymentState));
@@ -113,14 +112,13 @@ const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, isYou
         {success ? "Downloaded" : "Download"}
       </button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
-      {user && type !== "ncert-books" && globalDownloadCount < 2 && !purchased && (
+      {user && type !== "ncert-books" && !purchased && globalDownloadCount < 2 && (
         <p>{2 - globalDownloadCount} free download(s) left.</p>
       )}
 
-      {/* Only show this if user hasn't purchased and has reached the download limit */}
-      {user && type !== "ncert-books" && globalDownloadCount >= 2 && !purchased && (
+      {user && type !== "ncert-books" && !purchased && globalDownloadCount >= 2 && (
         <p>Limit reached. Please proceed to payment.</p>
       )}
     </div>

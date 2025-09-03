@@ -17,13 +17,15 @@ const UploadStudyMaterial = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // ✅ Use environment variable for API base
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccessMessage('');
     setErrorMessage('');
 
-    // File Size Validation: Max 10MB
     if (file && file.size > 10 * 1024 * 1024) {
       setLoading(false);
       setErrorMessage('File size exceeds the maximum limit of 10MB.');
@@ -37,7 +39,7 @@ const UploadStudyMaterial = () => {
         const formData = new FormData();
         formData.append('file', file);
         const uploadResponse = await axios.post(
-          'http://localhost:5000/api/study-material/upload/file',
+          `${API_BASE}/api/study-material/upload/file`,
           formData
         );
         fileUrl = uploadResponse.data.fileUrl;
@@ -54,17 +56,12 @@ const UploadStudyMaterial = () => {
         s3Url: fileUrl,
       };
 
-      if (type === 'previous-year-questions') {
-        metadata.year = year;
-      }
+      if (type === 'previous-year-questions') metadata.year = year;
+      if (type === 'support-material') metadata.category = category;
 
-      if (type === 'support-material') {
-        metadata.category = category;
-      }
+      await axios.post(`${API_BASE}/api/study-material/upload/metadata`, metadata);
 
-      await axios.post('http://localhost:5000/api/study-material/upload/metadata', metadata);
-
-      // Reset all fields
+      // Reset fields
       setType('');
       setCategory('');
       setClassName('');
@@ -83,7 +80,6 @@ const UploadStudyMaterial = () => {
     }
   };
 
-
   return (
     <div className="upload-study-material">
       <h2>Upload Study Material</h2>
@@ -93,7 +89,6 @@ const UploadStudyMaterial = () => {
 
       {/* Common Fields */}
       <div className="form-fields">
-        {/* Type */}
         <select value={type} onChange={(e) => setType(e.target.value)} required>
           <option value="">Select Type</option>
           <option value="ncert-books">NCERT Books</option>
@@ -104,45 +99,14 @@ const UploadStudyMaterial = () => {
 
         {type && (
           <>
-            {/* Class */}
-            <input
-              type="text"
-              placeholder="Class"
-              value={className}
-              onChange={(e) => setClassName(e.target.value)}
-              required
-            />
+            <input type="text" placeholder="Class" value={className} onChange={(e) => setClassName(e.target.value)} required />
+            <input type="text" placeholder="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+            <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
-            {/* Subject */}
-            <input
-              type="text"
-              placeholder="Subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              required
-            />
-
-            {/* Title */}
-            <input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-
-            {/* Year - Only for Previous Year Questions */}
             {type === 'previous-year-questions' && (
-              <input
-                type="text"
-                placeholder="Year"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                required
-              />
+              <input type="text" placeholder="Year" value={year} onChange={(e) => setYear(e.target.value)} required />
             )}
 
-            {/* Category - Only for Support Material */}
             {type === 'support-material' && (
               <select value={category} onChange={(e) => setCategory(e.target.value)} required>
                 <option value="">Select Category</option>
@@ -164,7 +128,6 @@ const UploadStudyMaterial = () => {
       ) : (
         type && (
           <form onSubmit={handleSubmit}>
-            {/* Upload Type */}
             <select value={uploadType} onChange={(e) => setUploadType(e.target.value)} required disabled={loading}>
               <option value="">Select Upload Type</option>
               <option value="PDF">PDF</option>
@@ -172,25 +135,16 @@ const UploadStudyMaterial = () => {
               <option value="URL">URL</option>
             </select>
 
-            {/* File or URL Input */}
             {uploadType === 'PDF' || uploadType === 'Image' ? (
               <input type="file" onChange={(e) => setFile(e.target.files[0])} required disabled={loading} />
             ) : uploadType === 'URL' ? (
-              <input
-                type="text"
-                placeholder="Enter URL"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                required disabled={loading}
-              />
+              <input type="text" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required disabled={loading} />
             ) : null}
 
-            {/* Upload Button */}
             <button type="submit" disabled={loading}>
               {loading ? 'Uploading...' : 'Upload'}
             </button>
           </form>
-
         )
       )}
     </div>

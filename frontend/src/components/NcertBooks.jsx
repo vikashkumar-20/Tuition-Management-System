@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
 import "./NcertBooks.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
+import API from "../api"; // ✅ use our API instance
 
 const NcertBooks = () => {
   const [books, setBooks] = useState([]);
@@ -16,26 +16,40 @@ const NcertBooks = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get("http://localhost:5000/api/study-material/get?type=ncert-books")
-      .then((res) => {
+    const fetchBooks = async () => {
+      setLoading(true);
+      try {
+        const res = await API.get("/api/study-material/get?type=ncert-books"); // ✅ use API
         if (Array.isArray(res.data)) {
           setBooks(res.data);
         } else {
           throw new Error("Expected an array from backend");
         }
-      })
-      .catch((err) => setError(`Failed to load books: ${err.message}`))
-      .finally(() => setLoading(false));
+      } catch (err) {
+        setError(`Failed to load books: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
   }, []);
 
-  const classList = useMemo(() => [...new Set(books.map((book) => book.className))], [books]);
+  const classList = useMemo(
+    () => [...new Set(books.map((book) => book.className))],
+    [books]
+  );
 
   const subjectList = useMemo(
     () =>
       selectedClass
-        ? [...new Set(books.filter((book) => book.className === selectedClass).map((book) => book.subject))]
+        ? [
+            ...new Set(
+              books
+                .filter((book) => book.className === selectedClass)
+                .map((book) => book.subject)
+            ),
+          ]
         : [],
     [selectedClass, books]
   );
@@ -43,10 +57,10 @@ const NcertBooks = () => {
   const filteredBooks = useMemo(() => {
     return selectedClass && selectedSubject
       ? books.filter(
-        (book) =>
-          book.className === selectedClass &&
-          book.subject === selectedSubject
-      )
+          (book) =>
+            book.className === selectedClass &&
+            book.subject === selectedSubject
+        )
       : [];
   }, [selectedClass, selectedSubject, books]);
 
@@ -58,7 +72,9 @@ const NcertBooks = () => {
         {classList.map((cls) => (
           <button
             key={cls}
-            className={`ncert-class-button ${selectedClass === cls ? "active" : ""}`}
+            className={`ncert-class-button ${
+              selectedClass === cls ? "active" : ""
+            }`}
             onClick={() => {
               setSelectedClass(cls);
               setSelectedSubject(null);
@@ -74,7 +90,9 @@ const NcertBooks = () => {
           {subjectList.map((subject) => (
             <button
               key={subject}
-              className={`ncert-subject-button ${selectedSubject === subject ? "active" : ""}`}
+              className={`ncert-subject-button ${
+                selectedSubject === subject ? "active" : ""
+              }`}
               onClick={() => setSelectedSubject(subject)}
             >
               {subject}
@@ -95,17 +113,17 @@ const NcertBooks = () => {
                 <h4 className="ncert-book-title">{file.title}</h4>
                 {file.fileUrl ? (
                   <DownloadButton
-                  fileUrl={file.fileUrl}
-                  bookTitle={file.title}
-                  className={selectedClass}
-                  subject={selectedSubject}
-                  section="ncert-books"
-                  type="ncert-books"
-                  item={{
-                    _id: file._id,
-                    type: 'ncert-books',
-                  }}
-                />
+                    fileUrl={file.fileUrl}
+                    bookTitle={file.title}
+                    className={selectedClass}
+                    subject={selectedSubject}
+                    section="ncert-books"
+                    type="ncert-books"
+                    item={{
+                      _id: file._id,
+                      type: "ncert-books",
+                    }}
+                  />
                 ) : (
                   <div className="ncert-no-file">No file available</div>
                 )}

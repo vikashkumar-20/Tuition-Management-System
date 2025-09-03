@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import './DeleteStudyMaterial.css'
+import API from "../utils/API";  // ✅ use the shared API instance
+import "./DeleteStudyMaterial.css";
 
 const DeleteStudyMaterial = () => {
   const [type, setType] = useState("");
@@ -25,10 +25,7 @@ const DeleteStudyMaterial = () => {
         if (type === "support-material" && category) params.category = category;
         if (type === "previous-year-questions" && year) params.year = year;
 
-        const res = await axios.get(
-          "http://localhost:5000/api/study-material/get",
-          { params }
-        );
+        const res = await API.get("/api/study-material/get", { params });
         setMaterials(res.data);
       } catch (err) {
         console.error("Error fetching materials:", err);
@@ -41,7 +38,7 @@ const DeleteStudyMaterial = () => {
   // Handle Delete Material
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/study-material/${id}`);
+      await API.delete(`/api/study-material/${id}`);
       alert("Deleted Successfully!");
       setMaterials((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
@@ -129,7 +126,6 @@ const DeleteStudyMaterial = () => {
           ))
         )}
       </div>
-
     </div>
   );
 };

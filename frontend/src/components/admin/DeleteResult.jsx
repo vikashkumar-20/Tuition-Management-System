@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../utils/API";   // use shared API instance
 import './DeleteResult.css';
 
 const DeleteResult = () => {
@@ -13,7 +13,7 @@ const DeleteResult = () => {
 
   const fetchResults = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/result/all");
+      const res = await API.get("/api/result/all");
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);
@@ -28,7 +28,7 @@ const DeleteResult = () => {
 
     setDeleting(true);
     try {
-      await axios.delete(`http://localhost:5000/api/result/delete/${id}`);
+      await API.delete(`/api/result/delete/${id}`);
       alert("Result deleted successfully");
       fetchResults();
     } catch (error) {

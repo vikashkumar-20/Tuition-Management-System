@@ -10,7 +10,7 @@ const StudyMaterialType = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await API.get(`/notes?type=${type}`); // <-- uses VITE_API_BASE_URL
+        const res = await API.get(`/api/study-material?type=${type}`);
         setNotes(res.data);
       } catch (err) {
         console.error("Error fetching notes:", err);

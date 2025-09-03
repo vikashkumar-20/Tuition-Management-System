@@ -11,10 +11,13 @@ const LeaderboardAdmin = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
+  // ✅ Use environment API base
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/quiz/leaderboard/all");
+        const res = await axios.get(`${API_BASE}/api/quiz/leaderboard/all`);
         setEntries(res.data.leaderboard);
         setFilteredEntries(res.data.leaderboard);
       } catch (err) {
@@ -26,7 +29,7 @@ const LeaderboardAdmin = () => {
     };
 
     fetchLeaderboard();
-  }, []);
+  }, [API_BASE]);
 
   useEffect(() => {
     let filtered = entries;
@@ -49,12 +52,12 @@ const LeaderboardAdmin = () => {
   const handleNameClick = async (submissionId) => {
     try {
       const submissionRes = await axios.get(
-        `http://localhost:5000/api/quiz/submission/${submissionId}`
+        `${API_BASE}/api/quiz/submission/${submissionId}`
       );
       const submission = submissionRes.data;
       setSelectedSubmission(submission);
 
-      const quizRes = await axios.get(`http://localhost:5000/api/quiz/${submission.quizId}`);
+      const quizRes = await axios.get(`${API_BASE}/api/quiz/${submission.quizId}`);
       const quiz = quizRes.data;
       setSelectedQuiz(quiz);
     } catch (err) {

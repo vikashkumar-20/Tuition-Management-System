@@ -14,6 +14,9 @@ const CreateQuiz = () => {
     ],
   });
 
+  // ✅ Use API base from environment
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
   const handleChange = (e, qIndex, optIndex) => {
     const { name, value } = e.target;
     const updatedQuestions = [...formData.questions];
@@ -44,7 +47,7 @@ const CreateQuiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/quiz/create", formData);
+      await axios.post(`${API_BASE}/api/quiz/create`, formData); // ✅ fixed
       alert("Quiz Created Successfully!");
 
       setFormData({
