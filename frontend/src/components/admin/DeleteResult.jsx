@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import API from "../utils/API";   // use shared API instance
+import API from '../../api';
 import './DeleteResult.css';
 
 const DeleteResult = () => {
