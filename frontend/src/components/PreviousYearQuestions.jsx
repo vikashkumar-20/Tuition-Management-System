@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { getAuth } from 'firebase/auth';
 import DownloadButton from './DownloadButton';
-import API from "../api";
+import API from '../utils/api';
 import './PreviousYearQuestion.css';
 
 const PreviousYearQuestions = () => {
