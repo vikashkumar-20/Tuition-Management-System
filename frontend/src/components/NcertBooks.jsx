@@ -19,7 +19,7 @@ const NcertBooks = () => {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const res = await API.get("/api/study-material/get?type=ncert-books"); // ✅ use API
+        const res = await API.get("/study-material/get?type=ncert-books"); // ✅ use API
         if (Array.isArray(res.data)) {
           setBooks(res.data);
         } else {

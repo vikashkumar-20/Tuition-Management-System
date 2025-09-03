@@ -25,7 +25,7 @@ const DeleteStudyMaterial = () => {
         if (type === "support-material" && category) params.category = category;
         if (type === "previous-year-questions" && year) params.year = year;
 
-        const res = await API.get("/api/study-material/get", { params });
+        const res = await API.get("/study-material/get", { params });
         setMaterials(res.data);
       } catch (err) {
         console.error("Error fetching materials:", err);
@@ -38,7 +38,7 @@ const DeleteStudyMaterial = () => {
   // Handle Delete Material
   const handleDelete = async (id) => {
     try {
-      await API.delete(`/api/study-material/${id}`);
+      await API.delete(`/study-material/${id}`);
       alert("Deleted Successfully!");
       setMaterials((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {

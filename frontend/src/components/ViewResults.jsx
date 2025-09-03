@@ -13,7 +13,7 @@ const ViewResults = () => {
   const fetchResults = async () => {
     try {
       // ✅ Added /api/
-      const res = await API.get("/api/result/all"); 
+      const res = await API.get("/result/all"); 
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);

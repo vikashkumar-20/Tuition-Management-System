@@ -31,7 +31,7 @@ const StartQuiz = () => {
     setIsRequesting(true);
 
     try {
-      const res = await API.post(`/api/quiz/validate-password`, {
+      const res = await API.post(`/quiz/validate-password`, {
         quizId,
         password: passwordInput,
       });
@@ -43,7 +43,7 @@ const StartQuiz = () => {
         localStorage.setItem("quizId", quizId);
 
         // Fetch quiz data and set timer
-        const quizResponse = await API.get(`/api/quiz/${quizId}`);
+        const quizResponse = await API.get(`/quiz/${quizId}`);
         const fetchedQuiz = quizResponse.data;
         setQuiz(fetchedQuiz);
 
@@ -92,7 +92,7 @@ const StartQuiz = () => {
     const compiledAnswers = quiz.questions.map((_, i) => answers[i] ?? null);
 
     try {
-      await API.post("/api/quiz/submit", {
+      await API.post("/quiz/submit", {
         quizId: quiz._id,
         userAnswers: compiledAnswers,
         userName,
@@ -144,7 +144,7 @@ const StartQuiz = () => {
     } else {
       const fetchQuizData = async () => {
         try {
-          const response = await API.get(`/api/quiz/${quizId}`);
+          const response = await API.get(`/quiz/${quizId}`);
           const fetchedQuiz = response.data;
           setQuiz(fetchedQuiz);
           setIsPasswordVerified(true);

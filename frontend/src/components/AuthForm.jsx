@@ -94,7 +94,7 @@ const AuthForm = ({ onClose }) => {
     // ✅ Send data to backend
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/demo-booking/submit`,
+        `${import.meta.env.VITE_API_BASE_URL}/demo-booking/submit`,
         {
           method: "POST",
           headers: {

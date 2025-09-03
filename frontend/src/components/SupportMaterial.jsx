@@ -52,7 +52,7 @@ const SupportMaterial = () => {
   const fetchMaterials = async () => {
     setLoading(true);
     try {
-      const res = await API.get("/api/study-material/get?type=support-material");
+      const res = await API.get("/study-material/get?type=support-material");
       setMaterials(res.data || []);
     } catch (err) {
       setError(`Failed to load: ${err.message}`);

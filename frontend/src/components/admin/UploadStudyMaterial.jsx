@@ -39,7 +39,7 @@ const UploadStudyMaterial = () => {
         const formData = new FormData();
         formData.append('file', file);
         const uploadResponse = await axios.post(
-          `${API_BASE}/api/study-material/upload/file`,
+          `${API_BASE}/study-material/upload/file`,
           formData
         );
         fileUrl = uploadResponse.data.fileUrl;
@@ -59,7 +59,7 @@ const UploadStudyMaterial = () => {
       if (type === 'previous-year-questions') metadata.year = year;
       if (type === 'support-material') metadata.category = category;
 
-      await axios.post(`${API_BASE}/api/study-material/upload/metadata`, metadata);
+      await axios.post(`${API_BASE}/study-material/upload/metadata`, metadata);
 
       // Reset fields
       setType('');

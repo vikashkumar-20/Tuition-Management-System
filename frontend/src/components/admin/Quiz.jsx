@@ -47,7 +47,7 @@ const CreateQuiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE}/api/quiz/create`, formData); // ✅ fixed
+      await axios.post(`${API_BASE}/quiz/create`, formData); // ✅ fixed
       alert("Quiz Created Successfully!");
 
       setFormData({

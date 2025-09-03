@@ -26,11 +26,11 @@ const UploadResult = () => {
       imageData.append('image', image);
 
       // ✅ Upload image
-      const res1 = await axios.post(`${API_BASE}/api/result/upload-result-image`, imageData);
+      const res1 = await axios.post(`${API_BASE}/result/upload-result-image`, imageData);
       const imageUrl = res1.data.imageUrl;
 
       // ✅ Save result data
-      await axios.post(`${API_BASE}/api/result/upload-result-data`, {
+      await axios.post(`${API_BASE}/result/upload-result-data`, {
         name,
         rollNo,
         class: studentClass,

@@ -35,7 +35,7 @@ const LoginPage = () => {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
 
-      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
       setStep("otp");
       setResendDisabled(true);
       setResendTimer(30);
@@ -53,7 +53,7 @@ const LoginPage = () => {
   const handleOtpVerify = async () => {
     setLoading(true);
     try {
-      const res = await API.post("/api/otp/verify-otp", { // ✅ changed
+      const res = await API.post("/otp/verify-otp", { // ✅ changed
         email: formData.email,
         otp: formData.otp,
       });
@@ -73,7 +73,7 @@ const LoginPage = () => {
   const handleForgotPassword = async () => {
     setLoading(true);
     try {
-      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
       setStep("reset");
       setResendDisabled(true);
       setResendTimer(30);
@@ -88,7 +88,7 @@ const LoginPage = () => {
   const handleResetPassword = async () => {
     setLoading(true);
     try {
-      const res = await API.post("/api/otp/update-password", { // ✅ changed
+      const res = await API.post("/otp/update-password", { // ✅ changed
         email: formData.email,
         otp: formData.otp,
         newPassword: formData.newPassword,
@@ -110,7 +110,7 @@ const LoginPage = () => {
     try {
       setResendDisabled(true);
       setResendTimer(30);
-      await API.post("/api/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
     } catch {
       setError("Failed to resend OTP.");
     }

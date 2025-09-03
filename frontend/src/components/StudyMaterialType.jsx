@@ -10,7 +10,7 @@ const StudyMaterialType = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await API.get(`/api/study-material?type=${type}`);
+        const res = await API.get(`/study-material?type=${type}`);
         setNotes(res.data);
       } catch (err) {
         console.error("Error fetching notes:", err);

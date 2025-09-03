@@ -37,7 +37,7 @@ const NcertSolutions = () => {
   // Load all NCERT Solutions on mount
   useEffect(() => {
     setLoading(true);
-    API.get("/api/study-material/get?type=ncert-solutions") // ✅ fixed
+    API.get("/study-material/get?type=ncert-solutions") // ✅ fixed
       .then((res) => setSolutions(res.data))
       .catch((error) => {
         setError("Failed to load NCERT Solutions");
@@ -90,7 +90,7 @@ const NcertSolutions = () => {
       return null;
     }
     try {
-      const response = await API.post("/api/payment/check-purchase", { // ✅ fixed
+      const response = await API.post("/payment/check-purchase", { // ✅ fixed
         userId: user.uid,
         materialId: materialId,
       });

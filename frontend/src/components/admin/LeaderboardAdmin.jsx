@@ -17,7 +17,7 @@ const LeaderboardAdmin = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/quiz/leaderboard/all`);
+        const res = await axios.get(`${API_BASE}/quiz/leaderboard/all`);
         setEntries(res.data.leaderboard);
         setFilteredEntries(res.data.leaderboard);
       } catch (err) {
@@ -52,12 +52,12 @@ const LeaderboardAdmin = () => {
   const handleNameClick = async (submissionId) => {
     try {
       const submissionRes = await axios.get(
-        `${API_BASE}/api/quiz/submission/${submissionId}`
+        `${API_BASE}/quiz/submission/${submissionId}`
       );
       const submission = submissionRes.data;
       setSelectedSubmission(submission);
 
-      const quizRes = await axios.get(`${API_BASE}/api/quiz/${submission.quizId}`);
+      const quizRes = await axios.get(`${API_BASE}/quiz/${submission.quizId}`);
       const quiz = quizRes.data;
       setSelectedQuiz(quiz);
     } catch (err) {

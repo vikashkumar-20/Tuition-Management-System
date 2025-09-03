@@ -13,7 +13,7 @@ const DeleteResult = () => {
 
   const fetchResults = async () => {
     try {
-      const res = await API.get("/api/result/all");
+      const res = await API.get("/result/all");
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);
@@ -28,7 +28,7 @@ const DeleteResult = () => {
 
     setDeleting(true);
     try {
-      await API.delete(`/api/result/delete/${id}`);
+      await API.delete(`/result/delete/${id}`);
       alert("Result deleted successfully");
       fetchResults();
     } catch (error) {

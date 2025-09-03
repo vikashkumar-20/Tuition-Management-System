@@ -44,7 +44,7 @@ const StudyMaterial = () => {
   const handleCardClick = async (id) => {
     try {
       // Fetch from backend using the card id as type
-      const res = await API.get(`/api/study-material/category/${id}`);
+      const res = await API.get(`/study-material/category/${id}`);
 
       // Navigate to details page and pass materials data
       navigate(`/study-material/${id}`, { state: { materials: res.data } });

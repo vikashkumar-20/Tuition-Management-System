@@ -12,7 +12,7 @@ const LeaderBoard = () => {
   useEffect(() => {
     const fetchUserSubmissions = async () => {
       try {
-        const res = await API.get(`/api/quiz/leaderboard/${userName}`);
+        const res = await API.get(`/quiz/leaderboard/${userName}`);
         console.log(res.data);
 
         const data = Array.isArray(res.data) ? res.data : [res.data];

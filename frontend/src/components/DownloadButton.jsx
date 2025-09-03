@@ -35,7 +35,7 @@ const DownloadButton = ({ className, subject, fileUrl, bookTitle, section, item,
   const checkIfPurchased = async (uid) => {
     const materialId = `${type}-${normalizeId(className)}-${normalizeId(subject)}-${normalizeId(item.title || item.year || "Untitled")}`;
     try {
-      const res = await API.post("/api/payment/check-purchase", {
+      const res = await API.post("/payment/check-purchase", {
         userId: uid,
         materialId,
         type,
