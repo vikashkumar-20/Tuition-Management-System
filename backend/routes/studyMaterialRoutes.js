@@ -19,15 +19,37 @@ router.get("/", async (req, res) => {
 });
 
 /**
- * ================== 2. Get Study Material by Category ==================
- * Example: /api/study-material/ncert-books
+ * ================== 2. Get Study Material by Type (Query Param) ==================
+ * Example: /api/study-material/get?type=ncert-books
+ */
+router.get("/get", async (req, res) => {
+  try {
+    const { type } = req.query;
+    if (!type) {
+      return res.status(400).json({ error: "Type query param is required" });
+    }
+
+    const studyMaterials = await StudyMaterial.find({ type }).sort({ createdAt: -1 });
+
+    if (!studyMaterials.length) {
+      return res.status(404).json({ error: "No study materials found for given type" });
+    }
+
+    res.status(200).json(studyMaterials);
+  } catch (error) {
+    console.error("❌ Error fetching study material:", error);
+    res.status(500).json({ error: "Failed to fetch study material" });
+  }
+});
+
+/**
+ * ================== 3. Get Study Material by Category ==================
+ * Example: /api/study-material/category/ncert-books
  */
 router.get("/category/:type", async (req, res) => {
   try {
     const { type } = req.params;
-    const studyMaterials = await StudyMaterial.find({ type }).sort({
-      createdAt: -1,
-    });
+    const studyMaterials = await StudyMaterial.find({ type }).sort({ createdAt: -1 });
 
     if (!studyMaterials.length) {
       return res.status(404).json({ message: "No study materials found" });
@@ -41,7 +63,7 @@ router.get("/category/:type", async (req, res) => {
 });
 
 /**
- * ================== 3. Get Study Material by ID ==================
+ * ================== 4. Get Study Material by ID ==================
  */
 router.get("/:id", async (req, res) => {
   try {
@@ -57,25 +79,14 @@ router.get("/:id", async (req, res) => {
 });
 
 /**
- * ================== 4. Upload Study Material ==================
+ * ================== 5. Upload Study Material ==================
  */
 router.post("/", upload.single("file"), async (req, res) => {
   try {
-    const {
-      className,
-      subject,
-      title,
-      type,
-      category,
-      year,
-      uploadType,
-      url,
-    } = req.body;
+    const { className, subject, title, type, category, year, uploadType, url } = req.body;
 
     if (!title || !subject || !className) {
-      return res
-        .status(400)
-        .json({ error: "Title, subject, and className are required" });
+      return res.status(400).json({ error: "Title, subject, and className are required" });
     }
 
     const fileUrl = req.file ? req.file.location : url;
@@ -103,7 +114,7 @@ router.post("/", upload.single("file"), async (req, res) => {
 });
 
 /**
- * ================== 5. Delete Study Material by ID ==================
+ * ================== 6. Delete Study Material by ID ==================
  */
 router.delete("/:id", async (req, res) => {
   try {
@@ -119,15 +130,13 @@ router.delete("/:id", async (req, res) => {
 });
 
 /**
- * ================== 6. Upload File Only ==================
+ * ================== 7. Upload File Only ==================
  */
 router.post("/upload/file", (req, res) => {
   upload.single("file")(req, res, (err) => {
     if (err) {
       console.error("❌ File upload error:", err);
-      return res
-        .status(400)
-        .json({ error: "File Upload Failed", details: err.message });
+      return res.status(400).json({ error: "File Upload Failed", details: err.message });
     }
 
     if (!req.file || !req.file.location) {
@@ -139,20 +148,15 @@ router.post("/upload/file", (req, res) => {
 });
 
 /**
- * ================== 7. Fetch By Class & Subject ==================
+ * ================== 8. Fetch By Class & Subject ==================
  */
 router.get("/by-class-subject/:className/:subject", async (req, res) => {
   try {
     const { className, subject } = req.params;
-    const studyMaterials = await StudyMaterial.find({
-      className,
-      subject,
-    }).sort({ createdAt: -1 });
+    const studyMaterials = await StudyMaterial.find({ className, subject }).sort({ createdAt: -1 });
 
     if (studyMaterials.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No study materials found for given filters" });
+      return res.status(404).json({ message: "No study materials found for given filters" });
     }
 
     res.status(200).json(studyMaterials);
