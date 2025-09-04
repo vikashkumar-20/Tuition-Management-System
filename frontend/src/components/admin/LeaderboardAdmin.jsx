@@ -17,9 +17,10 @@ const LeaderboardAdmin = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/leaderboard`); // admin leaderboard API
-        setEntries(res.data.leaderboard || []); 
-        setFilteredEntries(res.data.leaderboard || []);
+        const res = await axios.get(`${API_BASE}/leaderboard`);
+        const leaderboardData = res.data.leaderboard || [];
+        setEntries(leaderboardData);
+        setFilteredEntries(leaderboardData);
       } catch (err) {
         console.error("Failed to fetch leaderboard:", err);
         alert("Failed to fetch leaderboard");
@@ -105,12 +106,12 @@ const LeaderboardAdmin = () => {
               <td>
                 <button
                   className="link-button"
-                  onClick={() => handleNameClick(entry.submissionId?._id, entry.quizId?._id)}
+                  onClick={() => handleNameClick(entry.submissionId._id, entry.quizId._id)}
                 >
                   {entry.userName}
                 </button>
               </td>
-              <td>{entry.quizId?.title || "Untitled"}</td>
+              <td>{entry.quizId.title || "Untitled"}</td>
               <td>{entry.score}</td>
               <td>{new Date(entry.createdAt).toLocaleString()}</td>
             </tr>

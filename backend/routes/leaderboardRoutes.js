@@ -10,11 +10,16 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const leaderboard = await Leaderboard.find()
-      .populate("quizId")       // get quiz info
-      .populate("submissionId") // optional: submission details
+      .populate("quizId")
+      .populate("submissionId")
       .sort({ createdAt: -1 });
 
-    res.status(200).json({ leaderboard });
+    // Filter out entries missing submission or quiz
+    const validLeaderboard = leaderboard.filter(
+      (entry) => entry.submissionId && entry.quizId
+    );
+
+    res.status(200).json({ leaderboard: validLeaderboard });
   } catch (err) {
     console.error("Failed to fetch leaderboard:", err);
     res.status(500).json({ message: "Failed to fetch leaderboard" });
@@ -34,7 +39,11 @@ router.get("/user/:userName", async (req, res) => {
       .populate("submissionId")
       .sort({ createdAt: -1 });
 
-    res.status(200).json(leaderboard);
+    const validLeaderboard = leaderboard.filter(
+      (entry) => entry.submissionId && entry.quizId
+    );
+
+    res.status(200).json(validLeaderboard);
   } catch (err) {
     console.error("Failed to fetch user leaderboard:", err);
     res.status(500).json({ message: "Failed to fetch user leaderboard" });
