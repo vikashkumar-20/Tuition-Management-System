@@ -11,18 +11,13 @@ const StartQuiz = () => {
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timer, setTimer] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const formatTime = (sec) => {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m}:${s < 10 ? "0" : ""}${s}`;
-  };
+  const formatTime = (sec) => `${Math.floor(sec / 60)}:${sec % 60 < 10 ? "0" : ""}${sec % 60}`;
 
-  // Password verification
   const verifyPassword = async () => {
     if (!password) return alert("Enter password");
     setLoading(true);
@@ -34,12 +29,9 @@ const StartQuiz = () => {
       }
     } catch {
       alert("Invalid password");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
-  // Fetch quiz
   const fetchQuiz = async () => {
     setLoading(true);
     try {
@@ -50,26 +42,18 @@ const StartQuiz = () => {
     } catch (err) {
       console.error(err);
       alert("Failed to load quiz");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
-  // Handle answer selection
   const handleAnswer = (index, value) => {
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
   };
 
-  // Submit quiz
   const submitQuiz = async () => {
     try {
-      await API.post("/quiz/submit", {
-        quizId,
-        userAnswers: answers,
-        userName: userName || "Anonymous",
-      });
+      await API.post("/quiz/submit", { quizId, userAnswers: answers, userName: userName || "Anonymous" });
       alert("Quiz submitted!");
       navigate("/study-material/support-material");
     } catch {
@@ -77,16 +61,11 @@ const StartQuiz = () => {
     }
   };
 
-  // Timer
   useEffect(() => {
     if (!timer || !isVerified) return;
     const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          submitQuiz();
-          return 0;
-        }
+      setTimer(prev => {
+        if (prev <= 1) { clearInterval(interval); submitQuiz(); return 0; }
         return prev - 1;
       });
     }, 1000);
@@ -97,18 +76,8 @@ const StartQuiz = () => {
     return (
       <div className="quiz-password-container">
         <h2>Enter Quiz Password</h2>
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input type="text" placeholder="Your Name" value={userName} onChange={(e) => setUserName(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button onClick={verifyPassword}>{loading ? "Verifying..." : "Start Quiz"}</button>
       </div>
     );
@@ -127,13 +96,7 @@ const StartQuiz = () => {
         <p>Q{currentQuestion + 1}: {q.questionText}</p>
         {q.options.map((opt, i) => (
           <label key={i}>
-            <input
-              type="radio"
-              name={`q-${currentQuestion}`}
-              value={opt}
-              checked={answers[currentQuestion] === opt}
-              onChange={() => handleAnswer(currentQuestion, opt)}
-            />
+            <input type="radio" name={`q-${currentQuestion}`} value={opt} checked={answers[currentQuestion] === opt} onChange={() => handleAnswer(currentQuestion, opt)} />
             {opt}
           </label>
         ))}

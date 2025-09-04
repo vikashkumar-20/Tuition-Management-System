@@ -21,7 +21,7 @@ import AdminPanel from "./components/admin/AdminPanel";
 import NcertSolutions from "./components/NcertSolutions";
 import ContactUs from "./components/ContactUs";
 import AuthForm from "./components/AuthForm";
-import Quiz from "./components/admin/Quiz";
+import Quiz from "./components/admin/CreateQuiz";
 import StartQuiz from "./components/StartQuiz";
 import LeaderBoard from "./components/LeaderBoard";
 import PaymentPage from "./components/PaymentPage";

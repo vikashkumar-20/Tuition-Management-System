@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './UploadStudyMaterial.css';
-import CreateQuiz from "./Quiz";
+import CreateQuiz from "./CreateQuiz";
 
 const UploadStudyMaterial = () => {
   const [type, setType] = useState('');
