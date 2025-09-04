@@ -5,7 +5,6 @@ import { useNavigate, Link } from "react-router-dom";
 import API from "../api"; // make sure path is correct
 import './SignupPage.css';
 
-
 const SignupPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,12 +25,14 @@ const SignupPage = () => {
     setError("");
   };
 
+  // Send OTP
   const handleSendOtp = async () => {
     if (!formData.email) return setError("Please enter your email.");
     try {
       setLoading(true);
       await API.post("/otp/send-otp", { email: formData.email });
       setOtpSent(true);
+      setOtpVerified(false); // Reset OTP verified if resent
       alert("OTP sent to your email.");
     } catch (err) {
       console.error(err);
@@ -41,31 +42,38 @@ const SignupPage = () => {
     }
   };
 
+  // Verify OTP
   const handleVerifyOtp = async () => {
+    if (!formData.otp) return setError("Please enter the OTP.");
     try {
       setLoading(true);
       const res = await API.post("/otp/verify-otp", {
         email: formData.email,
         otp: formData.otp,
       });
-      if (res.data.success) {
+
+      if (res.data.verified || res.data.success) {
         setOtpVerified(true);
-        alert("OTP verified!");
+        alert("OTP verified successfully!");
       } else {
+        setOtpVerified(false);
         setError(res.data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
+      setOtpVerified(false);
       setError("Error verifying OTP.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Signup after OTP verified
   const handleSignup = async (e) => {
     e.preventDefault();
     const { name, email, password, confirmPassword } = formData;
-    if (!otpVerified) return setError("Please verify OTP.");
+
+    if (!otpVerified) return setError("Please verify OTP before signing up.");
     if (!name || !email || !password || !confirmPassword)
       return setError("All fields are required.");
     if (password !== confirmPassword)
@@ -74,8 +82,14 @@ const SignupPage = () => {
     try {
       setLoading(true);
       const auth = getAuth();
+
+      // Create user in Firebase
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Update display name
       await updateProfile(userCredential.user, { displayName: name });
+
+      // Save user info in Firestore
       await saveUserToFirestore({
         uid: userCredential.user.uid,
         name,
@@ -93,14 +107,13 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="signup-container" id="signup-container">
-      <h2 className="signup-heading" id="signup-heading">Sign Up</h2>
-      {error && <p className="signup-error" id="signup-error">{error}</p>}
+    <div className="signup-container">
+      <h2 className="signup-heading">Sign Up</h2>
+      {error && <p className="signup-error">{error}</p>}
 
-      <form className="signup-form" id="signup-form" onSubmit={handleSignup}>
+      <form className="signup-form" onSubmit={handleSignup}>
         <input
           className="signup-input"
-          id="signup-name"
           type="text"
           name="name"
           placeholder="Full Name"
@@ -110,7 +123,6 @@ const SignupPage = () => {
         />
         <input
           className="signup-input"
-          id="signup-email"
           type="email"
           name="email"
           placeholder="Email"
@@ -121,7 +133,6 @@ const SignupPage = () => {
 
         <button
           className="signup-button"
-          id="send-otp-button"
           type="button"
           onClick={handleSendOtp}
           disabled={loading}
@@ -133,7 +144,6 @@ const SignupPage = () => {
           <>
             <input
               className="signup-input"
-              id="signup-otp"
               type="text"
               name="otp"
               placeholder="Enter OTP"
@@ -142,7 +152,6 @@ const SignupPage = () => {
             />
             <button
               className="signup-button"
-              id="verify-otp-button"
               type="button"
               onClick={handleVerifyOtp}
               disabled={loading}
@@ -154,7 +163,6 @@ const SignupPage = () => {
 
         <input
           className="signup-input"
-          id="signup-password"
           type="password"
           name="password"
           placeholder="Password"
@@ -164,7 +172,6 @@ const SignupPage = () => {
         />
         <input
           className="signup-input"
-          id="signup-confirm-password"
           type="password"
           name="confirmPassword"
           placeholder="Confirm Password"
@@ -175,7 +182,6 @@ const SignupPage = () => {
 
         <button
           className="signup-button"
-          id="signup-submit-button"
           type="submit"
           disabled={!otpVerified || loading}
         >
@@ -183,13 +189,12 @@ const SignupPage = () => {
         </button>
       </form>
 
-      <p className="signup-login-text" id="signup-login-text">
+      <p className="signup-login-text">
         Already have an account?{" "}
-        <Link className="signup-login-link" id="signup-login-link" to="/login">
+        <Link className="signup-login-link" to="/login">
           Login
         </Link>
       </p>
-
     </div>
   );
 };
