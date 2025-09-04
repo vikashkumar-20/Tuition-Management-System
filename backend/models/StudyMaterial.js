@@ -9,11 +9,12 @@ const studyMaterialSchema = new mongoose.Schema({
   files: [
     {
       title: { type: String, required: true },
-      fileUrl: { type: String }, // Make optional
-      optionalUrl: { type: String }, // Optional URL
+      fileUrl: { type: String },    // optional
+      optionalUrl: { type: String } // optional
     }
   ],
 }, { timestamps: true });
+
 
 const StudyMaterial = mongoose.model("StudyMaterial", studyMaterialSchema);
 export default StudyMaterial;

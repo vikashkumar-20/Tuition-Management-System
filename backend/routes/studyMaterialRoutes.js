@@ -81,37 +81,57 @@ router.get("/:id", async (req, res) => {
 /**
  * ================== 5. Upload Study Material ==================
  */
-router.post("/", upload.single("file"), async (req, res) => {
+/**
+ * ================== 5. Upload Study Material ==================
+ */
+router.post("/", upload.array("files"), async (req, res) => {
   try {
-    const { className, subject, title, type, category, year, uploadType, url } = req.body;
+    const { className, subject, type, category, year } = req.body;
 
-    if (!title || !subject || !className) {
-      return res.status(400).json({ error: "Title, subject, and className are required" });
+    if (!className || !subject || !type) {
+      return res.status(400).json({ error: "className, subject, and type are required" });
     }
 
-    const fileUrl = req.file ? req.file.location : url;
+    const filesData = [];
 
-    if (!fileUrl) {
-      return res.status(400).json({ error: "File or URL is required" });
+    if (req.files && req.files.length > 0) {
+      req.files.forEach(file => {
+        filesData.push({
+          title: file.originalname,
+          fileUrl: file.location
+        });
+      });
     }
 
-    const newMaterial = await new StudyMaterial({
+    // Optional URL if provided
+    if (req.body.url) {
+      filesData.push({
+        title: "External Resource",
+        fileUrl: req.body.url
+      });
+    }
+
+    if (filesData.length === 0) {
+      return res.status(400).json({ error: "No files or URL provided" });
+    }
+
+    const newMaterial = new StudyMaterial({
       className,
       subject,
-      title,
       type,
       category,
       year,
-      uploadType,
-      fileUrl,
-    }).save();
+      files: filesData
+    });
 
+    await newMaterial.save();
     res.status(201).json(newMaterial);
   } catch (error) {
     console.error("❌ Error uploading study material:", error);
     res.status(500).json({ error: "Failed to upload study material" });
   }
 });
+
 
 /**
  * ================== 6. Delete Study Material by ID ==================

@@ -43,10 +43,8 @@ const StudyMaterial = () => {
 
   const handleCardClick = async (id) => {
     try {
-      // Fetch from backend using the card id as type
-      const res = await API.get(`/study-material/category/${id}`);
-
-      // Navigate to details page and pass materials data
+      // Fetch data using consistent query param
+      const res = await API.get(`/study-material?type=${id}`);
       navigate(`/study-material/${id}`, { state: { materials: res.data } });
     } catch (err) {
       console.error("❌ Failed to fetch study materials:", err);
@@ -63,14 +61,10 @@ const StudyMaterial = () => {
         {studyMaterials.map((item) => (
           <div className="flip-card" key={item.id}>
             <div className="flip-card-inner">
-
-              {/* Front Side */}
               <div className="flip-card-front">
                 <img src={item.img} alt={item.title} className="study-img" />
                 <h4>{item.title}</h4>
               </div>
-
-              {/* Back Side */}
               <div className="flip-card-back">
                 <h2>{item.backTitle}</h2>
                 {item.backContent.map((text, i) => (
@@ -83,7 +77,6 @@ const StudyMaterial = () => {
                   {item.buttonText}
                 </button>
               </div>
-
             </div>
           </div>
         ))}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API from "../api"; // <-- import API.js instead of axios
+import API from "../api";
 
 const StudyMaterialType = () => {
   const { type } = useParams();
@@ -11,7 +11,8 @@ const StudyMaterialType = () => {
     const fetchNotes = async () => {
       try {
         const res = await API.get(`/study-material?type=${type}`);
-        setNotes(res.data);
+        // Ensure structure: [{ className, subject, files: [{title, fileUrl}] }]
+        setNotes(res.data || []);
       } catch (err) {
         console.error("Error fetching notes:", err);
       } finally {
@@ -23,16 +24,14 @@ const StudyMaterialType = () => {
   }, [type]);
 
   if (loading) return <p>Loading...</p>;
-  if (notes.length === 0) return <p>No content available for this category.</p>;
+  if (!notes.length) return <p>No content available for this category.</p>;
 
   return (
     <div className="material-type-page">
       <h2>{type.replace(/-/g, " ").toUpperCase()}</h2>
-
       {notes.map((note, idx) => (
         <div key={idx} className="note-card">
           <h3>Class {note.className} - {note.subject}</h3>
-
           <div>
             {note.files.map((file, index) => (
               <div key={index} className="my-2">
