@@ -23,7 +23,7 @@ const UploadResult = () => {
       setLoading(true);
 
       const imageData = new FormData();
-      imageData.append('image', image);
+      imageData.append('file', image);
 
       // ✅ Upload image
       const res1 = await axios.post(`${API_BASE}/result/upload-result-image`, imageData);
