@@ -190,7 +190,7 @@ const App = () => {
 
       {/* Quiz & Leaderboard */}
       <Route
-        path="/start-quiz/:quizId"
+        path="/quiz/:quizId"
         element={
           <ProtectedRoute>
             <StartQuiz />
