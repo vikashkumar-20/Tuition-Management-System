@@ -2,6 +2,8 @@
   import multerS3 from "multer-s3";
   import { S3Client } from "@aws-sdk/client-s3"; // Use AWS SDK v3 S3Client
 
+  console.log("AWS_REGION from env:", process.env.AWS_REGION);
+
   // Set up AWS SDK v3 S3 client
   const s3Client = new S3Client({
     region: process.env.AWS_REGION,
