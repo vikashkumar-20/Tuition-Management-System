@@ -53,7 +53,7 @@ const UploadStudyMaterial = () => {
         subject,
         title,
         uploadType,
-        s3Url: fileUrl,
+        fileUrl: fileUrl,
       };
 
       if (type === 'previous-year-questions') metadata.year = year;
