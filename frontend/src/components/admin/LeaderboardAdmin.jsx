@@ -16,19 +16,17 @@ const LeaderboardAdmin = () => {
   // Fetch all leaderboard entries for admin
   useEffect(() => {
     const fetchLeaderboard = async () => {
-  try {
-    const res = await axios.get(`${API_BASE}/leaderboard`); // call your admin API
-    setEntries(res.data.leaderboard || []); // <- important! use .leaderboard
-    setFilteredEntries(res.data.leaderboard || []);
-  } catch (err) {
-    console.error("Failed to fetch leaderboard:", err);
-    alert("Failed to fetch leaderboard");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+      try {
+        const res = await axios.get(`${API_BASE}/leaderboard`); // admin leaderboard API
+        setEntries(res.data.leaderboard || []); 
+        setFilteredEntries(res.data.leaderboard || []);
+      } catch (err) {
+        console.error("Failed to fetch leaderboard:", err);
+        alert("Failed to fetch leaderboard");
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchLeaderboard();
   }, [API_BASE]);
 
@@ -53,6 +51,11 @@ const LeaderboardAdmin = () => {
 
   // Handle click to view submission & quiz details
   const handleNameClick = async (submissionId, quizId) => {
+    if (!submissionId || !quizId) {
+      alert("Submission or Quiz ID is missing!");
+      return;
+    }
+
     try {
       const submissionRes = await axios.get(`${API_BASE}/quiz/submission/${submissionId}`);
       setSelectedSubmission(submissionRes.data);
@@ -102,12 +105,12 @@ const LeaderboardAdmin = () => {
               <td>
                 <button
                   className="link-button"
-                  onClick={() => handleNameClick(entry.submissionId, entry.quizId)}
+                  onClick={() => handleNameClick(entry.submissionId?._id, entry.quizId?._id)}
                 >
                   {entry.userName}
                 </button>
               </td>
-              <td>{entry.quizTitle || "Untitled"}</td>
+              <td>{entry.quizId?.title || "Untitled"}</td>
               <td>{entry.score}</td>
               <td>{new Date(entry.createdAt).toLocaleString()}</td>
             </tr>
