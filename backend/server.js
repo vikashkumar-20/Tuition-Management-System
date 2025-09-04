@@ -13,6 +13,7 @@ import quizRoutes from "./routes/quizRoutes.js";
 import downloadRoutes from "./routes/downloadRoute.js";
 import paymentRoutes from "./routes/paymentRoute.js";
 import demoBookingRoutes from "./routes/demoBooking.js";
+import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 
 dotenv.config();
 
@@ -85,6 +86,7 @@ app.use("/api/quiz", quizRoutes);
 app.use("/api/downloadCount", downloadRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/demo-booking", demoBookingRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
 
 // ✅ CSP violation report endpoint
 app.post("/csp-violation-report-endpoint", express.json(), (req, res) => {

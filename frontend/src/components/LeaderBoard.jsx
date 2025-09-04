@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api"; // ✅ use your API instance
+import './LeaderBoard.css'; // optional, your styling
 
 const LeaderBoard = () => {
   const { userName } = useParams();
@@ -13,24 +14,22 @@ const LeaderBoard = () => {
     const fetchUserSubmissions = async () => {
       try {
         const res = await API.get(`/quiz/leaderboard/${userName}`);
-        console.log(res.data);
-
         const data = Array.isArray(res.data) ? res.data : [res.data];
 
-        const formattedSubmissions = data.map((submission) => ({
-          ...submission,
-          quizTitle: submission.quizId?.title || "Unknown Quiz", // ✅ keep title separate
-          quizId: submission.quizId?._id || submission.quizId,   // ✅ actual id
-          score: submission.score || 0,
+        const formattedSubmissions = data.map((submission, idx) => ({
+          _id: submission._id || idx,
+          quizTitle: submission.quizId?.title || "Unknown Quiz",
+          quizId: submission.quizId?._id || submission.quizId || "N/A",
+          score: submission.score ?? 0,
           createdAt: submission.createdAt
             ? new Date(submission.createdAt).toLocaleString()
-            : "Invalid Date",
+            : "N/A",
         }));
 
         setSubmissions(formattedSubmissions);
       } catch (err) {
         console.error("Error fetching user leaderboard:", err);
-        setError("Unable to fetch leaderboard");
+        setError("Unable to fetch leaderboard. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -40,7 +39,11 @@ const LeaderBoard = () => {
   }, [userName]);
 
   const handleQuizClick = (quizId) => {
-    navigate(`/quiz/${quizId}`);
+    if (quizId && quizId !== "N/A") {
+      navigate(`/quiz/${quizId}`);
+    } else {
+      alert("Quiz details not available.");
+    }
   };
 
   if (loading) return <div className="leaderboard-loading">Loading your quiz results...</div>;
