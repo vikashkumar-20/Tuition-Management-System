@@ -81,56 +81,31 @@ router.get("/:id", async (req, res) => {
 /**
  * ================== 5. Upload Study Material ==================
  */
-/**
- * ================== 5. Upload Study Material ==================
- */
-router.post("/", upload.array("files"), async (req, res) => {
+
+router.post("/", async (req, res) => {
   try {
-    const { className, subject, type, category, year } = req.body;
+    const { className, subject, type, category, year, files } = req.body;
 
-    if (!className || !subject || !type) {
-      return res.status(400).json({ error: "className, subject, and type are required" });
+    if (!className || !subject || !type || !files || !Array.isArray(files) || files.length === 0) {
+      return res.status(400).json({ error: "className, subject, type and files array are required" });
     }
 
-    const filesData = [];
-
-    if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        filesData.push({
-          title: file.originalname,
-          fileUrl: file.location
-        });
-      });
-    }
-
-    // Optional URL if provided
-    if (req.body.url) {
-      filesData.push({
-        title: "External Resource",
-        fileUrl: req.body.url
-      });
-    }
-
-    if (filesData.length === 0) {
-      return res.status(400).json({ error: "No files or URL provided" });
-    }
-
-    const newMaterial = new StudyMaterial({
+    const newMaterial = await new StudyMaterial({
       className,
       subject,
       type,
       category,
       year,
-      files: filesData
-    });
+      files
+    }).save();
 
-    await newMaterial.save();
     res.status(201).json(newMaterial);
   } catch (error) {
     console.error("❌ Error uploading study material:", error);
     res.status(500).json({ error: "Failed to upload study material" });
   }
 });
+
 
 
 /**
