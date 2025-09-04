@@ -9,31 +9,27 @@ const router = express.Router();
  * ================== 1. Upload Result Data ==================
  * Note: Use `className` instead of `class` to avoid reserved keyword issues
  */
-router.post("/upload-result-data", async (req, res) => {
-  try {
-    const { name, rollNo, studentClass, subject, image } = req.body;
-
-    if (!name || !rollNo || !studentClass || !subject || !image) {
-      return res.status(400).json({ message: "All fields are required" });
+router.post("/upload-result-image", (req, res) => {
+  upload.single("file")(req, res, (err) => {
+    if (err) {
+      console.error("❌ Multer Upload Error:", err);
+      return res.status(400).json({ message: "File Upload Failed", error: err.message });
     }
 
-    const newResult = await new ResultModel({
-      name,
-      rollNo,
-      class: studentClass, // save in DB
-      subject,
-      image,
-    }).save();
+    console.log("📂 File received:", req.file);
 
-    res.status(201).json({
-      message: "Result uploaded successfully",
-      result: newResult,
-    });
-  } catch (error) {
-    console.error("❌ Error uploading result data:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
-  }
+    if (!req.file) {
+      return res.status(400).json({ message: "No file received by multer" });
+    }
+
+    if (!req.file.location) {
+      return res.status(400).json({ message: "S3 did not return file location", file: req.file });
+    }
+
+    res.status(200).json({ fileUrl: req.file.location });
+  });
 });
+
 
 
 /**
