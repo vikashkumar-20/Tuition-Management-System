@@ -134,9 +134,10 @@ router.post("/validate-password", async (req, res) => {
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
-    if (quiz.password === password) {
+    if (quiz.password.toString().trim() === password.toString().trim()) {
       return res.status(200).json({ message: "Password validated" });
     }
+
 
     res.status(401).json({ message: "Invalid password" });
   } catch (err) {
