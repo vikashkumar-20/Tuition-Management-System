@@ -1,15 +1,13 @@
 // routes/resultRoute.js
 import express from "express";
 import ResultModel from "../models/resultModel.js";
-import { upload } from "../middlewares/uploadFile.js";
 
 const router = express.Router();
 
 /**
  * ================== 1. Upload Result Data ==================
- * Note: Use `className` instead of `class` to avoid reserved keyword issues
  */
-router.post("/upload-result-data", async (req, res) => {
+router.post("/upload-result-image", async (req, res) => {
   try {
     const { name, rollNo, studentClass, subject, image } = req.body;
 
@@ -26,15 +24,14 @@ router.post("/upload-result-data", async (req, res) => {
     });
 
     await result.save();
-    res.status(201).json({ message: "Result saved successfully", result });
+    res.status(201).json({ message: "Result saved successfully 🚀", result });
   } catch (error) {
     console.error("❌ Error saving result:", error);
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
   }
 });
-
-
-
 
 /**
  * ================== 2. Get All Results ==================
