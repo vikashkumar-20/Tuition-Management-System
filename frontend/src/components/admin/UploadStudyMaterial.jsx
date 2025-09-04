@@ -149,7 +149,7 @@ const UploadStudyMaterial = () => {
               <input type="text" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required disabled={loading} />
             ) : null}
 
-            <button type="submit" disabled={loading}>
+            <button className = "u-btn" type="submit" disabled={loading}>
               {loading ? 'Uploading...' : 'Upload'}
             </button>
           </form>

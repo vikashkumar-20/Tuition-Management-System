@@ -206,3 +206,47 @@
         margin: 4px 0;
     }
 }
+
+/* Wrapper for arrows + scrollable content */
+.results-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+}
+
+/* Scroll buttons */
+.scroll-button {
+  background-color: rgba(37, 99, 235, 0.8);
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.scroll-button:hover {
+  background-color: rgba(37, 99, 235, 1);
+}
+
+.scroll-button.left {
+  left: -20px;
+}
+
+.scroll-button.right {
+  right: -20px;
+}
+
+/* Center results if less than 5 */
+.results-container.centered {
+  justify-content: center;
+}

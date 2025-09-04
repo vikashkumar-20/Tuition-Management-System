@@ -1,19 +1,215 @@
+/* UploadStudyMaterial.css - Colorful, modern, fun */
+
+.upload-study-material {
+  max-width: 720px;
+  margin: 50px auto;
+  padding: 40px 30px;
+  background: #1f1f2e;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Decorative circles for fun colorful background */
+.upload-study-material::before,
+.upload-study-material::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none; /* 🔥 This is the fix */
+}
+
+.upload-study-material::before {
+  width: 200px;
+  height: 200px;
+  background: #ff6ec7;
+  top: -50px;
+  right: -50px;
+  opacity: 0.3;
+}
+
+.upload-study-material::after {
+  width: 300px;
+  height: 300px;
+  background: #42a5f5;
+  bottom: -100px;
+  left: -100px;
+  opacity: 0.2;
+}
+
 .upload-study-material h2 {
-  font-size: 24px;
-  margin-bottom: 16px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
-.upload-study-material form input,
-.upload-study-material form select {
-  padding: 8px;
-  margin-bottom: 10px;
-  width: 100%;
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 30px;
 }
 
-.upload-study-material button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 16px;
+.form-fields select,
+.form-fields input[type="text"] {
+  padding: 12px 15px;
   border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 2px solid #ff4081;
+  /* bright pink border */
+}
+
+.form-fields select option {
+  background-color: #1f1f2e;
+  color: #ffeb3b;
+  padding: 10px;
+}
+
+.form-fields select::placeholder,
+.form-fields input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-fields select:focus,
+.form-fields input:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+/* File input styling */
+input[type="file"] {
+  padding: 8px 15px;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  border: 2px solid #ff4081;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="file"]:focus {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+/* Buttons */
+.u-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ff4081, #ff8f00);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.u-btn:hover:enabled {
+  background: linear-gradient(135deg, #ff8f00, #ff4081);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.u-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Messages */
+.upload-study-material p {
+  margin-top: 10px;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.upload-study-material p[style*="green"] {
+  color: #4caf50;
+}
+
+.upload-study-material p[style*="red"] {
+  color: #f44336;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.upload-study-material form,
+.upload-study-material .form-fields {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upload-study-material {
+    margin: 30px 20px;
+    padding: 30px 20px;
+  }
+
+  .upload-study-material h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .form-fields {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-study-material {
+    margin: 20px 10px;
+    padding: 20px 15px;
+  }
+
+  .upload-study-material h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-fields select,
+  .form-fields input[type="text"],
+  input[type="file"] {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 15px;
+  }
 }

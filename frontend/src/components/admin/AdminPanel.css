@@ -6,7 +6,7 @@
   padding: 40px 30px;
   background: #1f1f2e;
   border-radius: 25px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
   position: relative;
@@ -14,7 +14,8 @@
 }
 
 /* Decorative circles for fun colorful background */
-#admin-panel::before, #admin-panel::after {
+#admin-panel::before,
+#admin-panel::after {
   content: '';
   position: absolute;
   border-radius: 50%;
@@ -37,6 +38,7 @@
   bottom: -100px;
   left: -100px;
   opacity: 0.2;
+  color: #ff4081;
 }
 
 .admin-panel-heading {
@@ -47,7 +49,7 @@
   z-index: 1;
   position: relative;
   color: #fff;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 .admin-panel-form-group {
@@ -73,8 +75,21 @@
   font-size: 15px;
   outline: none;
   transition: all 0.3s ease;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  /* a bit lighter */
   color: #fff;
+  /* white text */
+  border: 2px solid #ff4081;
+  /* bright pink border */
+}
+
+.admin-panel-select option {
+  /* Option background and text */
+  background-color: #1f1f2e;
+  /* same as panel bg */
+  color: #ffeb3b;
+  /* bright yellow text */
+  padding: 10px;
 }
 
 .admin-panel-select::placeholder,
@@ -98,14 +113,14 @@
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
 }
 
 .admin-panel-button:hover {
   background: linear-gradient(135deg, #ff8f00, #ff4081);
   transform: translateY(-4px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
 }
 
 .admin-panel-content {
@@ -116,8 +131,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ---------------- Responsive Design ---------------- */
