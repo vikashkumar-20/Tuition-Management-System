@@ -69,8 +69,8 @@ if (process.env.ENABLE_CSP === "true") {
       "script-src-elem https://checkout.razorpay.com; " +
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
       "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-      "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com; " +
-      "img-src 'self' data: blob: https://tuition-management-system-rwxu.onrender.com https://*.s3.eu-north-1.amazonaws.com; " + // ✅ allow images
+      "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com https://*.firebaseapp.com https://apis.google.com; " +
+      "img-src 'self' data: blob: https://tuition-management-system-rwxu.onrender.com https://*.s3.eu-north-1.amazonaws.com; " +
       "report-uri /csp-violation-report-endpoint;"
     );
     next();
