@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './UploadResult.css'; // External CSS File
+import React, { useState } from "react";
+import axios from "axios";
+import "./UploadResult.css"; // External CSS File
 
 const UploadResult = () => {
-  const [name, setName] = useState('');
-  const [rollNo, setRollNo] = useState('');
-  const [studentClass, setStudentClass] = useState('');
-  const [subject, setSubject] = useState('');
+  const [name, setName] = useState("");
+  const [rollNo, setRollNo] = useState("");
+  const [studentClass, setStudentClass] = useState("");
+  const [subject, setSubject] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Use API base from environment
+  // ✅ API base from environment
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleUpload = async () => {
@@ -22,10 +22,11 @@ const UploadResult = () => {
     try {
       setLoading(true);
 
+      // 1. Upload file to S3
       const imageData = new FormData();
       imageData.append("file", image);
 
-      const res1 = await axios.post(
+      const uploadRes = await axios.post(
         `${API_BASE}/result/upload-result-image`,
         imageData,
         {
@@ -33,8 +34,12 @@ const UploadResult = () => {
         }
       );
 
-      const imageUrl = res1.data.fileUrl;
+      const imageUrl = uploadRes.data.fileUrl;
+      if (!imageUrl) {
+        throw new Error("Image upload failed. No URL returned.");
+      }
 
+      // 2. Save result data in DB
       await axios.post(`${API_BASE}/result/upload-result-data`, {
         name,
         rollNo,
@@ -43,19 +48,22 @@ const UploadResult = () => {
         image: imageUrl,
       });
 
+      alert("✅ Result Uploaded Successfully!");
 
-      alert("Result Uploaded Successfully!");
-
-      // Reset fields
-      setName('');
-      setRollNo('');
-      setStudentClass('');
-      setSubject('');
+      // 3. Reset form
+      setName("");
+      setRollNo("");
+      setStudentClass("");
+      setSubject("");
       setImage(null);
 
+      // Reset file input manually
+      document.querySelector(".upload-result-file").value = "";
     } catch (error) {
-      console.error(error);
-      alert("Error Uploading Result");
+      console.error("❌ Upload Error:", error.response?.data || error.message);
+      alert(
+        error.response?.data?.message || "Error uploading result. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -95,6 +103,7 @@ const UploadResult = () => {
       />
       <input
         type="file"
+        accept="image/*,.pdf" // ✅ Allow only images or PDFs
         className="upload-result-file"
         onChange={(e) => setImage(e.target.files[0])}
       />

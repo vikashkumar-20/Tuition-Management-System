@@ -9,26 +9,30 @@ const router = express.Router();
  * ================== 1. Upload Result Data ==================
  * Note: Use `className` instead of `class` to avoid reserved keyword issues
  */
-router.post("/upload-result-image", (req, res) => {
-  upload.single("file")(req, res, (err) => {
-    if (err) {
-      console.error("❌ Multer Upload Error:", err);
-      return res.status(400).json({ message: "File Upload Failed", error: err.message });
+router.post("/upload-result-data", async (req, res) => {
+  try {
+    const { name, rollNo, studentClass, subject, image } = req.body;
+
+    if (!name || !rollNo || !studentClass || !subject || !image) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    console.log("📂 File received:", req.file);
+    const result = new ResultModel({
+      name,
+      rollNo,
+      studentClass,
+      subject,
+      image,
+    });
 
-    if (!req.file) {
-      return res.status(400).json({ message: "No file received by multer" });
-    }
-
-    if (!req.file.location) {
-      return res.status(400).json({ message: "S3 did not return file location", file: req.file });
-    }
-
-    res.status(200).json({ fileUrl: req.file.location });
-  });
+    await result.save();
+    res.status(201).json({ message: "Result saved successfully", result });
+  } catch (error) {
+    console.error("❌ Error saving result:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
 });
+
 
 
 
@@ -61,43 +65,6 @@ router.delete("/delete/:id", async (req, res) => {
     console.error("❌ Error deleting result:", error);
     res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
-});
-
-/**
- * ================== 4. Upload Single Image (S3) ==================
- */
-router.post("/upload-result-image", (req, res) => {
-  upload.single("file")(req, res, (err) => {
-    if (err) {
-      console.error("❌ Single Upload Error:", err);
-      return res.status(400).json({ message: "File Upload Failed", error: err.message });
-    }
-
-    if (!req.file || !req.file.location) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
-
-    res.status(200).json({ fileUrl: req.file.location });
-  });
-});
-
-/**
- * ================== 5. Upload Multiple Images (S3) ==================
- */
-router.post("/upload-multiple", (req, res) => {
-  upload.array("files", 10)(req, res, (err) => {
-    if (err) {
-      console.error("❌ Multiple Upload Error:", err);
-      return res.status(400).json({ message: "Multiple File Upload Failed", error: err.message });
-    }
-
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({ message: "No files uploaded" });
-    }
-
-    const fileUrls = req.files.map((file) => file.location);
-    res.status(200).json({ fileUrls });
-  });
 });
 
 export default router;
