@@ -1,47 +1,54 @@
-/* SeekingUs.css */
-
+/* SeekingUs Section - Updated Styling */
 .seekingus-section {
     width: 100%;
-    background-color: #7895c8;
     text-align: center;
-    border-radius: 20px;
-    padding: 70px 30px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 28px;
+    padding: 60px 0px;
     margin: 50px 0;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* Header */
 .seekingus-header {
     font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase;
-    border-bottom: 2px solid #333;
+    border-bottom: 3px solid #2a6fdb;
     display: inline-block;
     padding-bottom: 10px;
     margin-bottom: 40px;
     letter-spacing: 3px;
-    color: rgb(16, 16, 16);
 }
 
 .seekingus-topsection {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 40px;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    flex-wrap: nowrap; /* no wrapping, all cards in one line */
+    gap: 32px;
+    padding: 0 20px;
+    scroll-behavior: smooth;
 }
 
 .seekingus-card {
-    background-color: #5d55fe;
-    padding: 35px 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+    flex: 0 0 260px; /* fixed width for all cards */
+    min-width: 260px; /* ensure min width */
+    background-color: #e0e7ff;
+    padding: 35px 30px;
+    border-radius: 28px;
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.12);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.6s forwards;
+}
+.seekingus-card:hover {
+    transform: translateY(-12px) scale(1.05);
+    box-shadow: 0 25px 45px rgba(37, 99, 235, 0.25);
+    background-color: #dbe7ff; /* lighter on hover */
 }
 
 .seekingus-card::before {
@@ -51,50 +58,52 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(60deg, rgba(74, 144, 226, 0.2), rgba(30, 58, 138, 0.2));
+    background: linear-gradient(60deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.15));
     transform: rotate(25deg);
     transition: opacity 0.4s ease;
     opacity: 0;
+    pointer-events: none;
 }
 
 .seekingus-card:hover::before {
     opacity: 1;
 }
 
-.seekingus-card:hover {
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
+/* Card Header */
 .seekingus-card-header {
-    font-size: 1.5rem;
-    color: #eab308;
-    margin-bottom: 18px;
-    font-weight: 600;
+    font-size: 1.6rem;
+    color: #2563eb; /* royal blue */
+    margin-bottom: 20px;
+    font-weight: 700;
     text-transform: capitalize;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.7px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Card Content */
 .seekingus-card-content {
     font-size: 1rem;
-    color:#ffffff;
+    color: #1e293b; /* dark slate */
     line-height: 1.8;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
+/* Button */
 .seekingus-card-button {
-    background-color: #4a90e2;
+    background-color: #2563eb;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 12px 28px;
+    border-radius: 30px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .seekingus-card-button:hover {
-    background-color: #1e3a8a;
+    background-color: #1d4ed8;
     transform: translateY(-2px);
 }
 
@@ -102,7 +111,7 @@
     transform: translateY(0);
 }
 
-/* Optional: Smooth appearance on load */
+/* Animation delays */
 .seekingus-card:nth-child(1) {
     animation-delay: 0.2s;
 }
@@ -119,6 +128,7 @@
     animation-delay: 0.8s;
 }
 
+/* Fade In Animation */
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -126,28 +136,65 @@
     }
 }
 
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 992px) {
     .seekingus-header {
         font-size: 2.2rem;
     }
-
+    
     .seekingus-topsection {
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 24px;
     }
 
     .seekingus-card {
-        padding: 20px 15px;
+        padding: 28px 22px;
+        border-radius: 24px;
     }
 
     .seekingus-card-header {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
 
     .seekingus-card-content {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .seekingus-card-button {
+        font-size: 0.95rem;
+        padding: 10px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .seekingus-header {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+    }
+    
+    .seekingus-topsection {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .seekingus-card {
+        padding: 22px 18px;
+        border-radius: 20px;
+    }
+
+    .seekingus-card-header {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+
+    .seekingus-card-content {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
     }
 
     .seekingus-card-button {
         font-size: 0.9rem;
+        padding: 10px 20px;
     }
 }

@@ -5,103 +5,74 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
+  background: linear-gradient(135deg, #89d4cf, #6e45e2);
   height: 100%;
   width: 100%;
-  overflow-x: hidden; /* prevent horizontal scroll */
-  overflow-y: auto;   /* only one vertical scroll for entire page */
+  overflow-x: hidden;
+  /* prevent horizontal scroll */
+  overflow-y: auto;
+  /* only one vertical scroll for entire page */
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  /* font-family: Arial, sans-serif; optional base font */
 }
 
-/* Home page wrapper */
-.home-page {
-  font-family: 'Times New Roman', Times, serif;
-  width: 100%;
-  max-width: 1400px;
+/* Container for centered content with side space */
+.container {
+  
+  max-width: 1200px;
+  /* max width of content */
   margin: 0 auto;
-  padding: 20px;
-  /* REMOVE overflow-y: auto; */
-}
-
-
-/* Hero section */
-.hero-section {
-  margin: 0; /* remove top/bottom margins */
-  padding: 120px 20px 50px 20px; /* adjust top/bottom spacing with padding */
-  min-height: 60vh;
-  max-width: 1400px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color:#5b7aad;
-  color: #171616;
-  text-align: center;
-  border-radius: 20px;
+  /* center horizontally */
+  padding: 0 20px;
+  /* side padding */
   box-sizing: border-box;
+  width: 100%;
+}
+
+/* Responsive container padding */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+    max-width: 90%;
+  }
 }
 
 
-.hero-section h1 {
-  font-size: 2.8rem;
-  margin-bottom: 20px;
-}
-
-.hero-section p {
-  font-size: 1.2rem;
-  background-color: rgba(255, 255, 255, 0.068);
-  color: #130d0d;
-  padding: 12px 24px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-}
-
-/* Demo button */
-.demo-btn {
-  background-color: #facc15;
-  color: black;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.demo-btn:hover {
-  background-color: #eab308;
-  transform: translateY(-2px);
-}
-
-.demo-btn:active {
-  transform: translateY(0);
-}
-
-/* Sections */
-.main-content-section,
-.footer-section {
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  padding: 40px 0;
-}
-
-/* Section headings (optional if you add them inside the sections) */
-section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-/* Loading screen */
 .loading-screen {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #171616;
+  color: #facc15;
   font-size: 1.5rem;
-  color: #fff;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-align: center;
+  flex-direction: column;
+  gap: 20px;
+  user-select: none;
+  padding: 20px;
 }
+
+.loading-screen::before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid #facc15;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

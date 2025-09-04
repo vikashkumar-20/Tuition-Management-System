@@ -203,38 +203,28 @@
 .nav-item.dropdown {
   position: relative;
 }
-
-/* Style for the dropdown menu */
 .dropdown-menu {
   background-color:  #ee8d84;
   position: absolute;
   top: 100%;
   left: 0;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  width: 160px; /* Adjust as needed */
+  z-index: 1000;  /* higher so it's on top */
+  width: 160px;
   display: flex;
   flex-direction: column;
   padding: 10px 0;
-  border-radius: 10px
+  border-radius: 10px;
+
+  /* hide by default */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.2s ease;
 }
 
-.dropdown-item {
-  padding: 10px;
-  border: none;
-  background: none;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
+.dropdown-menu.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
-
-.dropdown-item:hover {
-  background-color: #f0f0f0;
-}
-
-/* Optional: Add some padding around the dropdown */
-.nav-item {
-  margin: 0 10px;
-}
-
-

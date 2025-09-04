@@ -1,146 +1,189 @@
 /* Base Styles */
 .auth-container {
-  max-width: 600px;
-  margin: 80px auto;
-  padding: 40px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  max-width: 1000px; /* wider container */
+  margin: 60px auto;
+  padding: 30px 40px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
-  font-family: 'Arial', sans-serif;
-  overflow: hidden;
-  background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+.close-icon-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
 }
 
 .close-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #ffffff;
+  font-size: 1.4rem;
+  color: #888;
   transition: color 0.3s ease;
 }
 
 .close-icon:hover {
-  color: #f44336;
+  color: #444;
 }
 
 .auth-container h1 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  margin-bottom: 40px;
+  color: #222;
   font-size: 28px;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
+/* Form grid with 2 columns */
 .auth-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px; /* vertical gap 20px, horizontal gap 30px */
+}
+
+.auth-form > h1 {
+  grid-column: span 2;
+}
+
+/* Wrap each label + input/select */
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="number"],
-select {
+/* Label styling */
+.auth-form label {
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Inputs and select styling */
+.auth-form input,
+.auth-form select {
   width: 100%;
-  padding: 16px;
-  margin-bottom: 10px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  font-size: 16px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
-}
-
-input:focus,
-select:focus {
-  border-color: #ff7e5f;
-  outline: none;
-  box-shadow: 0 0 8px rgba(255, 126, 95, 0.4);
-}
-
-.input-error {
-  border-color: #e74c3c;
-  background-color: #ffe6e6;
-}
-
-.error-message {
-  background-color: #ffe6e6;
-  color: #e74c3c;
-  padding: 12px;
+  padding: 14px 16px;
+  border: 1.8px solid #ccc;
   border-radius: 8px;
-  margin-bottom: 15px;
+  font-size: 16px;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus states */
+.auth-form input:focus,
+.auth-form select:focus {
+  border-color: #5a67d8;
+  outline: none;
+  box-shadow: 0 0 6px rgba(90, 103, 216, 0.4);
+}
+
+/* Input error styling */
+.input-error {
+  border-color: #e53e3e !important;
+  background-color: #fff5f5;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin: 15px 0;
   text-align: center;
   font-size: 14px;
   font-weight: 500;
+  grid-column: span 2;
 }
 
+/* Buttons container spans both columns */
 .auth-actions {
+  grid-column: span 2;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+  justify-content: flex-end;
 }
 
-/* Action buttons styling */
-.auth-actions button[type="button"],
-.auth-actions button[type="submit"] {
-  padding: 14px;
-  background-color: #3498db;
-  color: #ffffff;
-  border: none;
+/* Buttons styling */
+.auth-actions button {
+  flex: 1;
+  padding: 14px 0;
+  font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  width: 100%;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.auth-actions button[type="button"]:hover,
-.auth-actions button[type="submit"]:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
+/* Submit button styles */
 .auth-actions button[type="submit"] {
-  background-color: #28a745;
+  background-color: #5a67d8;
+  color: white;
 }
 
 .auth-actions button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #434190;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(67, 65, 144, 0.3);
 }
 
-button[type="button"] {
-  background-color: #f0f0f0;
-  color: #333;
-  border-radius: 8px;
+/* Clear button styles */
+.auth-actions button[type="button"] {
+  background-color: #f3f4f6;
+  color: #4a5568;
 }
 
-button[type="button"]:hover {
-  background-color: #e1e1e1;
+.auth-actions button[type="button"]:hover {
+  background-color: #e2e8f0;
   transform: translateY(-2px);
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+
+/* Medium devices (max-width: 800px) */
+@media (max-width: 800px) {
   .auth-container {
-    padding: 20px;
+    padding: 25px 20px;
     max-width: 90%;
   }
+}
 
-  h1 {
-    font-size: 24px;
+/* Small devices (max-width: 600px) */
+@media (max-width: 600px) {
+  /* Stack form fields vertically */
+  .auth-form {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
-  input, select {
-    font-size: 14px;
+  /* Error message and buttons full width */
+  .error-message {
+    grid-column: auto;
+  }
+
+  .auth-actions {
+    flex-direction: column;
+    gap: 12px;
+    grid-column: auto;
   }
 
   .auth-actions button {
+    width: 100%;
+    flex: none;
     font-size: 14px;
+  }
+
+  input,
+  select {
+    font-size: 14px;
+  }
+
+  .auth-container h1 {
+    font-size: 22px;
   }
 }

@@ -131,65 +131,77 @@ const AuthForm = ({ onClose }) => {
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1>Book Your Demo Class</h1>
 
-        <label>Enter your name:</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={hasError.name ? "input-error" : ""}
-        />
+        <div className="form-group">
+          <label>Enter your name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className={hasError.name ? "input-error" : ""}
+          />
+        </div>
 
-        <label>Enter your mother's name:</label>
-        <input
-          type="text"
-          name="motherName"
-          value={formData.motherName}
-          onChange={handleChange}
-          className={hasError.motherName ? "input-error" : ""}
-        />
+        <div className="form-group">
+          <label>Enter your mother's name:</label>
+          <input
+            type="text"
+            name="motherName"
+            value={formData.motherName}
+            onChange={handleChange}
+            className={hasError.motherName ? "input-error" : ""}
+          />
+        </div>
 
-        <label>Class:</label>
-        <select
-          name="class"
-          value={formData.class}
-          onChange={handleChange}
-          className={hasError.class ? "input-error" : ""}
-        >
-          <option value="">Select option</option>
-          <option value="11th">11th</option>
-          <option value="12th">12th</option>
-          <option value="DU - Sol">DU - Sol</option>
-          <option value="IGNOU">IGNOU</option>
-          <option value="NIOS">NIOS</option>
-        </select>
+        <div className="form-group">
+          <label>Class:</label>
+          <select
+            name="class"
+            value={formData.class}
+            onChange={handleChange}
+            className={hasError.class ? "input-error" : ""}
+          >
+            <option value="">Select option</option>
+            <option value="11th">11th</option>
+            <option value="12th">12th</option>
+            <option value="DU - Sol">DU - Sol</option>
+            <option value="IGNOU">IGNOU</option>
+            <option value="NIOS">NIOS</option>
+          </select>
+        </div>
 
-        <label>Enter your mobile number:</label>
-        <input
-          type="number"
-          name="mobile"
-          value={formData.mobile}
-          onChange={handleChange}
-          className={hasError.mobile ? "input-error" : ""}
-        />
+        <div className="form-group">
+          <label>Enter your mobile number:</label>
+          <input
+            type="number"
+            name="mobile"
+            value={formData.mobile}
+            onChange={handleChange}
+            className={hasError.mobile ? "input-error" : ""}
+          />
+        </div>
 
-        <label>Enter your email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={hasError.email ? "input-error" : ""}
-        />
+        <div className="form-group">
+          <label>Enter your email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={hasError.email ? "input-error" : ""}
+          />
+        </div>
 
-        <label>Enter your address:</label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          className={hasError.address ? "input-error" : ""}
-        />
+        <div className="form-group">
+          <label>Enter your address:</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            className={hasError.address ? "input-error" : ""}
+          />
+        </div>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -200,6 +212,7 @@ const AuthForm = ({ onClose }) => {
           <button type="submit">Submit</button>
         </div>
       </form>
+
     </div>
   );
 };

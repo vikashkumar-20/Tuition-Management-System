@@ -1,65 +1,142 @@
-/* AdminPanel.css */
+/* AdminPanel.css - Colorful, modern, fun */
 
 #admin-panel {
-  max-width: 600px;
+  max-width: 720px;
   margin: 50px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  background: #1f1f2e;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative circles for fun colorful background */
+#admin-panel::before, #admin-panel::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+#admin-panel::before {
+  width: 200px;
+  height: 200px;
+  background: #ff6ec7;
+  top: -50px;
+  right: -50px;
+  opacity: 0.3;
+}
+
+#admin-panel::after {
+  width: 300px;
+  height: 300px;
+  background: #42a5f5;
+  bottom: -100px;
+  left: -100px;
+  opacity: 0.2;
 }
 
 .admin-panel-heading {
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 25px;
-  font-size: 28px;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  z-index: 1;
+  position: relative;
+  color: #fff;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
 
 .admin-panel-form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .admin-panel-label {
   font-weight: 600;
   font-size: 16px;
-  color: #34495e;
+  color: #ffeb3b;
 }
 
-.admin-panel-select {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.admin-panel-select,
+.admin-panel-input {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 12px;
   font-size: 15px;
   outline: none;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-.admin-panel-select:focus {
-  border-color: #3498db;
+.admin-panel-select::placeholder,
+.admin-panel-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.admin-panel-select:focus,
+.admin-panel-input:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.admin-panel-button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #ff4081, #ff8f00);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: all 0.3s ease;
+}
+
+.admin-panel-button:hover {
+  background: linear-gradient(135deg, #ff8f00, #ff4081);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
 }
 
 .admin-panel-content {
-  margin-top: 30px;
-  animation: fadeIn 0.5s ease-in-out;
+  margin-top: 35px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* ---------------- Responsive Design ---------------- */
-
 @media (max-width: 768px) {
   #admin-panel {
-    margin: 30px 15px;
-    padding: 20px;
+    margin: 30px 20px;
+    padding: 30px 20px;
+  }
+
+  .admin-panel-heading {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  #admin-panel {
+    margin: 20px 10px;
+    padding: 20px 15px;
   }
 
   .admin-panel-heading {
@@ -68,36 +145,11 @@
   }
 
   .admin-panel-label {
+    font-size: 14px;
+  }
+
+  .admin-panel-button {
+    padding: 10px 15px;
     font-size: 15px;
-  }
-
-  .admin-panel-select {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .admin-panel-content {
-    margin-top: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  #admin-panel {
-    margin: 20px 10px;
-    padding: 15px;
-  }
-
-  .admin-panel-heading {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  .admin-panel-label {
-    font-size: 14px;
-  }
-
-  .admin-panel-select {
-    padding: 7px;
-    font-size: 13px;
   }
 }

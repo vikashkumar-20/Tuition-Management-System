@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api"; // ✅ use your API instance
-import './LeaderBoard.css'; // optional, your styling
+
 
 const LeaderBoard = () => {
   const { userName } = useParams();

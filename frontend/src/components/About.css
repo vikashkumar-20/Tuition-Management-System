@@ -1,0 +1,170 @@
+/* About Section */
+.about {
+    color: #fff;
+    padding: 70px 20px;
+    margin: 100px 0;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.about-section {
+
+    padding: 30px 25px;
+    /* added a bit more horizontal padding */
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+    text-align: left;
+    /* Left align text for better readability */
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  color: #fcd34d;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  
+  border-bottom: 3px solid #fcd34d;
+  padding-bottom: 12px;
+  margin-bottom: 35px;
+
+  /* Fix width for all headings */
+  width: 800px;           /* fixed width for the border line */
+  margin-left: auto;      /* center horizontally */
+  margin-right: auto;     /* center horizontally */
+
+  text-align: center;
+  box-sizing: border-box;
+}
+
+
+
+.about-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #fff;
+    opacity: 0.85;
+    margin-bottom: 0;
+    /* tighter spacing for paragraphs */
+}
+
+/* Style for the Why CK Study Classes list */
+.about-section ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+  color: #f5f5f5;
+  font-size: 1.1rem;
+
+  max-width: 800px;      /* same width as h2 */
+  margin-left: auto;     /* center horizontally */
+  margin-right: auto;    /* center horizontally */
+  padding-left: 0;       /* remove default ul padding */
+  text-align: left;      /* keep list items left aligned */
+}
+
+
+.about-section ul li {
+    position: relative;
+    padding-left: 30px;
+    margin: 12px 0;
+    transition: transform 0.3s ease;
+    line-height: 1.5;
+    cursor: default;
+    /* no pointer cursor on list */
+}
+
+/* Custom checkmark */
+.about-section ul li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    /* vertically center checkmark */
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.2rem;
+    /* slightly bigger checkmark */
+}
+
+/* Hover effect for list items */
+.about-section ul li:hover {
+    transform: translateX(10px);
+    color: #ffd700;
+    /* highlight text on hover */
+}
+
+/* Links inside about section */
+.about-section a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.about-section a:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about {
+        padding: 50px 15px;
+        margin: 80px 0;
+    }
+
+    .about-section {
+        padding: 20px 15px;
+        max-width: 90%;
+        text-align: left;
+    }
+
+    .about-section h2 {
+        font-size: 1.7rem;
+    }
+
+    .about-section p,
+    .about-section ul li {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 480px) {
+    .about {
+        padding: 40px 10px;
+        margin: 60px 0;
+    }
+
+    .about-section {
+        padding: 15px 10px;
+        max-width: 95%;
+        text-align: left;
+    }
+
+    .about-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .about-section p,
+    .about-section ul li {
+        font-size: 0.95rem;
+    }
+
+    
+}

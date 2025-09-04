@@ -12,14 +12,14 @@ import Courses from "./components/Courses";
 import StudyMaterial from "./components/StudyMaterial";
 import ViewResults from "./components/ViewResults";
 import SeekingUs from "./components/SeekingUs";
-import AboutUs from "./components/AboutUs";
+import AboutUs from "./components/About";
 import NcertBooks from "./components/NcertBooks";
 import PreviousYearQuestion from "./components/PreviousYearQuestions";
 import SupportMaterial from "./components/SupportMaterial";
 import StudyMaterialType from "./components/StudyMaterialType";
 import AdminPanel from "./components/admin/AdminPanel";
 import NcertSolutions from "./components/NcertSolutions";
-import ContactUs from "./components/ContactUs";
+import ContactUs from "./components/Footer";
 import AuthForm from "./components/AuthForm";
 import Quiz from "./components/admin/CreateQuiz";
 import StartQuiz from "./components/StartQuiz";
@@ -71,7 +71,7 @@ const App = () => {
         path="/"
         element={
           <WithNavbar>
-            <div className="home-page">
+            <div className="container">
               {/* Hero Section */}
               <div className="hero-section">
                 <HomeComponent user={user} handleDemoClick={handleDemoClick} />

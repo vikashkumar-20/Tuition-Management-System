@@ -1,6 +1,5 @@
-// AboutUs.js
 import React from "react";
-import "./AboutUs.css";
+import "./About.css";
 
 const About = () => {
   return (
@@ -8,6 +7,7 @@ const About = () => {
       <div className="about-container">
 
         {/* About CK Study Classes */}
+        
         <div className="about-section">
           <h2>About CK Study Classes</h2>
           <p>
@@ -16,6 +16,20 @@ const About = () => {
             conceptual foundations and achieve academic excellence.
           </p>
         </div>
+
+
+         <div className="about-section">
+          <h2>Why CK Study Classes?</h2>
+          <ul>
+            <li>Expert faculty with years of teaching experience.</li>
+            <li>Student-centric approach with personalized attention.</li>
+            <li>Regular mock tests and performance tracking.</li>
+            <li>Interactive learning environment with innovative methods.</li>
+            <li>A proven history of outstanding student achievements.</li>
+          </ul>
+        </div>
+
+
 
         {/* Our Vision */}
         <div className="about-section">
@@ -28,31 +42,12 @@ const About = () => {
         </div>
 
         {/* Why Choose Us */}
-        <div className="about-section">
-          <h2>Why CK Study Classes?</h2>
-          <ul>
-            <li>Expert faculty with years of teaching experience.</li>
-            <li>Student-centric approach with personalized attention.</li>
-            <li>Regular mock tests and performance tracking.</li>
-            <li>Interactive learning environment with innovative methods.</li>
-            <li>A proven history of outstanding student achievements.</li>
-          </ul>
-        </div>
-
-        {/* Get in Touch */}
-        <div className="about-section" id="contact-section">
-          <h2>Get in Touch</h2>
-          <p>We are always here to guide you on your educational journey. Reach out to us for inquiries or admissions:</p>
-          <p>Email: <a href="mailto:ckstudyclasses@gmail.com">ckstudyclasses@gmail.com</a></p>
-          <p>Phone: <a href="tel:+91-7290958765">+91-7290958765</a></p>
-        </div>
+       
 
       </div>
 
-      {/* Bottom Section */}
-      <div className="about-bottom">
-        <p>© 2025 CK Study Classes | Empowering Students, Transforming Futures.</p>
-      </div>
+      {/* Bottom Section (Footer Contact Info stays here) */}
+     
     </section>
   );
 };
