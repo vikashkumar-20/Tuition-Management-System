@@ -14,16 +14,16 @@ const CreateQuiz = () => {
     ],
   });
 
-  // ✅ Use API base from environment
   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
-  const handleChange = (e, qIndex, optIndex) => {
+  // Update question text, correct answer, or option
+  const handleChange = (e, qIndex, optIndex = null) => {
     const { name, value } = e.target;
     const updatedQuestions = [...formData.questions];
 
     if (name === "questionText" || name === "correctAnswer") {
       updatedQuestions[qIndex][name] = value;
-    } else {
+    } else if (name === "option" && optIndex !== null) {
       updatedQuestions[qIndex].options[optIndex] = value;
     }
 
@@ -41,15 +41,16 @@ const CreateQuiz = () => {
   };
 
   const handleGeneralChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE}/quiz/create`, formData); // ✅ fixed
+      await axios.post(`${API_BASE}/quiz/create`, formData);
       alert("Quiz Created Successfully!");
-
+      // Reset form
       setFormData({
         className: "",
         subject: "",
@@ -111,22 +112,23 @@ const CreateQuiz = () => {
           required
         />
 
-        {formData.questions.map((q, index) => (
-          <div key={index} className="quiz-question-block">
+        {formData.questions.map((q, qIndex) => (
+          <div key={qIndex} className="quiz-question-block">
             <input
               type="text"
               name="questionText"
               value={q.questionText}
-              onChange={(e) => handleChange(e, index)}
-              placeholder={`Question ${index + 1}`}
+              onChange={(e) => handleChange(e, qIndex)}
+              placeholder={`Question ${qIndex + 1}`}
               required
             />
             {q.options.map((opt, optIndex) => (
               <input
                 key={optIndex}
                 type="text"
+                name="option"
                 value={opt}
-                onChange={(e) => handleChange(e, index, optIndex)}
+                onChange={(e) => handleChange(e, qIndex, optIndex)}
                 placeholder={`Option ${optIndex + 1}`}
                 required
               />
@@ -135,12 +137,13 @@ const CreateQuiz = () => {
               type="text"
               name="correctAnswer"
               value={q.correctAnswer}
-              onChange={(e) => handleChange(e, index)}
+              onChange={(e) => handleChange(e, qIndex)}
               placeholder="Correct Answer"
               required
             />
           </div>
         ))}
+
         <button type="button" onClick={handleAddQuestion}>
           Add Another Question
         </button>
