@@ -33,7 +33,7 @@ const UploadResult = () => {
       await axios.post(`${API_BASE}/result/upload-result-data`, {
         name,
         rollNo,
-        class: studentClass,
+        className: studentClass,
         subject,
         image: imageUrl,
       });

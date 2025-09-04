@@ -11,7 +11,8 @@ const router = express.Router();
  */
 router.post("/upload-result-data", async (req, res) => {
   try {
-    const { name, rollNo, className, subject, image } = req.body;
+    const { name, rollNo, class: studentClass, subject, image } = req.body;
+
 
     if (!name || !rollNo || !className || !subject || !image) {
       return res.status(400).json({ message: "All fields are required" });
@@ -20,7 +21,7 @@ router.post("/upload-result-data", async (req, res) => {
     const newResult = await new ResultModel({
       name,
       rollNo,
-      class: className,
+      class: studentClass,
       subject,
       image,
     }).save();
