@@ -11,17 +11,16 @@ const router = express.Router();
  */
 router.post("/upload-result-data", async (req, res) => {
   try {
-    const { name, rollNo, class: studentClass, subject, image } = req.body;
+    const { name, rollNo, studentClass, subject, image } = req.body;
 
-
-    if (!name || !rollNo || !className || !subject || !image) {
+    if (!name || !rollNo || !studentClass || !subject || !image) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const newResult = await new ResultModel({
       name,
       rollNo,
-      class: studentClass,
+      class: studentClass, // save in DB
       subject,
       image,
     }).save();
@@ -35,6 +34,7 @@ router.post("/upload-result-data", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 });
+
 
 /**
  * ================== 2. Get All Results ==================

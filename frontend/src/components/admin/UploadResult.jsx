@@ -23,20 +23,26 @@ const UploadResult = () => {
       setLoading(true);
 
       const imageData = new FormData();
-      imageData.append('file', image);
+      imageData.append("file", image);
 
-      // ✅ Upload image
-      const res1 = await axios.post(`${API_BASE}/result/upload-result-image`, imageData);
-      const imageUrl = res1.data.fileUrl; 
+      const res1 = await axios.post(
+        `${API_BASE}/result/upload-result-image`,
+        imageData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      // ✅ Save result data
+      const imageUrl = res1.data.fileUrl;
+
       await axios.post(`${API_BASE}/result/upload-result-data`, {
         name,
         rollNo,
-        className: studentClass,
+        studentClass,
         subject,
         image: imageUrl,
       });
+
 
       alert("Result Uploaded Successfully!");
 
