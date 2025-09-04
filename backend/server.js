@@ -24,7 +24,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-   process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL,
   "https://tuition-management-system-rwxu.onrender.com",
 ].filter(Boolean);
 
@@ -58,23 +58,25 @@ if (process.env.ENABLE_CSP === "true") {
     res.setHeader(
       "Content-Security-Policy",
       "default-src 'self'; " +
-        "connect-src 'self' http://localhost:5000 " +
-        "https://api.razorpay.com https://checkout.razorpay.com " +
-        "https://lumberjack.razorpay.com https://www.gstatic.com " +
-        "https://www.googleapis.com https://identitytoolkit.googleapis.com " +
-        "https://securetoken.googleapis.com https://firestore.googleapis.com " +
-        "https://ck-study-backend.vercel.app " +
-        "https://ckstudyclasses.s3.eu-north-1.amazonaws.com; " +
-        "script-src 'self' https://checkout.razorpay.com; " +
-        "script-src-elem https://checkout.razorpay.com; " +
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
-        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-        "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com; " +
-        "report-uri /csp-violation-report-endpoint;"
+      "connect-src 'self' http://localhost:5000 " +
+      "https://api.razorpay.com https://checkout.razorpay.com " +
+      "https://lumberjack.razorpay.com https://www.gstatic.com " +
+      "https://www.googleapis.com https://identitytoolkit.googleapis.com " +
+      "https://securetoken.googleapis.com https://firestore.googleapis.com " +
+      "https://ck-study-backend.vercel.app " +
+      "https://ckstudyclasses.s3.eu-north-1.amazonaws.com; " +
+      "script-src 'self' https://checkout.razorpay.com; " +
+      "script-src-elem https://checkout.razorpay.com; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+      "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+      "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com; " +
+      "img-src 'self' data: https://tuition-management-system-rwxu.onrender.com https://ckstudyclasses.s3.eu-north-1.amazonaws.com; " + // ✅ allow images
+      "report-uri /csp-violation-report-endpoint;"
     );
     next();
   });
 }
+
 
 /**
  * ================== 3. Routes ==================
