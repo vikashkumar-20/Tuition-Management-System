@@ -24,7 +24,7 @@ const UploadResult = () => {
 
       // 1. Upload file to S3
       const imageData = new FormData();
-      imageData.append("file", image);
+      imageData.append("image", image);
 
       const uploadRes = await axios.post(
         `${API_BASE}/result/upload-result-image`,
