@@ -134,10 +134,16 @@ router.post("/validate-password", async (req, res) => {
     const quiz = await Quiz.findById(quizId);
     if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
-    if (quiz.password.toString().trim() === password.toString().trim()) {
+    // Convert both to string and trim
+    const inputPassword = password ? password.toString().trim() : "";
+    const storedPassword = quiz.password ? quiz.password.toString().trim() : "";
+
+    console.log("Stored password:", storedPassword);
+    console.log("Input password:", inputPassword);
+
+    if (inputPassword === storedPassword) {
       return res.status(200).json({ message: "Password validated" });
     }
-
 
     res.status(401).json({ message: "Invalid password" });
   } catch (err) {
@@ -145,5 +151,6 @@ router.post("/validate-password", async (req, res) => {
     res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
+
 
 export default router;
