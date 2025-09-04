@@ -59,7 +59,7 @@ const UploadStudyMaterial = () => {
       if (type === 'previous-year-questions') metadata.year = year;
       if (type === 'support-material') metadata.category = category;
 
-      await axios.post(`${API_BASE}/study-material/upload/metadata`, metadata);
+      await axios.post(`${API_BASE}/study-material/`, metadata);
 
       // Reset fields
       setType('');
