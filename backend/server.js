@@ -31,7 +31,11 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        /^https:\/\/tuition-management-system-[a-z0-9]+\.vercel\.app$/.test(origin) // ✅ allow all vercel previews
+      ) {
         callback(null, true);
       } else {
         console.warn("❌ CORS Blocked Origin:", origin);
