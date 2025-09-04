@@ -13,7 +13,7 @@ const ViewResults = () => {
   const fetchResults = async () => {
     try {
       // ✅ Added /api/
-      const res = await API.get("/result/all"); 
+      const res = await API.get("/result/all");
       setResults(res.data);
     } catch (error) {
       console.error("Error fetching results:", error);
@@ -45,8 +45,13 @@ const ViewResults = () => {
                   src={result.image}
                   alt="Result"
                   className="result-image"
-                  onError={(e) => (e.target.src = "/fallback.jpg")}
+                  onError={(e) => {
+                    if (e.target.src !== "/fallback.jpg") {
+                      e.target.src = "/fallback.jpg";
+                    }
+                  }}
                 />
+
 
                 <div className="result-info">
                   <p><strong>Name:</strong> {result.name}</p>
