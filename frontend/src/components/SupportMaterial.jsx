@@ -106,27 +106,27 @@ const SupportMaterial = () => {
         <div className="support-materials-list">
           {filteredMaterials.length === 0 && <p>No material found.</p>}
 
-          {selectedCategory === "videos"
-            ? filteredMaterials.map((item) =>
-                item.files.map((file, index) => {
-                  let embedUrl = file.fileUrl.includes("youtube.com/watch?v=")
-                    ? `https://www.youtube.com/embed/${new URL(file.fileUrl).searchParams.get("v")}`
-                    : file.fileUrl.includes("youtu.be/")
-                    ? `https://www.youtube.com/embed/${file.fileUrl.split("youtu.be/")[1]}`
-                    : file.fileUrl;
+          {filteredMaterials.map((item) =>
+            item.files?.map((file, index) => {
+              if (!file?.fileUrl) return null; // skip invalid files
 
-                  return (
-                    <div key={index} className="support-video-card" onClick={() => setSelectedVideo({ url: embedUrl, title: file.title })}>
-                      <div className="video-preview-wrapper">
-                        <iframe src={embedUrl} title={file.title} className="support-video-iframe-preview" allowFullScreen></iframe>
-                      </div>
-                      <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
+              if (selectedCategory === "videos") {
+                let embedUrl = file.fileUrl.includes("youtube.com/watch?v=")
+                  ? `https://www.youtube.com/embed/${new URL(file.fileUrl).searchParams.get("v")}`
+                  : file.fileUrl.includes("youtu.be/")
+                  ? `https://www.youtube.com/embed/${file.fileUrl.split("youtu.be/")[1]}`
+                  : file.fileUrl;
+
+                return (
+                  <div key={index} className="support-video-card" onClick={() => setSelectedVideo({ url: embedUrl, title: file.title })}>
+                    <div className="video-preview-wrapper">
+                      <iframe src={embedUrl} title={file.title} className="support-video-iframe-preview" allowFullScreen></iframe>
                     </div>
-                  );
-                })
-              )
-            : filteredMaterials.map((item) =>
-                item.files.map((file, index) => (
+                    <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
+                  </div>
+                );
+              } else {
+                return (
                   <div key={index} className="support-card">
                     <FontAwesomeIcon icon={faFilePdf} className="ncert-pdf-icon" />
                     <p>{file.title}</p>
@@ -142,8 +142,10 @@ const SupportMaterial = () => {
                       item={{ ...item, materialId: item._id }}
                     />
                   </div>
-                ))
-              )}
+                );
+              }
+            })
+          )}
         </div>
       )}
 
