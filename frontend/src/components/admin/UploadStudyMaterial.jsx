@@ -47,19 +47,27 @@ const UploadStudyMaterial = () => {
         fileUrl = url;
       }
 
+      const fileObj = {
+        title,
+        fileUrl: uploadType !== 'URL' ? fileUrl : undefined,
+        optionalUrl: uploadType === 'URL' ? url : undefined
+      };
+
       const metadata = {
         type,
         className,
         subject,
-        title,
-        uploadType,
-        fileUrl: fileUrl,
+        files: [fileObj], // <-- Wrap in array
       };
 
       if (type === 'previous-year-questions') metadata.year = year;
       if (type === 'support-material') metadata.category = category;
 
       await axios.post(`${API_BASE}/study-material/`, metadata);
+
+
+
+
 
       // Reset fields
       setType('');
