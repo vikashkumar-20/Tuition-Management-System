@@ -56,23 +56,17 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.ENABLE_CSP === "true") {
   app.use((req, res, next) => {
     res.setHeader(
-      "Content-Security-Policy",
-      "default-src 'self'; " +
-      "connect-src 'self' http://localhost:5000 " +
-      "https://api.razorpay.com https://checkout.razorpay.com " +
-      "https://lumberjack.razorpay.com https://www.gstatic.com " +
-      "https://www.googleapis.com https://identitytoolkit.googleapis.com " +
-      "https://securetoken.googleapis.com https://firestore.googleapis.com " +
-      "https://ck-study-backend.vercel.app " +
-      "https://ckstudyclasses.s3.eu-north-1.amazonaws.com; " +
-      "script-src 'self' https://checkout.razorpay.com; " +
-      "script-src-elem https://checkout.razorpay.com; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
-      "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
-      "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com https://*.firebaseapp.com https://apis.google.com; " +
-      "img-src 'self' data: blob: https://tuition-management-system-rwxu.onrender.com https://*.s3.eu-north-1.amazonaws.com; " +
-      "report-uri /csp-violation-report-endpoint;"
-    );
+  "Content-Security-Policy",
+  "default-src 'self'; " +
+  "connect-src 'self' http://localhost:5000 https://api.razorpay.com https://checkout.razorpay.com https://lumberjack.razorpay.com https://www.gstatic.com https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://ck-study-backend.vercel.app https://ckstudyclasses.s3.eu-north-1.amazonaws.com; " +
+  "script-src 'self' https://checkout.razorpay.com; " +
+  "script-src-elem https://checkout.razorpay.com; " +
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+  "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+  "frame-src 'self' https://checkout.razorpay.com https://api.razorpay.com https://www.youtube.com https://*.firebaseapp.com https://apis.google.com; " +
+  "img-src 'self' data: blob: https://*.s3.eu-north-1.amazonaws.com https://*.vercel.app https://*.onrender.com; " +
+  "report-uri /csp-violation-report-endpoint;"
+);
     next();
   });
 }
