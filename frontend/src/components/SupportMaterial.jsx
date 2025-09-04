@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
 
-// ...imports remain the same
 const SupportMaterial = () => {
   const navigate = useNavigate();
   const [materials, setMaterials] = useState([]);
@@ -36,21 +35,22 @@ const SupportMaterial = () => {
         setLoading(false);
       }
     };
-
     fetchMaterials();
   }, []);
 
   const classList = useMemo(() => {
     return selectedCategory
-      ? [...new Set(materials.filter(item => item.category === selectedCategory).map(item => item.className))]
+      ? [...new Set(materials
+          .filter(item => item.category === selectedCategory)
+          .map(item => item.className))]
       : [];
   }, [selectedCategory, materials]);
 
   const subjectList = useMemo(() => {
     return selectedClass
-      ? [...new Set(materials.filter(item =>
-        item.category === selectedCategory && item.className === selectedClass
-      ).map(item => item.subject))]
+      ? [...new Set(materials
+          .filter(item => item.category === selectedCategory && item.className === selectedClass)
+          .map(item => item.subject))]
       : [];
   }, [selectedCategory, selectedClass, materials]);
 
@@ -66,11 +66,12 @@ const SupportMaterial = () => {
 
   return (
     <section id="support-material-section" className="support-material-container">
-      <h2 className="support-title" id="support-title">Support Material</h2>
+      <h2 className="support-title">Support Material</h2>
 
       {error && <p className="support-error">{error}</p>}
       {loading && <p className="support-loading">Loading...</p>}
 
+      {/* Category Buttons */}
       <div className="support-button-group category-group">
         {categoryList.map(({ label, value }) => (
           <button
@@ -83,35 +84,47 @@ const SupportMaterial = () => {
         ))}
       </div>
 
+      {/* Class Buttons */}
       {selectedCategory && (
         <div className="support-button-group class-group">
           {classList.length ? classList.map((cls) => (
-            <button key={cls} onClick={() => { setSelectedClass(cls); setSelectedSubject(null); }} className={`support-button class-button ${selectedClass === cls ? "active" : ""}`}>
+            <button
+              key={cls}
+              onClick={() => { setSelectedClass(cls); setSelectedSubject(null); }}
+              className={`support-button class-button ${selectedClass === cls ? "active" : ""}`}
+            >
               {cls}
             </button>
           )) : <p>No Class Available</p>}
         </div>
       )}
 
+      {/* Subject Buttons */}
       {selectedClass && (
         <div className="support-button-group subject-group">
           {subjectList.length ? subjectList.map((sub) => (
-            <button key={sub} onClick={() => setSelectedSubject(sub)} className={`support-button subject-button ${selectedSubject === sub ? "active" : ""}`}>
+            <button
+              key={sub}
+              onClick={() => setSelectedSubject(sub)}
+              className={`support-button subject-button ${selectedSubject === sub ? "active" : ""}`}
+            >
               {sub}
             </button>
           )) : <p>No Subject Available</p>}
         </div>
       )}
 
+      {/* Materials List */}
       {selectedSubject && (
         <div className="support-materials-list">
           {filteredMaterials.length === 0 && <p>No material found.</p>}
 
           {filteredMaterials.map((item) =>
             item.files?.map((file, index) => {
-              const url = file.fileUrl || file.optionalUrl; // fallback for videos/files
+              const url = file.fileUrl || file.optionalUrl;
               if (!url && selectedCategory !== "quiz") return null;
 
+              // Videos
               if (selectedCategory === "videos") {
                 let embedUrl = url.includes("youtube.com/watch?v=")
                   ? `https://www.youtube.com/embed/${new URL(url).searchParams.get("v")}`
@@ -127,16 +140,25 @@ const SupportMaterial = () => {
                     <a href={url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
                   </div>
                 );
-              } else if (selectedCategory === "quiz") {
+              } 
+
+              // Quiz
+              else if (selectedCategory === "quiz") {
+                const quizId = file.fileUrl?.split("/quiz/")[1]; // Extract Quiz ID from URL
                 return (
                   <div key={index} className="support-quiz-card">
                     <p>{item.title}</p>
-                    <button className="start-quiz-button" onClick={() => navigate(`/quiz/${item._id}`)}>
-                      Start Quiz
-                    </button>
+                    {quizId && (
+                      <button className="start-quiz-button" onClick={() => navigate(`/quiz/${quizId}`)}>
+                        Start Quiz
+                      </button>
+                    )}
                   </div>
                 );
-              } else {
+              }
+
+              // Other Materials (PDF/Notes)
+              else {
                 return (
                   <div key={index} className="support-card">
                     <FontAwesomeIcon icon={faFilePdf} className="ncert-pdf-icon" />
@@ -157,10 +179,10 @@ const SupportMaterial = () => {
               }
             })
           )}
-
         </div>
       )}
 
+      {/* Selected Video Player */}
       {selectedVideo && (
         <div className="video-player-container">
           <h3>{selectedVideo.title}</h3>
@@ -176,4 +198,3 @@ const SupportMaterial = () => {
 };
 
 export default SupportMaterial;
-
