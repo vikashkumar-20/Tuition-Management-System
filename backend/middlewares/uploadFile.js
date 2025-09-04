@@ -21,8 +21,9 @@ export const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: (req, file, cb) => {
-      const fileType = file.mimetype.split('/')[1];
-      cb(null, `studyMaterial/${Date.now()}-${file.originalname}`);
-    },
+      const safeName = file.originalname.replace(/\s+/g, "_");
+      cb(null, `studyMaterial/${Date.now()}-${safeName}`);
+    }
+
   }),
 });
