@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import DownloadButton from "./DownloadButton";
 
+// ...imports remain the same
 const SupportMaterial = () => {
   const navigate = useNavigate();
   const [materials, setMaterials] = useState([]);
@@ -108,21 +109,22 @@ const SupportMaterial = () => {
 
           {filteredMaterials.map((item) =>
             item.files?.map((file, index) => {
-              if (!file?.fileUrl) return null; // skip invalid files
+              const url = file.fileUrl || file.optionalUrl; // <-- fallback to optionalUrl
+              if (!url) return null;
 
               if (selectedCategory === "videos") {
-                let embedUrl = file.fileUrl.includes("youtube.com/watch?v=")
-                  ? `https://www.youtube.com/embed/${new URL(file.fileUrl).searchParams.get("v")}`
-                  : file.fileUrl.includes("youtu.be/")
-                  ? `https://www.youtube.com/embed/${file.fileUrl.split("youtu.be/")[1]}`
-                  : file.fileUrl;
+                let embedUrl = url.includes("youtube.com/watch?v=")
+                  ? `https://www.youtube.com/embed/${new URL(url).searchParams.get("v")}`
+                  : url.includes("youtu.be/")
+                  ? `https://www.youtube.com/embed/${url.split("youtu.be/")[1]}`
+                  : url;
 
                 return (
                   <div key={index} className="support-video-card" onClick={() => setSelectedVideo({ url: embedUrl, title: file.title })}>
                     <div className="video-preview-wrapper">
                       <iframe src={embedUrl} title={file.title} className="support-video-iframe-preview" allowFullScreen></iframe>
                     </div>
-                    <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
+                    <a href={url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
                   </div>
                 );
               } else {
@@ -134,7 +136,7 @@ const SupportMaterial = () => {
                       type="support-material"
                       className={selectedCategory}
                       subject={selectedSubject}
-                      fileUrl={file.fileUrl}
+                      fileUrl={url}
                       bookTitle={file.title}
                       filename={`support-material-${selectedClass}-${formatSubject(selectedSubject)}-${file.title}`}
                       section={selectedCategory}
@@ -164,3 +166,4 @@ const SupportMaterial = () => {
 };
 
 export default SupportMaterial;
+
