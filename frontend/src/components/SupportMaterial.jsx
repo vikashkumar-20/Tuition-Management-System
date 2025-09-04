@@ -49,8 +49,8 @@ const SupportMaterial = () => {
   const subjectList = useMemo(() => {
     return selectedClass
       ? [...new Set(materials.filter(item =>
-          item.category === selectedCategory && item.className === selectedClass
-        ).map(item => item.subject))]
+        item.category === selectedCategory && item.className === selectedClass
+      ).map(item => item.subject))]
       : [];
   }, [selectedCategory, selectedClass, materials]);
 
@@ -109,15 +109,15 @@ const SupportMaterial = () => {
 
           {filteredMaterials.map((item) =>
             item.files?.map((file, index) => {
-              const url = file.fileUrl || file.optionalUrl; // <-- fallback to optionalUrl
-              if (!url) return null;
+              const url = file.fileUrl || file.optionalUrl; // fallback for videos/files
+              if (!url && selectedCategory !== "quiz") return null;
 
               if (selectedCategory === "videos") {
                 let embedUrl = url.includes("youtube.com/watch?v=")
                   ? `https://www.youtube.com/embed/${new URL(url).searchParams.get("v")}`
                   : url.includes("youtu.be/")
-                  ? `https://www.youtube.com/embed/${url.split("youtu.be/")[1]}`
-                  : url;
+                    ? `https://www.youtube.com/embed/${url.split("youtu.be/")[1]}`
+                    : url;
 
                 return (
                   <div key={index} className="support-video-card" onClick={() => setSelectedVideo({ url: embedUrl, title: file.title })}>
@@ -125,6 +125,15 @@ const SupportMaterial = () => {
                       <iframe src={embedUrl} title={file.title} className="support-video-iframe-preview" allowFullScreen></iframe>
                     </div>
                     <a href={url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>{file.title}</a>
+                  </div>
+                );
+              } else if (selectedCategory === "quiz") {
+                return (
+                  <div key={index} className="support-quiz-card">
+                    <p>{item.title}</p>
+                    <button className="start-quiz-button" onClick={() => navigate(`/quiz/${item._id}`)}>
+                      Start Quiz
+                    </button>
                   </div>
                 );
               } else {
@@ -148,6 +157,7 @@ const SupportMaterial = () => {
               }
             })
           )}
+
         </div>
       )}
 
