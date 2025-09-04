@@ -32,7 +32,7 @@ router.post("/create", async (req, res) => {
       files: [
         {
           title: title || "Quiz",
-          fileUrl: `${process.env.FRONTEND_URL || "http://localhost:3000"}/start-quiz/${savedQuiz._id}`,
+          fileUrl: `${process.env.FRONTEND_URL || "http://localhost:3000"}/quiz/${savedQuiz._id}`,
         },
       ],
     });
