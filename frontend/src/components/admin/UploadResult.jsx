@@ -27,7 +27,7 @@ const UploadResult = () => {
 
       // ✅ Upload image
       const res1 = await axios.post(`${API_BASE}/result/upload-result-image`, imageData);
-      const imageUrl = res1.data.imageUrl;
+      const imageUrl = res1.data.fileUrl; 
 
       // ✅ Save result data
       await axios.post(`${API_BASE}/result/upload-result-data`, {
