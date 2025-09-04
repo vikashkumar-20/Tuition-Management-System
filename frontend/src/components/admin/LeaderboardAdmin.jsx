@@ -16,17 +16,18 @@ const LeaderboardAdmin = () => {
   // Fetch all leaderboard entries for admin
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      try {
-        const res = await axios.get(`${API_BASE}/leaderboard`); // new admin leaderboard API
-        setEntries(res.data); 
-        setFilteredEntries(res.data);
-      } catch (err) {
-        console.error("Failed to fetch leaderboard:", err);
-        alert("Failed to fetch leaderboard");
-      } finally {
-        setLoading(false);
-      }
-    };
+  try {
+    const res = await axios.get(`${API_BASE}/leaderboard`); // call your admin API
+    setEntries(res.data.leaderboard || []); // <- important! use .leaderboard
+    setFilteredEntries(res.data.leaderboard || []);
+  } catch (err) {
+    console.error("Failed to fetch leaderboard:", err);
+    alert("Failed to fetch leaderboard");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     fetchLeaderboard();
   }, [API_BASE]);
