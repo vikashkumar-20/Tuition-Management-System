@@ -3,13 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
 import "./StartQuiz.css";
 
-const StartQuiz = () => {
+const StartQuiz = ({ loggedInUser }) => {
   const { quizId } = useParams();
   const navigate = useNavigate();
 
   const [quiz, setQuiz] = useState(null);
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(loggedInUser?.name || "");
   const [isVerified, setIsVerified] = useState(false);
   const [answers, setAnswers] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -23,20 +23,20 @@ const StartQuiz = () => {
     return `${minutes}:${seconds}`;
   };
 
-  // Load from localStorage on mount
+  // Load quiz state from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem(`quizState-${quizId}`));
     if (saved) {
-      setUserName(saved.userName || "");
+      setUserName(saved.userName || loggedInUser?.name || "");
       setIsVerified(saved.isVerified || false);
       setAnswers(saved.answers || []);
       setCurrentQuestion(saved.currentQuestion || 0);
       setTimer(saved.timer || 0);
       if (saved.isVerified) fetchQuiz();
     }
-  }, []);
+  }, [quizId, loggedInUser]);
 
-  // Save to localStorage whenever state changes
+  // Persist relevant state to localStorage
   useEffect(() => {
     localStorage.setItem(
       `quizState-${quizId}`,
@@ -48,14 +48,10 @@ const StartQuiz = () => {
         timer,
       })
     );
-  }, [userName, isVerified, answers, currentQuestion, timer]);
+  }, [quizId, userName, isVerified, answers, currentQuestion, timer]);
 
-  // Clean up on submit
-  const clearStorage = () => {
-    localStorage.removeItem(`quizState-${quizId}`);
-  };
+  const clearStorage = () => localStorage.removeItem(`quizState-${quizId}`);
 
-  // Verify quiz password
   const verifyPassword = async () => {
     if (!password) return alert("Enter password");
     setLoading(true);
@@ -72,44 +68,34 @@ const StartQuiz = () => {
     }
   };
 
-  // Fetch quiz data
   const fetchQuiz = async () => {
     setLoading(true);
     try {
       const res = await API.get(`/quiz/${quizId}`);
       const questions = res.data.questions || [];
-
-      // Only initialize answers and timer if not already restored
-      if (answers.length === 0) {
-        setAnswers(new Array(questions.length).fill(""));
-      }
-      if (timer === 0) {
-        setTimer((res.data.timer || 1) * 60);
-      }
-
+      if (answers.length === 0) setAnswers(new Array(questions.length).fill(""));
+      if (timer === 0) setTimer(res.data.timer * 60 || 60);
       setQuiz(res.data);
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Failed to load quiz");
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle answer selection
-  const handleAnswer = (index, value) => {
+  const handleAnswer = (i, val) => {
     if (submitted || timer === 0) return;
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
+    const updated = [...answers];
+    updated[i] = val;
+    setAnswers(updated);
   };
 
-  // Submit quiz
   const submitQuiz = async () => {
     if (submitted) return;
-    if (!window.confirm("Are you sure you want to submit your answers?")) return;
+    if (!window.confirm("Submit your answers now?")) return;
 
     setSubmitted(true);
+    clearStorage();
     try {
       await API.post("/quiz/submit", {
         quizId,
@@ -117,15 +103,13 @@ const StartQuiz = () => {
         userName: userName || "Anonymous",
       });
       alert("Quiz submitted!");
-      clearStorage(); // Clean up localStorage
       navigate("/study-material/support-material");
-    } catch (err) {
-      alert(err.response?.data?.message || "Failed to submit quiz");
+    } catch {
+      alert("Submission failed");
       setSubmitted(false);
     }
   };
 
-  // Timer effect
   useEffect(() => {
     if (!isVerified || timer <= 0 || submitted) return;
     const interval = setInterval(() => {
@@ -141,27 +125,21 @@ const StartQuiz = () => {
     return () => clearInterval(interval);
   }, [isVerified, submitted]);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!quiz) return;
-    const handleKey = (e) => {
+    const keyNav = (e) => {
       if (submitted || timer === 0) return;
-
-      if (e.key === "ArrowRight" && currentQuestion < quiz.questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      }
-      if (e.key === "ArrowLeft" && currentQuestion > 0) {
-        setCurrentQuestion(currentQuestion - 1);
-      }
-      if (e.key >= "1" && e.key <= String(quiz.questions.length)) {
+      if (e.key === "ArrowRight" && currentQuestion < quiz.questions.length - 1)
+        setCurrentQuestion((q) => q + 1);
+      if (e.key === "ArrowLeft" && currentQuestion > 0)
+        setCurrentQuestion((q) => q - 1);
+      if (e.key >= "1" && e.key <= String(quiz.questions.length))
         setCurrentQuestion(Number(e.key) - 1);
-      }
     };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [currentQuestion, submitted, timer, quiz]);
+    window.addEventListener("keydown", keyNav);
+    return () => window.removeEventListener("keydown", keyNav);
+  }, [quiz, currentQuestion, submitted, timer]);
 
-  // Render password input if not verified
   if (!isVerified) {
     return (
       <div className="quiz-password-container">
@@ -182,7 +160,7 @@ const StartQuiz = () => {
         />
         <button onClick={verifyPassword} disabled={loading}>
           {loading ? "Verifying..." : "Start Quiz"}
-        </button>
+        </button>  
       </div>
     );
   }
@@ -190,11 +168,9 @@ const StartQuiz = () => {
   if (loading || !quiz) return <p>Loading quiz...</p>;
 
   const q = quiz.questions[currentQuestion];
-
   return (
     <div className="start-quiz-container">
       <h2>{quiz.title}</h2>
-
       <p className="timer">Time left: {formatTime(timer)}</p>
 
       <div className="question-nav">
@@ -204,9 +180,10 @@ const StartQuiz = () => {
             className={`nav-btn ${
               idx === currentQuestion ? "active" : ""
             } ${answers[idx] ? "answered" : "unanswered"}`}
-            onClick={() => !submitted && timer > 0 && setCurrentQuestion(idx)}
+            onClick={() => {
+              if (!submitted && timer > 0) setCurrentQuestion(idx);
+            }}
             disabled={submitted || timer === 0}
-            aria-label={`Go to question ${idx + 1}`}
           >
             {idx + 1}
           </button>
@@ -244,13 +221,13 @@ const StartQuiz = () => {
       <div className="quiz-controls">
         <button
           disabled={currentQuestion === 0 || submitted || timer === 0}
-          onClick={() => setCurrentQuestion(currentQuestion - 1)}
+          onClick={() => setCurrentQuestion((q) => q - 1)}
         >
           Previous
         </button>
         <button
           disabled={currentQuestion === quiz.questions.length - 1 || submitted || timer === 0}
-          onClick={() => setCurrentQuestion(currentQuestion + 1)}
+          onClick={() => setCurrentQuestion((q) => q + 1)}
         >
           Next
         </button>
