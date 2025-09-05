@@ -4,6 +4,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "./firebaseConfig";
 
 // Components
+import AdminRoute from "./components/admin/AdminRoute";
 import NotFound from "./components/NotFound"
 import PublicOnlyRoute from "./components/PublicOnlyRoute";
 import Navbar from "./components/Navbar";
@@ -211,7 +212,16 @@ const App = () => {
       {/* Consider removing /quiz/:quizId if not needed */}
 
       {/* Admin Panel (No Navbar) */}
-      <Route path="/admin" element={<WithoutNavbar><AdminPanel /></WithoutNavbar>} />
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <WithoutNavbar>
+              <AdminPanel />
+            </WithoutNavbar>
+          </AdminRoute>
+        }
+      />
       <Route path="/create-quiz" element={<WithoutNavbar><Quiz /></WithoutNavbar>} />
 
       {/* Payment (No Navbar) */}
