@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
-import './StartQuiz.css';
+import "./StartQuiz.css";
 
 const StartQuiz = () => {
   const { quizId } = useParams();
@@ -59,6 +59,7 @@ const StartQuiz = () => {
 
   // Handle answer selection
   const handleAnswer = (index, value) => {
+    if (submitted || timer === 0) return; // Prevent changes after submit or timeout
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
@@ -67,6 +68,7 @@ const StartQuiz = () => {
   // Submit quiz
   const submitQuiz = async () => {
     if (submitted) return;
+    if (!window.confirm("Are you sure you want to submit your answers?")) return;
     setSubmitted(true);
     try {
       await API.post("/quiz/submit", {
@@ -86,7 +88,7 @@ const StartQuiz = () => {
   useEffect(() => {
     if (!isVerified || timer <= 0) return;
     const interval = setInterval(() => {
-      setTimer(prev => {
+      setTimer((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
           submitQuiz();
@@ -98,6 +100,28 @@ const StartQuiz = () => {
     return () => clearInterval(interval);
   }, [isVerified]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    if (!quiz) return;
+
+    const handleKey = (e) => {
+      if (submitted || timer === 0) return;
+
+      if (e.key === "ArrowRight" && currentQuestion < quiz.questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      }
+      if (e.key === "ArrowLeft" && currentQuestion > 0) {
+        setCurrentQuestion(currentQuestion - 1);
+      }
+      if (e.key >= "1" && e.key <= String(quiz.questions.length)) {
+        setCurrentQuestion(Number(e.key) - 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [currentQuestion, submitted, timer, quiz]);
+
   // Render password input if not verified
   if (!isVerified) {
     return (
@@ -108,21 +132,22 @@ const StartQuiz = () => {
           placeholder="Your Name"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
+          disabled={loading}
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
-        <button onClick={verifyPassword}>
+        <button onClick={verifyPassword} disabled={loading}>
           {loading ? "Verifying..." : "Start Quiz"}
         </button>
       </div>
     );
   }
 
-  // Show loading state
   if (loading || !quiz) return <p>Loading quiz...</p>;
 
   const q = quiz.questions[currentQuestion];
@@ -130,18 +155,50 @@ const StartQuiz = () => {
   return (
     <div className="start-quiz-container">
       <h2>{quiz.title}</h2>
-      <p>Time left: {formatTime(timer)}</p>
+
+      {/* Sticky timer */}
+      <p className="timer">Time left: {formatTime(timer)}</p>
+
+      {/* Question navigation panel */}
+      <div className="question-nav">
+        {quiz.questions.map((_, idx) => (
+          <button
+            key={idx}
+            className={`nav-btn ${
+              idx === currentQuestion ? "active" : ""
+            } ${answers[idx] ? "answered" : "unanswered"}`}
+            onClick={() => !submitted && timer > 0 && setCurrentQuestion(idx)}
+            disabled={submitted || timer === 0}
+            aria-label={`Go to question ${idx + 1}`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+      </div>
+
+      {/* Progress bar */}
+      <div className="progress-bar">
+        <div
+          className="progress-filled"
+          style={{
+            width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%`,
+          }}
+        />
+      </div>
 
       <div className="question-box">
-        <p>Q{currentQuestion + 1}: {q.questionText}</p>
+        <p>
+          Q{currentQuestion + 1}: {q.questionText}
+        </p>
         {q.options.map((opt, i) => (
-          <label key={i}>
+          <label key={i} className={submitted || timer === 0 ? "disabled-label" : ""}>
             <input
               type="radio"
               name={`q-${currentQuestion}`}
               value={opt}
               checked={answers[currentQuestion] === opt}
               onChange={() => handleAnswer(currentQuestion, opt)}
+              disabled={submitted || timer === 0}
             />
             {opt}
           </label>
@@ -150,13 +207,13 @@ const StartQuiz = () => {
 
       <div className="quiz-controls">
         <button
-          disabled={currentQuestion === 0}
+          disabled={currentQuestion === 0 || submitted || timer === 0}
           onClick={() => setCurrentQuestion(currentQuestion - 1)}
         >
           Previous
         </button>
         <button
-          disabled={currentQuestion === quiz.questions.length - 1}
+          disabled={currentQuestion === quiz.questions.length - 1 || submitted || timer === 0}
           onClick={() => setCurrentQuestion(currentQuestion + 1)}
         >
           Next
@@ -164,7 +221,7 @@ const StartQuiz = () => {
       </div>
 
       {currentQuestion === quiz.questions.length - 1 && (
-        <button disabled={submitted} onClick={submitQuiz}>
+        <button disabled={submitted || timer === 0} onClick={submitQuiz}>
           {submitted ? "Submitting..." : "Submit Quiz"}
         </button>
       )}
