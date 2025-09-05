@@ -1,4 +1,4 @@
-/* Clean, colorful, card-based responsive design */
+/* Clean, colorful, card-based responsive design with passport-style photo */
 
 .delete-result-container {
   max-width: 1100px;
@@ -28,7 +28,7 @@
 
 .delete-result-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
   margin-top: 30px;
 }
@@ -38,10 +38,12 @@
   border-radius: 20px;
   padding: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   box-shadow: inset 0 0 12px rgba(255, 64, 129, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-wrap: wrap;
 }
 
 .delete-result-card:hover {
@@ -49,20 +51,23 @@
   box-shadow: 0 8px 20px rgba(255, 64, 129, 0.5);
 }
 
-.delete-result-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
-}
-
 .delete-result-info {
+  flex: 1;
   font-size: 16px;
   color: #42a5f5;
   font-weight: 600;
   line-height: 1.5;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+}
+
+.delete-result-image {
+  width: 90px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
+  flex-shrink: 0;
 }
 
 .delete-result-btn {
@@ -119,7 +124,8 @@
   }
 
   .delete-result-image {
-    height: 140px;
+    width: 80px;
+    height: 100px;
   }
 
   .delete-result-info {
@@ -129,6 +135,15 @@
   .delete-result-btn {
     width: 100%;
     padding: 10px;
+  }
+
+  .delete-result-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .delete-result-image {
+    align-self: flex-end;
   }
 }
 
@@ -143,7 +158,8 @@
   }
 
   .delete-result-image {
-    height: 120px;
+    width: 70px;
+    height: 90px;
   }
 
   .delete-result-btn {
