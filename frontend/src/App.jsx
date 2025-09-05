@@ -5,6 +5,7 @@ import { auth } from "./firebaseConfig";
 
 // Components
 import NotFound from "./components/NotFound"
+import PublicOnlyRoute from "./components/PublicOnlyRoute";
 import Navbar from "./components/Navbar";
 import HomeComponent from "./components/HomeComponent";
 import SignupPage from "./components/SignupPage";
@@ -13,7 +14,7 @@ import Courses from "./components/Courses";
 import StudyMaterial from "./components/StudyMaterial";
 import ViewResults from "./components/ViewResults";
 import SeekingUs from "./components/SeekingUs";
-import AboutUs   from "./components/About";
+import AboutUs from "./components/About";
 import NcertBooks from "./components/NcertBooks";
 import PreviousYearQuestion from "./components/PreviousYearQuestions";
 import SupportMaterial from "./components/SupportMaterial";
@@ -188,6 +189,7 @@ const App = () => {
       <Route path="/auth-form" element={<WithoutNavbar><AuthForm onClose={() => navigate("/")} /></WithoutNavbar>} />
       <Route path="/login" element={<WithoutNavbar><LoginPage /></WithoutNavbar>} />
       <Route path="/signup" element={<WithoutNavbar><SignupPage /></WithoutNavbar>} />
+
 
       {/* Quiz & Leaderboard */}
       <Route
