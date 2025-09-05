@@ -66,62 +66,6 @@
     padding: 12px;
 }
 
-/* Result Card */
-.result-card {
-    flex: 0 0 auto;
-    width: 260px;
-    background: #f9fafb;
-    /* very light gray */
-    border-radius: 28px;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.12);
-    /* subtle blue shadow */
-    cursor: pointer;
-    transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.3s ease;
-    overflow: hidden;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-}
-
-.result-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.25);
-    background-color: #e0ebff;
-    /* slight blue tint on hover */
-}
-
-/* Image inside the Result Card */
-.result-image {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 28px 28px 0 0;
-    transition: transform 0.35s ease;
-}
-
-.result-card:hover .result-image {
-    transform: scale(1.05);
-}
-
-/* Info inside the Result Card */
-.result-info {
-    padding: 24px 20px;
-    background: transparent;
-    text-align: left;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.result-info p {
-    font-size: 16px;
-    margin: 8px 0;
-    color: #1e293b;
-    /* dark slate */
-    font-weight: 600;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
 /* Loading Section */
 .loading-container {
@@ -149,6 +93,151 @@
         font-size: 15px;
     }
 }
+
+.result-card {
+    flex: 0 0 auto;
+    width: 260px;
+    background: linear-gradient(135deg, #e0e7ff, #f9fafb);
+    border-radius: 28px;
+    box-shadow:
+      0 8px 20px rgba(37, 99, 235, 0.15),
+      inset 0 0 15px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition:
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s ease,
+      background-color 0.3s ease;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Hover effect */
+.result-card:hover {
+    transform: translateY(-12px) scale(1.05);
+    box-shadow:
+      0 25px 45px rgba(37, 99, 235, 0.35),
+      inset 0 0 20px rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, #d3d9ff, #ffffff);
+}
+
+/* Add a subtle glowing badge on top-right (optional) */
+.result-card::before {
+    content: '✔️';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #2563eb;
+    color: white;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.5);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.result-card:hover::before {
+    opacity: 1;
+}
+
+/* Image styling with soft shadow */
+.result-image {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 28px 28px 0 0;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+}
+
+.result-card:hover .result-image {
+    transform: scale(1.08);
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.3);
+}
+
+/* Info section */
+.result-info {
+    padding: 24px 22px;
+    background: transparent;
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Each text line */
+.result-info p {
+    font-size: 17px;
+    margin: 10px 0;
+    color: #1e293b;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+}
+
+.result-card:hover .result-info p {
+    color: #2563eb;
+}
+
+/* Responsive adjustments (same as before) */
+@media (max-width: 992px) {
+    .result-card {
+        width: 220px;
+    }
+    .result-image {
+        height: 165px;
+    }
+    .result-info p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .result-card {
+        width: 180px;
+        border-radius: 22px;
+    }
+    .result-image {
+        height: 140px;
+        border-radius: 22px 22px 0 0;
+    }
+    .result-info {
+        padding: 16px 14px;
+    }
+    .result-info p {
+        font-size: 15px;
+        margin: 6px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-card {
+        width: 140px;
+        border-radius: 18px;
+    }
+    .result-image {
+        height: 110px;
+        border-radius: 18px 18px 0 0;
+    }
+    .result-info {
+        padding: 12px 10px;
+    }
+    .result-info p {
+        font-size: 14px;
+        margin: 4px 0;
+    }
+}
+
 
 @media (max-width: 768px) {
     .results-header {
