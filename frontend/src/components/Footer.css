@@ -7,8 +7,12 @@
   font-weight: 600;
   user-select: none;
 
-  width: 100%;
+  width: 100vw;
   position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .footer-container {
@@ -16,11 +20,10 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
 }
 
-/* Contact Links */
 .footer-contact a {
   color: #fcd34d;
   text-decoration: none;
@@ -34,26 +37,10 @@
   text-decoration: underline;
 }
 
-.footer-contact p {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-}
-
-.footer-contact .separator {
-  user-select: none;
-}
-
-/* Social Icons */
 .footer-social {
   display: flex;
   gap: 25px;
   font-size: 1.8rem;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .footer-social a {
@@ -65,58 +52,75 @@
   color: #ffd700;
 }
 
-/* Copyright */
 .footer-copy {
   font-size: 1rem;
   opacity: 0.9;
-  text-align: center;
+}
+
+/* Default: inline with separator */
+.footer-contact p {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-contact .separator {
+  user-select: none;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .footer {
-    padding: 20px 12px;
-  }
-
   .footer-container {
-    gap: 16px;
+    gap: 12px;
   }
 
   .footer-social {
     gap: 20px;
     font-size: 1.6rem;
   }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 24px 12px;
+    text-align: center;
+  }
+
+  .footer-container {
+    gap: 18px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
   .footer-contact p {
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
   }
 
   .footer-contact .separator {
     display: none;
   }
 
-  .footer-copy {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer {
-    padding: 18px 10px;
-  }
-
-  .footer-social {
-    gap: 16px;
-    font-size: 1.4rem;
-  }
-
   .footer-contact a {
-    margin: 0 4px;
+    margin: 4px 0;
     font-size: 0.95rem;
   }
 
+  .footer-social {
+    justify-content: center;
+    gap: 18px;
+    font-size: 1.4rem;
+    flex-wrap: wrap;
+  }
+
   .footer-copy {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.4;
   }
 }

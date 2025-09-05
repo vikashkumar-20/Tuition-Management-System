@@ -125,7 +125,6 @@
 
 /* Add a subtle glowing badge on top-right (optional) */
 .result-card::before {
-    content: '✔️';
     position: absolute;
     top: 15px;
     right: 15px;

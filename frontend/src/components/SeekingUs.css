@@ -31,7 +31,6 @@
   flex-wrap: nowrap;
   gap: 32px;
   padding: 0 20px;
-  overflow-x: auto;
   scroll-behavior: smooth;
 }
 
