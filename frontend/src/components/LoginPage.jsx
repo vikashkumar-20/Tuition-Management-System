@@ -1,9 +1,9 @@
+// pages/LoginPage.js
 import React, { useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import "./LoginPage.css";
-import API from "../api"; // ✅ use centralized API instance
-import { Link } from "react-router-dom";
+import API from "../api";
 
 const LoginPage = () => {
   const [step, setStep] = useState("login");
@@ -14,6 +14,8 @@ const LoginPage = () => {
   const [resendDisabled, setResendDisabled] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   useEffect(() => {
     let timer;
@@ -36,7 +38,7 @@ const LoginPage = () => {
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
 
-      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email });
       setStep("otp");
       setResendDisabled(true);
       setResendTimer(30);
@@ -54,13 +56,20 @@ const LoginPage = () => {
   const handleOtpVerify = async () => {
     setLoading(true);
     try {
-      const res = await API.post("/otp/verify-otp", { // ✅ changed
+      const res = await API.post("/otp/verify-otp", {
         email: formData.email,
         otp: formData.otp,
       });
       if (res.data.verified) {
         alert("Login successful!");
-        navigate("/");
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user?.email === "skvikash7667@gmail.com") {
+          navigate("/admin", { replace: true });
+        } else {
+          navigate(from, { replace: true });
+        }
       } else {
         setError("Invalid OTP.");
       }
@@ -74,7 +83,7 @@ const LoginPage = () => {
   const handleForgotPassword = async () => {
     setLoading(true);
     try {
-      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email });
       setStep("reset");
       setResendDisabled(true);
       setResendTimer(30);
@@ -89,7 +98,7 @@ const LoginPage = () => {
   const handleResetPassword = async () => {
     setLoading(true);
     try {
-      const res = await API.post("/otp/update-password", { // ✅ changed
+      const res = await API.post("/otp/update-password", {
         email: formData.email,
         otp: formData.otp,
         newPassword: formData.newPassword,
@@ -111,7 +120,7 @@ const LoginPage = () => {
     try {
       setResendDisabled(true);
       setResendTimer(30);
-      await API.post("/otp/send-otp", { email: formData.email }); // ✅ changed
+      await API.post("/otp/send-otp", { email: formData.email });
     } catch {
       setError("Failed to resend OTP.");
     }
@@ -123,10 +132,10 @@ const LoginPage = () => {
         {step === "login"
           ? "Login"
           : step === "forgot"
-            ? "Forgot Password"
-            : step === "reset"
-              ? "Reset Password"
-              : "Enter OTP"}
+          ? "Forgot Password"
+          : step === "reset"
+          ? "Reset Password"
+          : "Enter OTP"}
       </h2>
 
       {error && <p id="login-error" className="error-text">{error}</p>}
