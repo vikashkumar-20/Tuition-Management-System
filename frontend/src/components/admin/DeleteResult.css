@@ -74,13 +74,12 @@
 }
 
 /* Image styling */
-.delete-material-item img {
-  max-width: 120px;
-  max-height: 100px;
+.delete-container img {
+  max-width: 100%;
   height: auto;
+  display: block;
   border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
+  object-fit: contain;
 }
 
 .delete-button {
