@@ -4,6 +4,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "./firebaseConfig";
 
 // Components
+
 import Navbar from "./components/Navbar";
 import HomeComponent from "./components/HomeComponent";
 import SignupPage from "./components/SignupPage";
@@ -12,7 +13,7 @@ import Courses from "./components/Courses";
 import StudyMaterial from "./components/StudyMaterial";
 import ViewResults from "./components/ViewResults";
 import SeekingUs from "./components/SeekingUs";
-import AboutUs from "./components/About";
+import AboutUs   from "./components/About";
 import NcertBooks from "./components/NcertBooks";
 import PreviousYearQuestion from "./components/PreviousYearQuestions";
 import SupportMaterial from "./components/SupportMaterial";
@@ -213,6 +214,7 @@ const App = () => {
 
       {/* Payment (No Navbar) */}
       <Route path="/payment" element={<WithoutNavbar><PaymentPage /></WithoutNavbar>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
