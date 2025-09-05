@@ -23,6 +23,38 @@ const StartQuiz = () => {
     return `${minutes}:${seconds}`;
   };
 
+  // Load from localStorage on mount
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem(`quizState-${quizId}`));
+    if (saved) {
+      setUserName(saved.userName || "");
+      setIsVerified(saved.isVerified || false);
+      setAnswers(saved.answers || []);
+      setCurrentQuestion(saved.currentQuestion || 0);
+      setTimer(saved.timer || 0);
+      if (saved.isVerified) fetchQuiz();
+    }
+  }, []);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem(
+      `quizState-${quizId}`,
+      JSON.stringify({
+        userName,
+        isVerified,
+        answers,
+        currentQuestion,
+        timer,
+      })
+    );
+  }, [userName, isVerified, answers, currentQuestion, timer]);
+
+  // Clean up on submit
+  const clearStorage = () => {
+    localStorage.removeItem(`quizState-${quizId}`);
+  };
+
   // Verify quiz password
   const verifyPassword = async () => {
     if (!password) return alert("Enter password");
@@ -46,9 +78,16 @@ const StartQuiz = () => {
     try {
       const res = await API.get(`/quiz/${quizId}`);
       const questions = res.data.questions || [];
+
+      // Only initialize answers and timer if not already restored
+      if (answers.length === 0) {
+        setAnswers(new Array(questions.length).fill(""));
+      }
+      if (timer === 0) {
+        setTimer((res.data.timer || 1) * 60);
+      }
+
       setQuiz(res.data);
-      setAnswers(new Array(questions.length).fill(""));
-      setTimer((res.data.timer || 1) * 60);
     } catch (err) {
       console.error(err);
       alert("Failed to load quiz");
@@ -59,7 +98,7 @@ const StartQuiz = () => {
 
   // Handle answer selection
   const handleAnswer = (index, value) => {
-    if (submitted || timer === 0) return; // Prevent changes after submit or timeout
+    if (submitted || timer === 0) return;
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
@@ -69,6 +108,7 @@ const StartQuiz = () => {
   const submitQuiz = async () => {
     if (submitted) return;
     if (!window.confirm("Are you sure you want to submit your answers?")) return;
+
     setSubmitted(true);
     try {
       await API.post("/quiz/submit", {
@@ -77,6 +117,7 @@ const StartQuiz = () => {
         userName: userName || "Anonymous",
       });
       alert("Quiz submitted!");
+      clearStorage(); // Clean up localStorage
       navigate("/study-material/support-material");
     } catch (err) {
       alert(err.response?.data?.message || "Failed to submit quiz");
@@ -86,7 +127,7 @@ const StartQuiz = () => {
 
   // Timer effect
   useEffect(() => {
-    if (!isVerified || timer <= 0) return;
+    if (!isVerified || timer <= 0 || submitted) return;
     const interval = setInterval(() => {
       setTimer((prev) => {
         if (prev <= 1) {
@@ -98,12 +139,11 @@ const StartQuiz = () => {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [isVerified]);
+  }, [isVerified, submitted]);
 
   // Keyboard navigation
   useEffect(() => {
     if (!quiz) return;
-
     const handleKey = (e) => {
       if (submitted || timer === 0) return;
 
@@ -117,7 +157,6 @@ const StartQuiz = () => {
         setCurrentQuestion(Number(e.key) - 1);
       }
     };
-
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [currentQuestion, submitted, timer, quiz]);
@@ -156,10 +195,8 @@ const StartQuiz = () => {
     <div className="start-quiz-container">
       <h2>{quiz.title}</h2>
 
-      {/* Sticky timer */}
       <p className="timer">Time left: {formatTime(timer)}</p>
 
-      {/* Question navigation panel */}
       <div className="question-nav">
         {quiz.questions.map((_, idx) => (
           <button
@@ -176,7 +213,6 @@ const StartQuiz = () => {
         ))}
       </div>
 
-      {/* Progress bar */}
       <div className="progress-bar">
         <div
           className="progress-filled"
