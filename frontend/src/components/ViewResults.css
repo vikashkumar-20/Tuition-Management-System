@@ -214,32 +214,35 @@
     }
 
     .result-card {
-        width: 130px;
+        width: 90%;           /* Take most of screen width */
+        max-width: 320px;     /* Optional max width */
         border-radius: 14px;
+        margin: 0 auto 20px;  /* Center card and add bottom spacing */
     }
 
     .result-image {
-        height: 90px;
+        height: 180px;        /* Bigger image height */
         border-radius: 14px 14px 0 0;
     }
 
     .result-info {
-        padding: 10px 8px;
+        padding: 16px 12px;   /* More padding for readability */
     }
 
     .result-info p {
-        font-size: 11px;
-        margin: 3px 0;
+        font-size: 14px;      /* Bigger font size */
+        margin: 6px 0;
     }
 
     .result-card::before {
-        width: 18px;
-        height: 18px;
-        font-size: 12px;
-        top: 10px;
-        right: 10px;
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        top: 12px;
+        right: 12px;
     }
 }
+
 
 /* Wrapper for arrows + scrollable content */
 .results-wrapper {

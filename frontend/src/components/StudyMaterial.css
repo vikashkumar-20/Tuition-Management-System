@@ -147,18 +147,19 @@
 /* Responsive layout for smaller screens */
 @media (max-width: 768px) {
   .study-material-content {
-    flex-wrap: wrap;     /* allow wrapping */
-    flex-direction: column; /* stack vertically */
-    gap: 20px;           /* vertical spacing between cards */
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
     padding-bottom: 20px;
-    max-width: 320px;    /* max width to prevent cards stretching */
-    margin: 0 auto;      /* center container */
+    max-width: 320px;
+    margin: 0 auto;
   }
 
   .flip-card {
-    flex: 0 0 auto;      /* override fixed width */
-    width: 100%;         /* full container width */
-    max-width: 320px;    /* optional max width */
-    height: auto;        /* auto height for flexible content */
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 320px;
+    height: 320px; /* keep fixed height for consistency */
+    min-height: 320px; /* ensure minimum height */
   }
 }
