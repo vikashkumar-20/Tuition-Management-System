@@ -2,205 +2,162 @@
    Study Material Section
 =========================== */
 .study-material-section {
-    color: #222;
-    padding: 70px 20px;
-    text-align: center;
-    margin: 100px 0;
-    border-radius: 20px;
+  color: #222;
+  padding: 60px 16px;
+  text-align: center;
+  margin: 80px 0;
+  border-radius: 20px;
 }
 
-.study-material-section h3 {
-    font-size: 1.8rem;
-    color: #10375c; /* darker blue */
-}
-
+/* Section Heading */
 #study-material-heading {
-    color: black;
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-bottom: 3px solid #2a6fdb;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-bottom: 40px;
-    letter-spacing: 3px;
+  color: #10375c;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 3px solid #2a6fdb;
+  display: inline-block;
+  padding-bottom: 8px;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
 }
 
 /* ===========================
-   Flex Layout - One Line
+   Flip Cards Container
 =========================== */
 .study-material-content {
-    display: flex;
-    flex-wrap: nowrap; /* no wrapping */
-    gap: 30px;
-    padding-bottom: 10px; /* give space for scrollbar */
-    justify-content: center;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  align-items: center;
 }
 
 /* ===========================
-   Flip Card
+   Flip Card Wrapper
 =========================== */
 .flip-card {
-    background: linear-gradient(135deg, #4a90e2, #357ABD);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(53, 122, 189, 0.4);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    perspective: 1000px;
-    flex: 0 0 270px; /* fixed width so all same size */
-    height: 320px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    color: white;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(53, 122, 189, 0.4);
+  perspective: 1000px;
+  cursor: pointer;
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
-.flip-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(53, 122, 189, 0.6);
-}
-
+/* Inner Container */
 .flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease-in-out;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
 }
 
 .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
+/* Both Sides of Card */
 .flip-card-front,
 .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    backface-visibility: hidden;
-    padding: 20px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 /* Front Side */
 .flip-card-front {
-    background: transparent; /* transparent since main bg is gradient */
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
+  background: transparent;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .flip-card-front img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 /* Back Side */
 .flip-card-back {
-    background: #1e3a72; /* darker blue */
-    color: #d0e7d7; /* light greenish */
-    transform: rotateY(180deg);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+  background: #1e3a72;
+  color: #d0e7d7;
+  transform: rotateY(180deg);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+  justify-content: center;
+  text-align: center;
 }
 
 .flip-card-back h2 {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #a3d9a5; /* soft green */
-    margin-bottom: 10px;
-    border-bottom: 2px solid rgba(163, 217, 165, 0.6);
-    padding-bottom: 5px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #a3d9a5;
+  margin-bottom: 10px;
+  border-bottom: 2px solid rgba(163, 217, 165, 0.6);
+  padding-bottom: 5px;
 }
 
 .flip-card-back p {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 5px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 5px 0;
 }
 
 /* ===========================
    Button
 =========================== */
 .open-material-button {
-    background-color: #3aa63a; /* fresh green */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #3aa63a;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
 }
 
 .open-material-button:hover {
-    background-color: #2d7b2d;
+  background-color: #2d7b2d;
 }
 
 /* ===========================
-   Responsive Design
+   Responsive Media Queries
 =========================== */
-/* ===========================
-   Better Responsive Handling
-=========================== */
-
-@media (max-width: 768px) {
-  .study-material-section {
-    padding: 50px 16px;
-  }
-
+@media (min-width: 768px) {
   .study-material-content {
-    display: flex;
-    flex-direction: column; /* stack vertically */
-    flex-wrap: nowrap;
-    overflow-x: visible; /* disable horizontal scroll */
-    gap: 20px;
-    padding-bottom: 0;
-    scroll-snap-type: none; /* disable scroll snapping */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .flip-card {
-    flex: none;          /* don't flex */
-    width: 100%;         /* full width */
-    max-width: 400px;    /* optional max width */
-    height: auto;        /* let height adjust */
-    margin: 0 auto;      /* center cards */
+    max-width: 280px;
+    height: 360px;
   }
 
   .flip-card-front img {
-    height: 130px;
-  }
-
-  .flip-card-front {
-    font-size: 1.2rem;
-    padding: 10px;
-  }
-
-  .flip-card-back {
-    padding: 16px;
-  }
-
-  .flip-card-back h2 {
-    font-size: 1.3rem;
-  }
-
-  .flip-card-back p {
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-
-  .open-material-button {
-    font-size: 15px;
-    padding: 8px 16px;
+    height: 180px;
   }
 }
 
@@ -213,30 +170,15 @@
   #study-material-heading {
     font-size: 1.5rem;
     margin-bottom: 30px;
-    letter-spacing: 2px;
-  }
-
-  .study-material-content {
-    display: flex;
-    flex-direction: column; /* vertical stack */
-    gap: 16px;
-    overflow-x: visible;
-    padding-bottom: 0;
+    letter-spacing: 1.5px;
   }
 
   .flip-card {
-    width: 100%;
     max-width: 320px;
-    height: auto;
-    margin: 0 auto;
   }
 
   .flip-card-front img {
-    height: 110px;
-  }
-
-  .flip-card-front {
-    font-size: 1rem;
+    height: 140px;
   }
 
   .flip-card-back h2 {
@@ -249,6 +191,6 @@
 
   .open-material-button {
     font-size: 14px;
-    padding: 7px 14px;
+    padding: 8px 16px;
   }
 }

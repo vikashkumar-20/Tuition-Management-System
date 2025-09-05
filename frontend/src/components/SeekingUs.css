@@ -1,16 +1,17 @@
-/* SeekingUs Section - Updated Styling */
+/* ===========================
+   SeekingUs Section Styling
+=========================== */
 .seekingus-section {
   width: 100%;
   text-align: center;
   border-radius: 28px;
-  padding: 60px 0px;
+  padding: 60px 0;
   margin: 50px 0;
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Header */
 .seekingus-header {
   font-size: 2rem;
   font-weight: bold;
@@ -22,36 +23,41 @@
   letter-spacing: 3px;
 }
 
-/* Top Section - Card Wrapper */
+/* ===========================
+   Card Container
+=========================== */
 .seekingus-topsection {
   display: flex;
   flex-wrap: nowrap;
   gap: 32px;
   padding: 0 20px;
+  overflow-x: auto;
   scroll-behavior: smooth;
 }
 
-/* Individual Card - Square Shape */
+/* ===========================
+   Card Style
+=========================== */
 .seekingus-card {
   flex: 0 0 260px;
-  width: 260px;          /* fixed width */
-  height: 280px;         /* fixed height to keep square */
+  width: 260px;
+  aspect-ratio: 1 / 1; /* square on larger screens */
   background-color: #e0e7ff;
-  padding: 20px 30px;
+  padding: 20px;
   border-radius: 28px;
   box-shadow: 0 12px 28px rgba(37, 99, 235, 0.12);
-  overflow: hidden;       /* hide overflow outside card */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.6s forwards;
   transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
+  position: relative;
 }
 
-
-/* Hover Effect */
 .seekingus-card:hover {
   transform: translateY(-12px) scale(1.05);
   box-shadow: 0 25px 45px rgba(37, 99, 235, 0.25);
@@ -76,7 +82,9 @@
   opacity: 1;
 }
 
-/* Card Header */
+/* ===========================
+   Card Content
+=========================== */
 .seekingus-card-header {
   font-size: 1.4rem;
   color: #2563eb;
@@ -87,18 +95,17 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Card Content */
 .seekingus-card-content {
   font-size: 0.95rem;
   color: #1e293b;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  overflow: hidden;
+  line-height: 1.5;
+  margin-bottom: 15px;
   flex-grow: 1;
-  text-overflow: ellipsis;
 }
 
-/* Button */
+/* ===========================
+   Button
+=========================== */
 .seekingus-card-button {
   background-color: #2563eb;
   color: #fff;
@@ -110,7 +117,6 @@
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  align-self: flex-start;
 }
 
 .seekingus-card-button:hover {
@@ -122,13 +128,14 @@
   transform: translateY(0);
 }
 
-/* Animation delays for staggered entrance */
+/* ===========================
+   Animation Delays
+=========================== */
 .seekingus-card:nth-child(1) { animation-delay: 0.2s; }
 .seekingus-card:nth-child(2) { animation-delay: 0.4s; }
 .seekingus-card:nth-child(3) { animation-delay: 0.6s; }
 .seekingus-card:nth-child(4) { animation-delay: 0.8s; }
 
-/* Fade In Animation */
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -136,26 +143,23 @@
   }
 }
 
-/* ---------- Responsive Styling ---------- */
-
+/* ===========================
+   Responsive Styles
+=========================== */
 @media (max-width: 992px) {
-  .seekingus-header {
-    font-size: 2.2rem;
-  }
-
   .seekingus-topsection {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 24px;
-    padding: 0 16px;
     overflow-x: unset;
+    padding: 0 16px;
   }
 
   .seekingus-card {
-    height: 240px;
-    padding: 25px 18px;
-    border-radius: 24px;
-    flex: unset;
+    width: 100%;
+    aspect-ratio: unset;
+    height: auto;
+    padding: 24px 20px;
   }
 
   .seekingus-card-header {
@@ -174,42 +178,35 @@
 
 @media (max-width: 480px) {
   .seekingus-header {
-    font-size: 1.6rem;
-    letter-spacing: 1.5px;
+    font-size: 1.5rem;
+    letter-spacing: 1.2px;
   }
 
   .seekingus-topsection {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 18px;
     padding: 0 12px;
   }
 
   .seekingus-card {
-    height: 220px;
-    padding: 20px 15px;
-    border-radius: 20px;
     width: 100%;
+    height: auto;
+    padding: 20px 16px;
+    border-radius: 20px;
   }
 
   .seekingus-card-header {
     font-size: 1.2rem;
-    margin-bottom: 16px;
   }
 
   .seekingus-card-content {
-  font-size: 0.95rem;
-  color: #1e293b;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  overflow-y: auto;  
-  max-height: 180px;
-  padding-right: 6px;
-}
-
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
 
   .seekingus-card-button {
-    font-size: 0.9rem;
-    padding: 10px 20px;
+    font-size: 0.85rem;
+    padding: 8px 16px;
   }
 }
