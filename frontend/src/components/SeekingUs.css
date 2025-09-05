@@ -1,200 +1,201 @@
 /* SeekingUs Section - Updated Styling */
 .seekingus-section {
-    width: 100%;
-    text-align: center;
-    border-radius: 28px;
-    padding: 60px 0px;
-    margin: 50px 0;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+  width: 100%;
+  text-align: center;
+  border-radius: 28px;
+  padding: 60px 0px;
+  margin: 50px 0;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Header */
 .seekingus-header {
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-bottom: 3px solid #2a6fdb;
-    display: inline-block;
-    padding-bottom: 10px;
-    margin-bottom: 40px;
-    letter-spacing: 3px;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 3px solid #2a6fdb;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
 }
 
+/* Top Section - Card Wrapper */
 .seekingus-topsection {
-    display: flex;
-    flex-wrap: nowrap; /* no wrapping, all cards in one line */
-    gap: 32px;
-    padding: 0 20px;
-    scroll-behavior: smooth;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 32px;
+  padding: 0 20px;
+  scroll-behavior: smooth;
+  overflow-x: auto; /* Horizontal scroll for smaller screens */
 }
 
+/* Individual Card */
 .seekingus-card {
-    flex: 0 0 260px; /* fixed width for all cards */
-    min-width: 260px; /* ensure min width */
-    background-color: #e0e7ff;
-    padding: 35px 30px;
-    border-radius: 28px;
-    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.12);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s forwards;
+  flex: 0 0 260px;
+  min-width: 260px;
+  background-color: #e0e7ff;
+  padding: 35px 30px;
+  border-radius: 28px;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s forwards;
 }
+
+/* Hover Effect */
 .seekingus-card:hover {
-    transform: translateY(-12px) scale(1.05);
-    box-shadow: 0 25px 45px rgba(37, 99, 235, 0.25);
-    background-color: #dbe7ff; /* lighter on hover */
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 25px 45px rgba(37, 99, 235, 0.25);
+  background-color: #dbe7ff;
 }
 
 .seekingus-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(60deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.15));
-    transform: rotate(25deg);
-    transition: opacity 0.4s ease;
-    opacity: 0;
-    pointer-events: none;
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.15));
+  transform: rotate(25deg);
+  transition: opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .seekingus-card:hover::before {
-    opacity: 1;
+  opacity: 1;
 }
 
 /* Card Header */
 .seekingus-card-header {
-    font-size: 1.6rem;
-    color: #2563eb; /* royal blue */
-    margin-bottom: 20px;
-    font-weight: 700;
-    text-transform: capitalize;
-    letter-spacing: 0.7px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.6rem;
+  color: #2563eb;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.7px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Card Content */
 .seekingus-card-content {
-    font-size: 1rem;
-    color: #1e293b; /* dark slate */
-    line-height: 1.8;
-    margin-bottom: 25px;
+  font-size: 1rem;
+  color: #1e293b;
+  line-height: 1.8;
+  margin-bottom: 25px;
 }
 
 /* Button */
 .seekingus-card-button {
-    background-color: #2563eb;
-    color: #fff;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 1.05rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .seekingus-card-button:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-2px);
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
 }
 
 .seekingus-card-button:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
-/* Animation delays */
-.seekingus-card:nth-child(1) {
-    animation-delay: 0.2s;
-}
-
-.seekingus-card:nth-child(2) {
-    animation-delay: 0.4s;
-}
-
-.seekingus-card:nth-child(3) {
-    animation-delay: 0.6s;
-}
-
-.seekingus-card:nth-child(4) {
-    animation-delay: 0.8s;
-}
+/* Animation delays for staggered entrance */
+.seekingus-card:nth-child(1) { animation-delay: 0.2s; }
+.seekingus-card:nth-child(2) { animation-delay: 0.4s; }
+.seekingus-card:nth-child(3) { animation-delay: 0.6s; }
+.seekingus-card:nth-child(4) { animation-delay: 0.8s; }
 
 /* Fade In Animation */
 @keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Responsive */
+/* ---------- Responsive Styling ---------- */
+
 @media (max-width: 992px) {
-    .seekingus-header {
-        font-size: 2.2rem;
-    }
-    
-    .seekingus-topsection {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 24px;
-    }
+  .seekingus-header {
+    font-size: 2.2rem;
+  }
 
-    .seekingus-card {
-        padding: 28px 22px;
-        border-radius: 24px;
-    }
+  .seekingus-topsection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    padding: 0 16px;
+    overflow-x: unset;
+  }
 
-    .seekingus-card-header {
-        font-size: 1.4rem;
-    }
+  .seekingus-card {
+    padding: 28px 22px;
+    border-radius: 24px;
+    flex: unset;
+  }
 
-    .seekingus-card-content {
-        font-size: 0.95rem;
-    }
+  .seekingus-card-header {
+    font-size: 1.4rem;
+  }
 
-    .seekingus-card-button {
-        font-size: 0.95rem;
-        padding: 10px 24px;
-    }
+  .seekingus-card-content {
+    font-size: 0.95rem;
+  }
+
+  .seekingus-card-button {
+    font-size: 0.95rem;
+    padding: 10px 24px;
+  }
 }
 
 @media (max-width: 480px) {
-    .seekingus-header {
-        font-size: 1.8rem;
-        letter-spacing: 2px;
-    }
-    
-    .seekingus-topsection {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 10px;
-    }
+  .seekingus-header {
+    font-size: 1.6rem;
+    letter-spacing: 1.5px;
+  }
 
-    .seekingus-card {
-        padding: 22px 18px;
-        border-radius: 20px;
-    }
+  .seekingus-topsection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 0 12px;
+  }
 
-    .seekingus-card-header {
-        font-size: 1.2rem;
-        margin-bottom: 16px;
-    }
+  .seekingus-card {
+    padding: 22px 18px;
+    border-radius: 20px;
+    width: 100%;
+  }
 
-    .seekingus-card-content {
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-    }
+  .seekingus-card-header {
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
 
-    .seekingus-card-button {
-        font-size: 0.9rem;
-        padding: 10px 20px;
-    }
+  .seekingus-card-content {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .seekingus-card-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
 }

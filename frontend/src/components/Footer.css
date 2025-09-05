@@ -57,6 +57,19 @@
   opacity: 0.9;
 }
 
+/* Default: inline with separator */
+.footer-contact p {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-contact .separator {
+  user-select: none;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .footer-container {
@@ -81,5 +94,14 @@
 
   .footer-copy {
     font-size: 0.85rem;
+  }
+
+  .footer-contact p {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .footer-contact .separator {
+    display: none;
   }
 }

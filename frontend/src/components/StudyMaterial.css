@@ -149,37 +149,97 @@
 /* ===========================
    Responsive Design
 =========================== */
+/* ===========================
+   Better Responsive Handling
+=========================== */
+
 @media (max-width: 768px) {
-    .study-material-content {
-        flex-wrap: nowrap; /* keep one line but allow horizontal scroll */
-        gap: 20px;
-    }
+  .study-material-section {
+    padding: 50px 16px;
+  }
 
-    .flip-card {
-        flex: 0 0 240px;
-        height: 290px;
-    }
+  .study-material-content {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
 
-    .flip-card-front img {
-        height: 140px;
-    }
+  .flip-card {
+    flex: 0 0 220px;
+    height: 280px;
+    scroll-snap-align: center;
+  }
 
-    .flip-card-back h2 {
-        font-size: 1.4rem;
-    }
+  .flip-card-front img {
+    height: 130px;
+  }
+
+  .flip-card-front {
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  .flip-card-back {
+    padding: 16px;
+  }
+
+  .flip-card-back h2 {
+    font-size: 1.3rem;
+  }
+
+  .flip-card-back p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .open-material-button {
+    font-size: 15px;
+    padding: 8px 16px;
+  }
 }
 
 @media (max-width: 480px) {
-    .flip-card {
-        flex: 0 0 200px;
-        height: 260px;
-    }
+  .study-material-section {
+    margin: 60px 0;
+    padding: 40px 12px;
+  }
 
-    .flip-card-front img {
-        height: 120px;
-    }
+  #study-material-heading {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+  }
 
-    .flip-card-back h2 {
-        font-size: 1.2rem;
-    }
+  .study-material-content {
+    gap: 16px;
+  }
+
+  .flip-card {
+    flex: 0 0 180px;
+    height: 250px;
+  }
+
+  .flip-card-front img {
+    height: 110px;
+  }
+
+  .flip-card-front {
+    font-size: 1rem;
+  }
+
+  .flip-card-back h2 {
+    font-size: 1.1rem;
+  }
+
+  .flip-card-back p {
+    font-size: 0.9rem;
+  }
+
+  .open-material-button {
+    font-size: 14px;
+    padding: 7px 14px;
+  }
 }
