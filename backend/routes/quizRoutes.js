@@ -131,4 +131,19 @@ router.post("/submit", async (req, res) => {
   }
 });
 
+router.get("/submission/:submissionId", async (req, res) => {
+  try {
+    const { submissionId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(submissionId)) {
+      return res.status(400).json({ message: "Invalid Submission ID" });
+    }
+    const submission = await Submission.findById(submissionId);
+    if (!submission) return res.status(404).json({ message: "Submission not found" });
+    res.status(200).json(submission);
+  } catch (err) {
+    console.error("Get Submission Error:", err);
+    res.status(500).json({ message: "Server Error", error: err.message });
+  }
+});
+
 export default router;
