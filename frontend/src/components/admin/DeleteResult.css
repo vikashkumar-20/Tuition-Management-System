@@ -76,6 +76,7 @@
 /* Image styling */
 .delete-material-item img {
   max-width: 120px;
+  max-height: 100px;
   height: auto;
   border-radius: 10px;
   object-fit: cover;
