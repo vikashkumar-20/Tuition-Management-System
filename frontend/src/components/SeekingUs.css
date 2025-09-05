@@ -27,11 +27,11 @@
    Card Container
 =========================== */
 .seekingus-topsection {
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-template-columns: repeat(4, 260px);
   gap: 32px;
+  justify-content: center; /* center the grid */
   padding: 0 20px;
-  scroll-behavior: smooth;
 }
 
 /* ===========================
