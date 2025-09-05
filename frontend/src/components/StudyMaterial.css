@@ -144,103 +144,21 @@
   background-color: #2d7b2d;
 }
 
-/* ===========================
-   Responsive Design Adjustments
-=========================== */
-
-/* Tablet View (≤ 768px) */
+/* Responsive layout for smaller screens */
 @media (max-width: 768px) {
-  .study-material-section {
-    padding: 50px 16px;
-  }
   .study-material-content {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 20px;
-    padding-bottom: 15px;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-  }
-  .flip-card {
-    flex: 0 0 220px;
-    height: 300px;
-    scroll-snap-align: center;
-  }
-  .flip-card-front img {
-    height: 130px;
-  }
-  .flip-card-front {
-    font-size: 1.2rem;
-    padding: 10px;
-  }
-  .flip-card-back {
-    padding: 16px;
-  }
-  .flip-card-back h2 {
-    font-size: 1.3rem;
-  }
-  .flip-card-back p {
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-  .open-material-button {
-    font-size: 15px;
-    padding: 8px 16px;
-  }
-}
-
-/* Mobile View (≤ 480px) */
-@media (max-width: 480px) {
-  .study-material-section {
-    margin: 60px 0;
-    padding: 40px 12px;
-  }
-
-  #study-material-heading {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-  }
-
-  .study-material-content {
-    display: flex;
+    flex-wrap: wrap;     /* allow wrapping */
     flex-direction: column; /* stack vertically */
-    gap: 18px;             /* similar spacing */
-    overflow-x: unset;     /* no horizontal scroll */
-    padding: 0 12px;       /* padding for some side space */
+    gap: 20px;           /* vertical spacing between cards */
+    padding-bottom: 20px;
+    max-width: 320px;    /* max width to prevent cards stretching */
+    margin: 0 auto;      /* center container */
   }
 
   .flip-card {
-    flex: none;
-    width: 100%;           /* full container width */
-    height: auto;          /* auto height for content */
-    max-width: unset;      /* remove max width */
-    margin: 0;             /* no centering margin */
-    padding: 20px;         /* keep padding */
-    border-radius: 20px;   /* slightly rounder edges like SeekingUs */
-  }
-
-  .flip-card-front img {
-    height: 150px;         /* slightly larger images */
-  }
-
-  .flip-card-front {
-    font-size: 1.2rem;
-    padding: 10px 0;
-  }
-
-  .flip-card-back h2 {
-    font-size: 1.3rem;
-  }
-
-  .flip-card-back p {
-    font-size: 1rem;
-    margin: 8px 0;
-  }
-
-  .open-material-button {
-    font-size: 14px;
-    padding: 10px 18px;
+    flex: 0 0 auto;      /* override fixed width */
+    width: 100%;         /* full container width */
+    max-width: 320px;    /* optional max width */
+    height: auto;        /* auto height for flexible content */
   }
 }
-
