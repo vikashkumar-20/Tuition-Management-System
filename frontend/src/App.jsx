@@ -4,7 +4,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { auth } from "./firebaseConfig";
 
 // Components
-
+import NotFound from "./components/NotFound"
 import Navbar from "./components/Navbar";
 import HomeComponent from "./components/HomeComponent";
 import SignupPage from "./components/SignupPage";
