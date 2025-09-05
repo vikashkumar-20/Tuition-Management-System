@@ -166,129 +166,101 @@
     color: #2563eb;
 }
 
-/* Responsive adjustments */
+/* Tablet and smaller */
 @media (max-width: 992px) {
     .results-header {
-        font-size: 2.2rem;
+        font-size: 2rem;          /* Slightly smaller */
+        margin-bottom: 30px;      /* Reduced bottom margin */
     }
 
     .result-card {
-        width: 160px;
-        border-radius: 18px;
+        width: 150px;             /* Slightly narrower */
+        border-radius: 16px;
+        margin-bottom: 16px;      /* Add bottom spacing */
     }
 
     .result-image {
-        height: 110px;
-        border-radius: 18px 18px 0 0;
+        height: 100px;            /* Reduced height */
+        border-radius: 16px 16px 0 0;
     }
 
     .result-info p {
         font-size: 13px;
-        margin: 5px 0;
+        margin: 4px 0;            /* Reduced vertical margin */
     }
 }
 
+/* Mobile devices */
 @media (max-width: 768px) {
+    .results-section {
+        padding: 30px 15px;       /* Less padding */
+        margin: 40px auto;        /* Reduced margin */
+    }
+
     .result-card {
-        width: 140px;
-        border-radius: 16px;
+        width: 130px;
+        border-radius: 14px;
+        margin-bottom: 14px;
     }
+
     .result-image {
-        height: 100px;
-        border-radius: 16px 16px 0 0;
+        height: 90px;
+        border-radius: 14px 14px 0 0;
     }
+
     .result-info {
-        padding: 12px 10px;
+        padding: 10px 8px;        /* Less padding inside cards */
     }
+
     .result-info p {
         font-size: 12px;
-        margin: 4px 0;
+        margin: 3px 0;
     }
 }
 
+/* Small Mobile */
 @media (max-width: 480px) {
     .results-header {
-        font-size: 1.6rem;
-        margin-bottom: 30px;
-        letter-spacing: 3px;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+
+    .results-section {
+        padding: 20px 12px;
+        margin: 30px 10px;
     }
 
     .result-card {
-        width: 95%;           /* Larger width on mobile */
-        max-width: none;      /* Remove max width limit */
-        border-radius: 14px;
-        margin: 0 auto 24px;  /* Center with more bottom spacing */
+        width: 95%;
+        max-width: none;
+        border-radius: 12px;
+        margin: 0 auto 16px;
         box-shadow:
-          0 10px 25px rgba(37, 99, 235, 0.15),  /* Slightly stronger shadow */
-          inset 0 0 10px rgba(255, 255, 255, 0.7);
+          0 8px 20px rgba(37, 99, 235, 0.12),
+          inset 0 0 8px rgba(255, 255, 255, 0.7);
     }
 
     .result-image {
-        height: 200px;        /* Slightly taller image */
-        border-radius: 14px 14px 0 0;
-        box-shadow: 0 5px 18px rgba(37, 99, 235, 0.1);
+        height: 180px;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
     }
 
     .result-info {
-        padding: 18px 16px;   /* More padding for readability */
+        padding: 14px 12px;
     }
 
     .result-info p {
-        font-size: 15px;      /* Slightly bigger font */
-        margin: 8px 0;
+        font-size: 14px;
+        margin: 6px 0;
     }
 
     .result-card::before {
-        width: 26px;
-        height: 26px;
-        font-size: 16px;
-        top: 14px;
-        right: 14px;
+        width: 24px;
+        height: 24px;
+        font-size: 14px;
+        top: 12px;
+        right: 12px;
     }
-}
-
-
-
-/* Wrapper for arrows + scrollable content */
-.results-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 1400px;
-  display: flex;
-  align-items: center;
-}
-
-/* Scroll buttons */
-.scroll-button {
-  background-color: rgba(37, 99, 235, 0.8);
-  border: none;
-  color: #fff;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 12px 16px;
-  border-radius: 50%;
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.scroll-button:hover {
-  background-color: rgba(37, 99, 235, 1);
-}
-
-.scroll-button.left {
-  left: -20px;
-}
-
-.scroll-button.right {
-  right: -20px;
-}
-
-/* Center results if less than 5 */
-.results-container.centered {
-  justify-content: center;
 }

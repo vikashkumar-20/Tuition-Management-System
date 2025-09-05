@@ -5,22 +5,22 @@
   width: 100%;
   text-align: center;
   border-radius: 28px;
-  padding: 60px 0;
-  margin: 50px 0;
+  padding: 50px 0; /* reduced padding */
+  margin: 40px 0;  /* reduced margin */
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .seekingus-header {
-  font-size: 2rem;
+  font-size: 1.8rem; /* slightly smaller */
   font-weight: bold;
   text-transform: uppercase;
   border-bottom: 3px solid #2a6fdb;
   display: inline-block;
-  padding-bottom: 10px;
-  margin-bottom: 40px;
-  letter-spacing: 3px;
+  padding-bottom: 8px; /* reduced padding */
+  margin-bottom: 30px; /* reduced margin */
+  letter-spacing: 2.5px;
 }
 
 /* ===========================
@@ -29,9 +29,9 @@
 .seekingus-topsection {
   display: grid;
   grid-template-columns: repeat(4, 260px);
-  gap: 32px;
-  justify-content: center; /* center the grid */
-  padding: 0 20px;
+  gap: 28px; /* slightly smaller gap */
+  justify-content: center;
+  padding: 0 16px; /* smaller padding */
 }
 
 /* ===========================
@@ -40,11 +40,11 @@
 .seekingus-card {
   flex: 0 0 260px;
   width: 260px;
-  aspect-ratio: 1 / 1; /* square on larger screens */
+  aspect-ratio: 1 / 1;
   background-color: #e0e7ff;
-  padding: 20px;
-  border-radius: 28px;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.12);
+  padding: 18px; /* reduced padding */
+  border-radius: 24px; /* slightly smaller radius */
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -58,8 +58,8 @@
 }
 
 .seekingus-card:hover {
-  transform: translateY(-12px) scale(1.05);
-  box-shadow: 0 25px 45px rgba(37, 99, 235, 0.25);
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.25);
   background-color: #dbe7ff;
 }
 
@@ -85,20 +85,20 @@
    Card Content
 =========================== */
 .seekingus-card-header {
-  font-size: 1.4rem;
+  font-size: 1.3rem; /* slightly smaller */
   color: #2563eb;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* reduced margin */
   font-weight: 700;
   text-transform: capitalize;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.6px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .seekingus-card-content {
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* smaller */
   color: #1e293b;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  line-height: 1.4;
+  margin-bottom: 12px; /* reduced margin */
   flex-grow: 1;
 }
 
@@ -109,10 +109,10 @@
   background-color: #2563eb;
   color: #fff;
   border: none;
-  padding: 10px 24px;
-  border-radius: 30px;
+  padding: 8px 22px; /* smaller padding */
+  border-radius: 28px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* smaller font */
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -148,51 +148,16 @@
 @media (max-width: 992px) {
   .seekingus-topsection {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-    overflow-x: unset;
-    padding: 0 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px; /* reduced gap */
+    padding: 0 12px;
   }
 
   .seekingus-card {
     width: 100%;
     aspect-ratio: unset;
     height: auto;
-    padding: 24px 20px;
-  }
-
-  .seekingus-card-header {
-    font-size: 1.3rem;
-  }
-
-  .seekingus-card-content {
-    font-size: 0.9rem;
-  }
-
-  .seekingus-card-button {
-    font-size: 0.9rem;
-    padding: 8px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .seekingus-header {
-    font-size: 1.5rem;
-    letter-spacing: 1.2px;
-  }
-
-  .seekingus-topsection {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    padding: 0 12px;
-  }
-
-  .seekingus-card {
-    width: 100%;
-    height: auto;
-    padding: 20px 16px;
-    border-radius: 20px;
+    padding: 20px 16px; /* reduced padding */
   }
 
   .seekingus-card-header {
@@ -200,12 +165,46 @@
   }
 
   .seekingus-card-content {
-    font-size: 0.9rem;
-    margin-bottom: 12px;
+    font-size: 0.85rem;
   }
 
   .seekingus-card-button {
     font-size: 0.85rem;
-    padding: 8px 16px;
+    padding: 7px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .seekingus-header {
+    font-size: 1.4rem;
+    letter-spacing: 1.1px;
+  }
+
+  .seekingus-topsection {
+    display: flex;
+    flex-direction: column;
+    gap: 14px; /* reduced gap */
+    padding: 0 10px;
+  }
+
+  .seekingus-card {
+    width: 100%;
+    height: auto;
+    padding: 16px 12px; /* smaller padding */
+    border-radius: 18px; /* slightly smaller radius */
+  }
+
+  .seekingus-card-header {
+    font-size: 1.1rem;
+  }
+
+  .seekingus-card-content {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+
+  .seekingus-card-button {
+    font-size: 0.8rem;
+    padding: 6px 14px;
   }
 }

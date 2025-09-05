@@ -1,9 +1,9 @@
 /* About Section */
 .about {
     color: #fff;
-    padding: 70px 20px;
-    margin: 100px 0;
-    border-radius: 20px;
+    padding: 60px 16px;      /* reduced padding */
+    margin: 80px 0;          /* reduced margin */
+    border-radius: 18px;     /* slightly smaller radius */
     text-align: center;
     max-width: 1100px;
     margin-left: auto;
@@ -14,100 +14,80 @@
 .about-container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;               /* slightly smaller gap */
 }
 
 .about-section {
-
-    padding: 30px 25px;
-    /* added a bit more horizontal padding */
-    border-radius: 12px;
-    max-width: 800px;
+    padding: 24px 20px;      /* less padding */
+    border-radius: 10px;     /* smaller radius */
+    max-width: 780px;        /* slightly narrower */
     margin: 0 auto;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
     text-align: left;
-    /* Left align text for better readability */
 }
 
 .about-section h2 {
-  font-size: 2rem;
-  color: #fcd34d;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  
-  border-bottom: 3px solid #fcd34d;
-  padding-bottom: 12px;
-  margin-bottom: 35px;
-
-  /* Fix width for all headings */
-  width: 800px;           /* fixed width for the border line */
-  margin-left: auto;      /* center horizontally */
-  margin-right: auto;     /* center horizontally */
-
-  text-align: center;
-  box-sizing: border-box;
+    font-size: 1.8rem;       /* smaller font */
+    color: #fcd34d;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #fcd34d;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    width: 780px;            /* fixed width for border line */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    box-sizing: border-box;
 }
 
-
-
 .about-section p {
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 1rem;         /* smaller font */
+    line-height: 1.7;
     color: #fff;
     opacity: 0.85;
     margin-bottom: 0;
-    /* tighter spacing for paragraphs */
 }
 
-/* Style for the Why CK Study Classes list */
 .about-section ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 15px;
-  color: #f5f5f5;
-  font-size: 1.1rem;
-
-  max-width: 800px;      /* same width as h2 */
-  margin-left: auto;     /* center horizontally */
-  margin-right: auto;    /* center horizontally */
-  padding-left: 0;       /* remove default ul padding */
-  text-align: left;      /* keep list items left aligned */
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+    color: #f5f5f5;
+    font-size: 1rem;         /* smaller font */
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    text-align: left;
 }
-
 
 .about-section ul li {
     position: relative;
-    padding-left: 30px;
-    margin: 12px 0;
+    padding-left: 28px;      /* reduced padding */
+    margin: 10px 0;          /* smaller margin */
     transition: transform 0.3s ease;
     line-height: 1.5;
     cursor: default;
-    /* no pointer cursor on list */
 }
 
-/* Custom checkmark */
 .about-section ul li::before {
     content: "✔";
     position: absolute;
     left: 0;
     top: 2px;
-    /* vertically center checkmark */
     color: #ffd700;
     font-weight: bold;
-    font-size: 1.2rem;
-    /* slightly bigger checkmark */
+    font-size: 1.1rem;       /* slightly smaller */
 }
 
-/* Hover effect for list items */
 .about-section ul li:hover {
-    transform: translateX(10px);
+    transform: translateX(8px); /* smaller shift */
     color: #ffd700;
-    /* highlight text on hover */
 }
 
-/* Links inside about section */
 .about-section a {
     color: #fff;
     font-weight: 600;
@@ -120,80 +100,79 @@
     text-decoration: underline;
 }
 
-
 /* Responsive */
 /* Mobile & Tablet Responsive Fixes */
 @media (max-width: 768px) {
-  .about {
-    padding: 50px 15px;
-    margin: 60px 0;
-  }
+    .about {
+        padding: 45px 14px;
+        margin: 50px 0;
+    }
 
-  .about-container {
-    gap: 30px;
-  }
+    .about-container {
+        gap: 26px;
+    }
 
-  .about-section {
-    padding: 20px 15px;
-    max-width: 100%;
-    text-align: left;
-  }
+    .about-section {
+        padding: 18px 14px;
+        max-width: 100%;
+        text-align: left;
+    }
 
-  .about-section h2 {
-    font-size: 1.6rem;
-    width: 100%;               /* Remove fixed width */
-    padding-bottom: 10px;
-    margin-bottom: 25px;
-    text-align: center;
-  }
+    .about-section h2 {
+        font-size: 1.5rem;
+        width: 100%;
+        padding-bottom: 8px;
+        margin-bottom: 22px;
+        text-align: center;
+    }
 
-  .about-section p,
-  .about-section ul li {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
+    .about-section p,
+    .about-section ul li {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
 
-  .about-section ul {
-    padding-left: 0;
-    max-width: 100%;
-    text-align: left;
-  }
+    .about-section ul {
+        padding-left: 0;
+        max-width: 100%;
+        text-align: left;
+    }
 }
 
 @media (max-width: 480px) {
-  .about {
-    padding: 40px 10px;
-    margin: 40px 0;
-  }
+    .about {
+        padding: 35px 12px;
+        margin: 35px 0;
+    }
 
-  .about-section {
-    padding: 15px 10px;
-    max-width: 100%;
-  }
+    .about-section {
+        padding: 12px 10px;
+        max-width: 100%;
+    }
 
-  .about-section h2 {
-    font-size: 1.4rem;
-    letter-spacing: 1px;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-  }
+    .about-section h2 {
+        font-size: 1.3rem;
+        letter-spacing: 0.9px;
+        padding-bottom: 6px;
+        margin-bottom: 18px;
+    }
 
-  .about-section p,
-  .about-section ul li {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
+    .about-section p,
+    .about-section ul li {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
 
-  .about-section ul li {
-    padding-left: 26px;
-  }
+    .about-section ul li {
+        padding-left: 24px;
+    }
 
-  .about-section ul li::before {
-    font-size: 1rem;
-    top: 1px;
-  }
+    .about-section ul li::before {
+        font-size: 0.95rem;
+        top: 1px;
+    }
 
-  .about-section ul {
-    font-size: 1rem;
-  }
+    .about-section ul {
+        font-size: 0.95rem;
+    }
 }
