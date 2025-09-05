@@ -7,11 +7,11 @@ const PublicOnlyRoute = ({ children }) => {
   const user = auth.currentUser;
 
   if (user) {
-    // User is already logged in, redirect to home
+    // Redirect to home or dashboard if logged in
     return <Navigate to="/" replace />;
   }
 
-  return children; // Not logged in, show the page
+  return children;
 };
 
 export default PublicOnlyRoute;
