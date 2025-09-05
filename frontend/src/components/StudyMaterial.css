@@ -159,18 +159,21 @@
   }
 
   .study-material-content {
+    display: flex;
+    flex-direction: column; /* stack vertically */
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: visible; /* disable horizontal scroll */
     gap: 20px;
-    padding-bottom: 15px;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
+    padding-bottom: 0;
+    scroll-snap-type: none; /* disable scroll snapping */
   }
 
   .flip-card {
-    flex: 0 0 220px;
-    height: 280px;
-    scroll-snap-align: center;
+    flex: none;          /* don't flex */
+    width: 100%;         /* full width */
+    max-width: 400px;    /* optional max width */
+    height: auto;        /* let height adjust */
+    margin: 0 auto;      /* center cards */
   }
 
   .flip-card-front img {
@@ -214,12 +217,18 @@
   }
 
   .study-material-content {
+    display: flex;
+    flex-direction: column; /* vertical stack */
     gap: 16px;
+    overflow-x: visible;
+    padding-bottom: 0;
   }
 
   .flip-card {
-    flex: 0 0 180px;
-    height: 250px;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 0 auto;
   }
 
   .flip-card-front img {
