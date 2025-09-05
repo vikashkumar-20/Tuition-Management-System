@@ -195,38 +195,52 @@
     margin: 60px 0;
     padding: 40px 12px;
   }
+
   #study-material-heading {
     font-size: 1.5rem;
     margin-bottom: 30px;
     letter-spacing: 2px;
   }
+
   .study-material-content {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    overflow-x: visible;
+    flex-direction: column; /* stack vertically */
+    gap: 18px;             /* similar spacing */
+    overflow-x: unset;     /* no horizontal scroll */
+    padding: 0 12px;       /* padding for some side space */
   }
+
   .flip-card {
     flex: none;
-    width: 100%;
-    max-width: 220px;
-    height: 300px;
-    margin: 0 auto;
+    width: 100%;           /* full container width */
+    height: auto;          /* auto height for content */
+    max-width: unset;      /* remove max width */
+    margin: 0;             /* no centering margin */
+    padding: 20px;         /* keep padding */
+    border-radius: 20px;   /* slightly rounder edges like SeekingUs */
   }
+
   .flip-card-front img {
-    height: 130px;
+    height: 150px;         /* slightly larger images */
   }
+
   .flip-card-front {
-    font-size: 1.1rem;
-  }
-  .flip-card-back h2 {
     font-size: 1.2rem;
+    padding: 10px 0;
   }
+
+  .flip-card-back h2 {
+    font-size: 1.3rem;
+  }
+
   .flip-card-back p {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    margin: 8px 0;
   }
+
   .open-material-button {
     font-size: 14px;
-    padding: 7px 14px;
+    padding: 10px 18px;
   }
 }
+
